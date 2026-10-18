@@ -1,98 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_launcher_name">Phone</string>
-    <string name="default_phone_app_prompt">Please make this app the default Phone app</string>
-    <string name="allow_displaying_over_other_apps">Please allow displaying over other apps for reliable behaviour</string>
+    <string name="app_name">Phone</string>
+    <!-- The application\'s own label, where Android lists apps rather than launching one: the default-app
+         chooser, App info, DuraSpeed. Mudita\'s dialer is "Phone" there too. -->
+    <string name="app_label_full" translatable="false">Phone (itodenwa)</string>
 
-    <!-- Contacts -->
-    <string name="could_not_access_contacts">Could not access your contacts</string>
+    <string name="tab_favourites">Favourites</string>
+    <string name="tab_recents">Recents</string>
+    <string name="tab_contacts">Contacts</string>
+    <string name="tab_keypad">Keypad</string>
 
-    <!-- Recents -->
-    <string name="no_previous_calls">No previous calls have been found</string>
-    <string name="could_not_access_the_call_history">Could not access the call history</string>
-    <string name="request_access">Request access</string>
-    <string name="remove_confirmation">Are you sure you want to remove the selected items from the Call History?</string>
-    <string name="clear_history_confirmation">Are you sure you want to remove everything from the Call History?</string>
-    <string name="show_grouped_calls">Show grouped calls</string>
-    <string name="clear_call_history">Clear call history</string>
-    <string name="show_call_details">Show call details</string>
+    <string name="banner_make_phone_app">Make this the phone app</string>
+    <string name="banner_make_phone_app_note">Calls come in and go out through the phone app</string>
+    <string name="banner_return_to_call">Return to the call</string>
 
-    <!-- Dialpad -->
-    <string name="dialpad">Dialpad</string>
-    <string name="asterisk">Asterisk</string>
-    <string name="hashtag">Hashtag</string>
-    <string name="call_number">Call number</string>
-    <string name="dialpad_beeps">Enable beeps on dialpad button clicks</string>
-    <string name="dialpad_vibrations">Enable vibrations on dialpad button clicks</string>
+    <string name="recents_allow">Show recent calls</string>
+    <string name="recents_allow_note">Phone needs to read the call log</string>
+    <string name="recents_none">No calls yet</string>
+    <!-- A long press on a missed call: its page, and a message back to the number -->
+    <string name="recents_open">Open</string>
+    <string name="recents_text_back">Text back</string>
+    <string name="contacts_allow">Show contacts</string>
+    <string name="contacts_allow_note">Phone needs to read the contacts</string>
+    <string name="contacts_find">Find someone</string>
+    <string name="contacts_none">No one in the contacts has a number</string>
+    <string name="contacts_none_found">No one by that name</string>
+    <string name="favourites_none">No favourites. Star someone in Contacts and they are listed here.</string>
+    <string name="no_name">No name</string>
+    <string name="contact_gone">This contact is no longer on the phone</string>
 
-    <!-- Dialer -->
-    <string name="dialer">Dialer</string>
-    <string name="accept">Accept</string>
-    <string name="accept_call">Accept call</string>
-    <string name="decline">Decline</string>
-    <string name="decline_call">Decline call</string>
-    <string name="unknown_caller">Unknown Caller</string>
-    <string name="is_calling">Is Calling…</string>
-    <string name="dialing">Dialing…</string>
-    <string name="call_ended">Call Ended</string>
-    <string name="call_ending">Call Ending</string>
-    <string name="ongoing_call">Ongoing Call</string>
-    <string name="select_sim">Select a SIM for this call</string>
-    <string name="always_use_this_sim">Always use this SIM for this number</string>
-    <string name="unset_default_sim">Unset default SIM</string>
-    <string name="calls">Calls</string>
-    <string name="turn_microphone_on">Turn microphone on</string>
-    <string name="turn_microphone_off">Turn microphone off</string>
-    <string name="turn_speaker_on">Turn speaker on</string>
-    <string name="turn_speaker_off">Turn speaker off</string>
-    <string name="show_dialpad">Show dialpad</string>
-    <string name="hide_dialpad">Hide dialpad</string>
-    <string name="end_call">End call</string>
-    <string name="hold_call">Hold call</string>
-    <string name="resume_call">Resume call</string>
-    <string name="call_on_hold">On Hold</string>
-    <string name="call_swap">Swap calls</string>
-    <string name="call_merge">Merge calls</string>
-    <string name="call_split">Split call</string>
-    <string name="call_add">Add call</string>
-    <string name="conference_manage">Manage conference call</string>
-    <string name="conference">Conference</string>
-    <string name="audio_route_speaker">Speaker</string>
-    <string name="audio_route_earpiece">Earpiece</string>
-    <string name="audio_route_bluetooth">Bluetooth</string>
-    <string name="audio_route_wired_headset">Wired Headset</string>
-    <string name="audio_route_wired_or_earpiece">Wired or Earpiece</string>
-    <string name="choose_audio_route">Choose audio route</string>
-    <string name="calling_blocked_number">The number you are calling is blocked</string>
-    <string name="call_is_being_connected">Your call is being connected…</string>
-    <string name="call_notification_channel">Call status</string>
-    <string name="call_notification_channel_high_priority">Call status (high priority)</string>
+    <string name="details_title">Details</string>
+    <string name="call">Call</string>
+    <string name="message">Message</string>
+    <string name="contact">Contact</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="choose_number_call">Which number to call</string>
+    <string name="choose_number_message">Which number to message</string>
+    <string name="nothing_opens">There is no app on this phone to open that with.</string>
+    <string name="cannot_call">The call could not be placed.</string>
 
-    <!-- Speed dial -->
-    <string name="speed_dial">Speed dial</string>
-    <string name="manage_speed_dial">Manage speed dial</string>
-    <string name="speed_dial_label">Click on a number to assign a contact to it. You can then quickly call the given contact by long pressing the given number at the dialer.</string>
+    <string name="calls_heading">Calls</string>
+    <string name="calls_today">Today</string>
+    <string name="calls_yesterday">Yesterday</string>
+    <string name="calls_in">Incoming</string>
+    <string name="calls_out">Outgoing</string>
+    <string name="calls_missed">Missed</string>
+    <string name="calls_declined">Declined</string>
+
+    <string name="call_incoming">Incoming call</string>
+    <string name="call_calling">Calling…</string>
+    <string name="call_ongoing">On a call</string>
+    <string name="call_on_hold">On hold</string>
+    <string name="call_ending">Ending…</string>
+    <string name="call_ended">Call ended</string>
+    <string name="call_hidden_number">Hidden number</string>
+    <string name="call_conference">Conference call</string>
+    <string name="call_answer">Answer</string>
+    <string name="call_decline">Decline</string>
+    <string name="call_hang_up">Hang up</string>
+    <string name="call_end">End call</string>
+    <string name="call_mute">Mute</string>
+    <string name="call_speaker">Speaker</string>
+    <string name="call_audio">Sound</string>
+    <string name="call_keypad">Keypad</string>
+    <!-- The in-call keys, beside Mute and Speaker: puts the keys away -->
+    <string name="call_hide_keys">Hide</string>
+    <string name="call_hold">Hold</string>
+    <string name="call_swap">Swap</string>
+    <string name="call_merge">Merge the calls</string>
+    <string name="call_held_line">On hold: %1$s</string>
+    <string name="call_waiting_line">Waiting: %1$s</string>
+    <string name="call_choose_sim">Call from</string>
+    <string name="route_earpiece">Phone</string>
+    <string name="route_speaker">Speaker</string>
+    <string name="route_bluetooth">Bluetooth</string>
+    <string name="route_wired">Headset</string>
+    <string name="route_now">In use</string>
+
+    <string name="channel_ringing">Incoming calls</string>
+    <string name="channel_ongoing">Calls in progress</string>
+
+    <string name="cd_about">About</string>
+    <string name="cd_more">More</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_delete">Delete</string>
+
+    <string name="about_title">Phone %1$s</string>
+    <string name="about_what">Calls, recent calls and the people to call. The app has no internet permission.</string>
+    <string name="about_licence">GNU General Public License v3</string>
+    <string name="about_base">Built on Fossify Phone, GPL-3.0</string>
+    <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
+    <string name="about_feed_the_llamas">feed the llamas</string>
+    <string name="about_no_browser">There is no browser on this phone to open that with.</string>
+    <string name="about_close">Close</string>
+
+    <!-- The call screen\'s menu, under the three dots -->
+    <string name="call_menu_contact">Open in Contacts</string>
+    <string name="call_menu_add_contact">Add to Contacts</string>
+    <string name="call_menu_note">Note</string>
+    <!-- A new note\'s title in Notes: %1$s is who the call is with, %2$s when it began, like "Oct 17, 2:05 PM" -->
+    <string name="call_note_title">%1$s, %2$s</string>
+
+    <!-- On a Kompakt, until the person says it is done, in Messaging's words. %1$s is the name DuraSpeed's list shows for this app -->
+    <string name="duraspeed_line">On a Kompakt, a service called DuraSpeed closes apps a few minutes after the screen goes dark. If it closes Phone, the call screen goes with it.\n\nTo stop it, open DuraSpeed below, tap Open, and switch %1$s on. On means allowed.</string>
+    <string name="duraspeed_ask_done">Is Phone switched on in DuraSpeed now?</string>
+    <string name="duraspeed_yes">Yes</string>
+    <string name="duraspeed_not_yet">Not yet</string>
+    <string name="duraspeed_open">Open DuraSpeed</string>
+    <string name="cd_settings">Settings</string>
+
+    <!-- Recents\' long-press menu and its ⋮. A destructive row arms on the first press and says so; a second press within four seconds does it -->
+    <string name="block">Block</string>
+    <string name="block_armed">Block — tap again</string>
+    <string name="unblock">Unblock</string>
+    <string name="unblock_armed">Unblock — tap again</string>
+    <!-- %1$s is a number, or the start of one like 555* -->
+    <string name="unblock_this">Unblock %1$s</string>
+    <string name="delete">Delete</string>
+    <string name="delete_armed">Delete — tap again</string>
+    <plurals name="recents_delete_count">
+        <item quantity="one">%1$d call</item>
+        <item quantity="other">%1$d calls</item>
+    </plurals>
+    <string name="recents_cannot_delete">Phone may not change the call log.</string>
+    <string name="recents_voicemail">Voicemail</string>
+    <string name="recents_clear">Clear all</string>
+    <string name="recents_clear_armed">Clear all — tap again</string>
+
+    <!-- The call screen, while it rings: Answer and Decline act only when held down -->
+    <string name="call_hold_to">Press and hold</string>
+
+    <!-- The missed-call and voicemail notifications -->
+    <string name="channel_missed">Missed calls</string>
+    <string name="channel_voicemail">Voicemail</string>
+    <string name="missed_call">Missed call</string>
+    <plurals name="missed_calls">
+        <item quantity="one">%1$d missed call</item>
+        <item quantity="other">%1$d missed calls</item>
+    </plurals>
+    <string name="missed_call_back">Call back</string>
+    <string name="voicemail_new">New voicemail</string>
+    <plurals name="voicemail_count">
+        <item quantity="one">%1$d message</item>
+        <item quantity="other">%1$d messages</item>
+    </plurals>
 
     <!-- Settings -->
-    <string name="group_subsequent_calls">Group subsequent calls with the same number at the call log</string>
-    <string name="open_dialpad_by_default">Open the dialpad by default when the app opens</string>
-    <string name="disable_proximity_sensor">Disable proximity sensor during calls</string>
-    <string name="disable_swipe_to_answer">Replace swiping at responding to incoming calls with clicking</string>
-    <string name="show_incoming_calls_full_screen">Always display incoming calls on full screen</string>
-    <string name="hide_dialpad_numbers">Hide dialpad numbers</string>
-    <string name="export_call_history">Export call history</string>
-    <string name="import_call_history">Import call history</string>
-    <string name="calling_accounts">Calling accounts</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_on">On</string>
+    <string name="settings_off">Off</string>
+    <string name="settings_blocking">Blocking</string>
+    <string name="settings_speed_dial">Speed dial</string>
+    <string name="settings_speed_none">Not set</string>
+    <plurals name="settings_speed_some">
+        <item quantity="one">%1$d key</item>
+        <item quantity="other">%1$d keys</item>
+    </plurals>
+    <string name="settings_voicemail">Voicemail</string>
+    <string name="settings_voicemail_none">No number from the SIM</string>
+    <string name="settings_quiet">Do Not Disturb</string>
+    <string name="settings_quiet_favourites">Favourites ring</string>
+    <string name="settings_quiet_repeat">Repeat callers ring</string>
+    <string name="settings_repeat_note">The same number twice within three minutes</string>
+    <string name="settings_ringing">Ringing</string>
+    <string name="settings_tone_unknown">Numbers not in Contacts</string>
+    <string name="settings_tone_same">The same as other calls</string>
+    <string name="settings_duraspeed">DuraSpeed</string>
+    <string name="duraspeed_later">Not now</string>
+    <string name="settings_duraspeed_todo">One step left so calls ring</string>
+    <string name="settings_stop_phone_app">Stop being the phone app</string>
 
-    <!-- FAQ -->
-    <string name="faq_1_title">I hear incoming calls, but the screen doesn\'t turn on. What can I do?</string>
-    <string name="faq_1_text">Such issues can have many device and system specific reasons, hard to say in general. You should look around in your device settings and make sure that the app is allowed to pop up when in background and allow displaying over other apps.</string>
-    <string name="faq_2_title">Why emergency calls don\'t work properly?</string>
-    <string name="faq_2_text">Due to system restrictions, emergency calls can only be made through your system\'s default dialer or phone app. To ensure emergency calls work properly, you need to keep the system app installed and enabled.</string>
-    <string name="faq_3_title">Why are some of my contacts missing from the app?</string>
-    <string name="faq_3_text">Fossify Phone only displays contacts that have a phone number associated with them. Contacts without a phone number are not shown in the app.</string>
-    <!--
-        Haven't found some strings? There's more at
-        https://github.com/FossifyOrg/Commons/tree/master/commons/src/main/res
-    -->
+    <!-- Settings, Blocking. Every rule is off until it is set -->
+    <string name="blocking_unknown">Numbers not in Contacts</string>
+    <string name="blocking_hidden">Hidden numbers</string>
+    <string name="rule_ring">Ring</string>
+    <string name="rule_silence">Silence</string>
+    <string name="rule_decline">Decline</string>
+    <string name="blocking_choice_note">Silence lets the call come in without ringing; it is in Recents and goes to voicemail. Decline turns it away, and it is listed under Blocked calls.</string>
+    <string name="blocking_always">Always ring</string>
+    <string name="blocking_always_favourites">Favourites</string>
+    <string name="blocking_always_called">Numbers you have called</string>
+    <string name="blocking_always_repeat">The same number twice within three minutes</string>
+    <string name="blocking_list">Block list</string>
+    <string name="blocking_numbers">Blocked numbers</string>
+    <string name="blocking_numbers_none">None</string>
+    <plurals name="blocking_numbers_count">
+        <item quantity="one">%1$d on the list</item>
+        <item quantity="other">%1$d on the list</item>
+    </plurals>
+    <string name="blocking_not_phone_app">Blocking works while Phone is the phone app. Make it the phone app</string>
+    <string name="blocking_needs_contacts">To tell who is not in Contacts, Phone needs to read the contacts. Allow it</string>
+    <string name="blocking_elsewhere">Another app screened the last call in Phone\'s place, so these rules were not asked. The caller ID and spam app is chosen in Default apps.</string>
+    <!-- %1$s names the apps -->
+    <string name="blocking_elsewhere_named">%1$s screened the last call in Phone\'s place, so these rules were not asked. The caller ID and spam app is chosen in Default apps.</string>
+    <string name="blocking_elsewhere_maybe">%1$s can screen calls. If it is the caller ID and spam app, it screens them in Phone\'s place and these rules are not asked. That is chosen in Default apps.</string>
+
+    <!-- Settings, Blocked numbers -->
+    <string name="blocked_add">Block a number</string>
+    <string name="blocked_add_hint">Number</string>
+    <string name="blocked_add_note">End with * to block every number that starts that way, like 555*.</string>
+    <string name="blocked_add_failed">The number could not be blocked. Phone has to be the phone app to block whole numbers.</string>
+    <string name="blocked_needs_phone_app">Whole numbers are kept in the phone\'s own block list, which only the phone app may read. Numbers ending in * are kept here.</string>
+    <!-- %1$s is the start of the numbers, like 555 -->
+    <string name="blocked_prefix_note">Every number starting %1$s</string>
+    <string name="blocked_file">File</string>
+    <string name="blocked_import">Import a list</string>
+    <string name="blocked_export">Export the list</string>
+    <string name="blocked_exported">The list is saved.</string>
+    <string name="blocked_file_failed">The file could not be read or written.</string>
+    <plurals name="blocked_imported">
+        <item quantity="one">%1$d number added</item>
+        <item quantity="other">%1$d numbers added</item>
+    </plurals>
+
+    <!-- Blocked calls, from Recents\' ⋮. Each row says which rule acted -->
+    <string name="blocked_calls">Blocked calls</string>
+    <string name="blocked_calls_none">No calls blocked in the last 30 days</string>
+    <string name="blocked_calls_nothing_to_do">This caller is in Contacts, or hid their number. A rule in Blocking turned the call away.</string>
+    <string name="why_list">Block list</string>
+    <!-- %1$s is the start of the numbers, like 555* -->
+    <string name="why_list_prefix">Block list, %1$s</string>
+    <string name="why_unknown">Not in Contacts</string>
+    <string name="why_hidden">Hidden number</string>
+    <string name="why_declined">declined</string>
+    <string name="why_silenced">silenced</string>
+    <!-- "Not in Contacts, declined": %1$s the rule, %2$s what was done -->
+    <string name="why_joined">%1$s, %2$s</string>
+
+    <!-- Settings, Speed dial -->
+    <!-- %1$d is the key, 1 to 9 -->
+    <string name="speed_key">Key %1$d</string>
+    <string name="speed_voicemail">Voicemail</string>
+    <string name="speed_not_set">Not set</string>
+    <string name="speed_change">Choose someone else</string>
+    <string name="speed_clear">Clear</string>
+    <string name="speed_clear_armed">Clear — tap again</string>
+    <string name="speed_pick">Speed dial %1$d</string>
+    <!-- On the keypad, a held key with nothing set on it -->
+    <string name="speed_unset">Nothing is set on %1$d. Hold a key to call the number set on it.</string>
+    <string name="list_jump_setting">Letters and page dots</string>
+    <string name="list_jump_shown">Shown</string>
+    <string name="list_jump_hidden">Hidden</string>
 </resources>
