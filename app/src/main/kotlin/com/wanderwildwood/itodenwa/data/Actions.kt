@@ -24,6 +24,17 @@ object Actions {
     /** Notes — oboegaki — which takes a shared text with a subject as a new note of that title. */
     const val NOTES_APP = "com.wanderwildwood.oboegaki"
 
+    /**
+     * Whether a ringing call may fill the screen and wake the phone. Android 14 on takes this from
+     * an app installed from a file until it is allowed in the phone's settings.
+     */
+    fun canFillScreen(context: Context): Boolean =
+        android.os.Build.VERSION.SDK_INT < 34 ||
+            context.getSystemService(android.app.NotificationManager::class.java).canUseFullScreenIntent()
+
+    fun fullScreenSettings(context: Context): Intent =
+        Intent(android.provider.Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT, android.net.Uri.parse("package:" + context.packageName))
+
     fun isPhoneApp(context: Context): Boolean =
         context.getSystemService(RoleManager::class.java)?.isRoleHeld(RoleManager.ROLE_DIALER) == true
 

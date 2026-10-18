@@ -85,6 +85,9 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
     var resumed by remember { mutableIntStateOf(0) }
 
     var confirmDuraSpeed by remember { mutableStateOf(false) }
+    // Asked to be the phone app and refused by Android itself: restricted settings (Android 15+).
+    var roleBlocked by rememberSaveable { mutableStateOf(false) }
+    var fullScreenOn by remember { mutableStateOf(Actions.canFillScreen(context)) }
 
     // Once the phone app, on a Kompakt: the one step for DuraSpeed, however Phone became the
     // phone app — through the line here or in the phone's own Default apps — asked until it is
@@ -105,6 +108,8 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
 
     LifecycleResumeEffect(Unit) {
         isPhoneApp = Actions.isPhoneApp(context)
+        fullScreenOn = Actions.canFillScreen(context)
+        if (isPhoneApp) roleBlocked = false
         maybeAskDuraSpeed()
         model.start()
         resumed++
@@ -138,6 +143,7 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
 
     val asked = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         isPhoneApp = Actions.isPhoneApp(context)
+        roleBlocked = !isPhoneApp && RestrictedSettings.blocked(context, since = 35)
         model.refresh()
         maybeAskDuraSpeed()
     }
@@ -176,6 +182,13 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
                     } else if (!isPhoneApp) {
                         Banner(stringResource(R.string.banner_make_phone_app), stringResource(R.string.banner_make_phone_app_note)) {
                             Actions.askToBePhoneApp(context)?.let { asked.launch(it) }
+                        }
+                        if (roleBlocked) RestrictedHint(Modifier.padding(horizontal = 16.dp))
+                    } else if (!fullScreenOn) {
+                        // Android 14 on takes this from an app installed from a file: without it
+                        // a call on a sleeping phone does not wake the screen.
+                        Banner(stringResource(R.string.banner_full_screen), stringResource(R.string.banner_full_screen_note)) {
+                            Actions.start(context, Actions.fullScreenSettings(context))
                         }
                     }
                     StoneTabs(

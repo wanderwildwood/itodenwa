@@ -86,6 +86,12 @@ in before it rings, which is how blocking works without any other permission. Th
 ringer rings, with the ringtone and volume set in the phone's settings. To go back, press
 **Settings → Stop being the phone app**, and choose another in Default apps.
 
+On Android 15 and later, Android may refuse that change for an app installed from a file. Phone
+then says to open App info, tap ⋮, then **Allow restricted settings**, and try again. On Android
+14 and later an app installed from a file may also not be allowed to fill the screen, which is
+what wakes a sleeping phone for a call; a line at the top, **Let calls wake the screen**, opens
+the page that allows it.
+
 In Default apps, App info and DuraSpeed's list it is called **Phone (itodenwa)**, because the
 Kompakt's own dialer is called Phone there too. In the app drawer it is Phone.
 

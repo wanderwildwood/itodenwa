@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
+import com.wanderwildwood.itodenwa.ui.jumpLetterOf
 
 /** A number on a person's card, and what kind it is there. */
 data class CardNumber(val value: String, val kind: String)
@@ -61,7 +62,10 @@ object People {
                 }
             }
         }
+        // The store puts names that start with a figure or a sign after Z; they go first, under
+        // #, as Contacts lists them. Otherwise the store's order, accents and case as it sorts them.
         return byId.values.map { it.copy(numbers = distinct(it.numbers)) }
+            .sortedBy { jumpLetterOf(it.name) != "#" }
     }
 
     /**

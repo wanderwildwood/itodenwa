@@ -33,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -272,6 +273,15 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
                 )
             }
         }
+        if (isPhoneApp && !Actions.canFillScreen(context)) {
+            item(key = "fullscreen") {
+                SettingRow(
+                    stringResource(R.string.banner_full_screen),
+                    summary = stringResource(R.string.banner_full_screen_note),
+                    onPress = { if (!Actions.start(context, Actions.fullScreenSettings(context))) notice = nothing },
+                )
+            }
+        }
         if (isPhoneApp) {
             item(key = "stop") {
                 SettingRow(stringResource(R.string.settings_stop_phone_app), onPress = {
@@ -357,7 +367,11 @@ fun BlockingScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
         onPauseOrDispose { }
     }
     val askContacts = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { mayReadContacts = it }
-    val askPhoneApp = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { isPhoneApp = Actions.isPhoneApp(context) }
+    var roleBlocked by rememberSaveable { mutableStateOf(false) }
+    val askPhoneApp = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        isPhoneApp = Actions.isPhoneApp(context)
+        roleBlocked = !isPhoneApp && RestrictedSettings.blocked(context, since = 35)
+    }
     val rules = remember(v) { prefs.rules }
     val elsewhere = remember(v, isPhoneApp) { screenedElsewhere(context, prefs) }
 
@@ -369,6 +383,7 @@ fun BlockingScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
                     Actions.askToBePhoneApp(context)?.let { askPhoneApp.launch(it) }
                 })
             }
+            if (roleBlocked) item(key = "restricted") { RestrictedHint(Modifier.padding(horizontal = 16.dp)) }
         } else if (elsewhere != null) {
             item(key = "elsewhere") {
                 SettingRow(elsewhere, titleLines = 6, opens = false, onPress = {

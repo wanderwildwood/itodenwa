@@ -235,9 +235,9 @@ fun ContactsList(model: PhoneModel, onOpen: (Person) -> Unit) {
 internal fun PeopleRows(people: List<Person>, onOpen: (Person) -> Unit) {
     val noName = stringResource(R.string.no_name)
     val state = rememberLazyListState()
-    // The contacts store files a name that starts with a figure under # and puts # after Z, as
-    // Contacts does; the column says the same, with # at its foot.
-    val jump = remember(people) { ListJump.Letters(people.map { jumpLetterOf(it.name) }, labels = STORE_ORDER) }
+    // Names that start with a figure or a sign are filed under # and listed first (see People),
+    // so # heads the column as it heads the list.
+    val jump = remember(people) { ListJump.Letters(people.map { jumpLetterOf(it.name) }) }
     ListJumpBox(state, jump) {
         PagedColumn(Modifier.fillMaxSize(), state = state) {
             items(people, key = { it.id }) { p ->
@@ -246,6 +246,3 @@ internal fun PeopleRows(people: List<Person>, onOpen: (Person) -> Unit) {
         }
     }
 }
-
-/** The column's letters in the contacts store's order: A to Z, then # for the rest. */
-private val STORE_ORDER = ('A'..'Z').map { it.toString() } + "#"

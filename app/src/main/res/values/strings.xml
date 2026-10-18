@@ -12,6 +12,8 @@
 
     <string name="banner_make_phone_app">Make this the phone app</string>
     <string name="banner_make_phone_app_note">Calls come in and go out through the phone app</string>
+    <string name="banner_full_screen">Let calls wake the screen</string>
+    <string name="banner_full_screen_note">Calls don\'t wake the phone until this is allowed</string>
     <string name="banner_return_to_call">Return to the call</string>
 
     <string name="recents_allow">Show recent calls</string>
@@ -242,4 +244,9 @@
     <string name="list_jump_setting">Letters and page dots</string>
     <string name="list_jump_shown">Shown</string>
     <string name="list_jump_hidden">Hidden</string>
+
+    <!-- Android 13+ keeps an app installed from a file out of Accessibility, notification access
+         and the default phone/texting roles until App info, then ⋮, then Allow restricted settings. -->
+    <string name="restricted_hint">Android blocks this for apps installed from a file. Open App info, tap ⋮, then Allow restricted settings, and try again.</string>
+    <string name="restricted_app_info">App info</string>
 </resources>

@@ -6,6 +6,7 @@ import android.telecom.Call
 import android.telecom.CallAudioState
 import android.telecom.InCallService
 import com.wanderwildwood.itodenwa.InCallActivity
+import com.wanderwildwood.itodenwa.data.Actions
 import com.wanderwildwood.itodenwa.data.Prefs
 import com.wanderwildwood.itodenwa.data.Quiet
 
@@ -78,7 +79,8 @@ class CallService : InCallService() {
         val keyguard = getSystemService(KeyguardManager::class.java)
         val locked = !power.isInteractive || keyguard.isKeyguardLocked
         notifier.show(fullScreen = incoming)
-        val fullScreenWorks = notifier.canAlert() && !throughQuiet
+        // Not allowed to fill the screen (Android 14 on, an app installed from a file): opened directly.
+        val fullScreenWorks = notifier.canAlert() && Actions.canFillScreen(this) && !throughQuiet
         val quietHoldsIt = incoming && Quiet.isOn(this) && !throughQuiet
         if (!(incoming && locked) || (!fullScreenWorks && !quietHoldsIt)) {
             runCatching { startActivity(InCallActivity.intent(this)) }
