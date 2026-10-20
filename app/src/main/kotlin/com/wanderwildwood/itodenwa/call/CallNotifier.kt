@@ -4,9 +4,12 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.Person
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.telecom.Call
+import android.util.Log
 import com.wanderwildwood.itodenwa.InCallActivity
 import com.wanderwildwood.itodenwa.R
 import com.wanderwildwood.itodenwa.data.Lookup
@@ -70,53 +73,75 @@ class CallNotifier(private val context: Context) {
             },
         )
 
-        val builder = Notification.Builder(context, channel)
-            .setSmallIcon(R.drawable.ic_notify)
-            .setContentTitle(title)
-            .setContentText(text)
-            .setContentIntent(open)
-            .setCategory(Notification.CATEGORY_CALL)
-            .setOngoing(true)
-            .setOnlyAlertOnce(!ringing)
-            .setVisibility(Notification.VISIBILITY_PUBLIC)
-        // Who is calling, as Do Not Disturb reads it: a favourite it lets through is known by this.
-        if (number != null) {
-            @Suppress("DEPRECATION")
-            builder.addPerson(android.net.Uri.fromParts("tel", number, null).toString())
-        }
+        // While the call is going, the notification is the system's call style: Android 12 draws
+        // the green call chip in the status bar for it, and pressing the chip opens the call
+        // screen. Without it there is an icon that does nothing when pressed. The call style is
+        // only taken from a call app's own foreground service, so the call service holds the
+        // notification while there is a call; should that be refused, the plain one is posted.
+        val callStyle = !ringing && state != Call.STATE_DISCONNECTING && state != Call.STATE_DISCONNECTED
+        fun build(styled: Boolean): Notification {
+            val builder = Notification.Builder(context, channel)
+                .setSmallIcon(R.drawable.ic_notify)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setContentIntent(open)
+                .setCategory(Notification.CATEGORY_CALL)
+                .setOngoing(true)
+                .setOnlyAlertOnce(!ringing)
+                .setVisibility(Notification.VISIBILITY_PUBLIC)
+            // Who is calling, as Do Not Disturb reads it: a favourite it lets through is known by this.
+            if (number != null) {
+                @Suppress("DEPRECATION")
+                builder.addPerson(android.net.Uri.fromParts("tel", number, null).toString())
+            }
 
-        if (state == Call.STATE_ACTIVE && call.details.connectTimeMillis > 0) {
-            builder.setUsesChronometer(true).setWhen(call.details.connectTimeMillis).setShowWhen(true)
-        } else {
-            builder.setShowWhen(false)
-        }
+            if (state == Call.STATE_ACTIVE && call.details.connectTimeMillis > 0) {
+                builder.setUsesChronometer(true).setWhen(call.details.connectTimeMillis).setShowWhen(true)
+            } else {
+                builder.setShowWhen(false)
+            }
 
-        if (ringing) {
-            builder.addAction(action(CallActions.DECLINE, R.string.call_decline))
-            // Answer opens the call screen, which answers: Android 12 does not let a broadcast
-            // from a notification open an activity, and the screen is wanted at once.
-            val answer = PendingIntent.getActivity(
-                context,
-                1,
-                InCallActivity.intent(context).setAction(CallActions.ANSWER),
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
-            )
-            builder.addAction(Notification.Action.Builder(null, context.getString(R.string.call_answer), answer).build())
-        } else {
-            builder.addAction(action(CallActions.HANG_UP, R.string.call_hang_up))
+            if (ringing) {
+                builder.addAction(action(CallActions.DECLINE, R.string.call_decline))
+                // Answer opens the call screen, which answers: Android 12 does not let a broadcast
+                // from a notification open an activity, and the screen is wanted at once.
+                val answer = PendingIntent.getActivity(
+                    context,
+                    1,
+                    InCallActivity.intent(context).setAction(CallActions.ANSWER),
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+                )
+                builder.addAction(Notification.Action.Builder(null, context.getString(R.string.call_answer), answer).build())
+            } else if (styled) {
+                val person = Person.Builder().setName(title).build()
+                builder.setStyle(Notification.CallStyle.forOngoingCall(person, pending(CallActions.HANG_UP)))
+            } else {
+                builder.addAction(action(CallActions.HANG_UP, R.string.call_hang_up))
+            }
+            if (fullScreen) builder.setFullScreenIntent(open, true)
+            return builder.build()
         }
-        if (fullScreen) builder.setFullScreenIntent(open, true)
 
         // The call may have moved on while its name was being looked up.
-        if (CallManager.primary() == call && CallManager.state() == state) {
-            manager.notify(ID, builder.build())
+        if (CallManager.primary() != call || CallManager.state() != state) return
+        val service = CallManager.inCallService
+        if (callStyle && service != null) {
+            try {
+                service.startForeground(ID, build(styled = true))
+                return
+            } catch (e: Exception) {
+                Log.w(TAG, "call style refused: ${e.message}")
+            }
         }
+        manager.notify(ID, build(styled = false))
     }
 
-    private fun action(what: String, label: Int): Notification.Action {
+    private fun action(what: String, label: Int): Notification.Action =
+        Notification.Action.Builder(null, context.getString(label), pending(what)).build()
+
+    private fun pending(what: String): PendingIntent {
         val intent = Intent(context, CallActions::class.java).setAction(what)
-        val pending = PendingIntent.getBroadcast(context, what.hashCode(), intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-        return Notification.Action.Builder(null, context.getString(label), pending).build()
+        return PendingIntent.getBroadcast(context, what.hashCode(), intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun channels() {
@@ -135,9 +160,14 @@ class CallNotifier(private val context: Context) {
         )
     }
 
-    fun cancel() = manager.cancel(ID)
+    /** Off the shade, and the call service out of the foreground if it was holding it. */
+    fun cancel() {
+        (CallManager.inCallService ?: context as? Service)?.stopForeground(Service.STOP_FOREGROUND_REMOVE)
+        manager.cancel(ID)
+    }
 
     companion object {
+        private const val TAG = "CallNotifier"
         private const val ID = 42
         private const val RINGING = "calls_ringing"
         private const val ONGOING = "calls_ongoing"

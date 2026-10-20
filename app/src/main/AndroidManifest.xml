@@ -20,6 +20,10 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- The panel goes off at the ear during a call. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- The call service holds the call's notification in the foreground while a call lasts:
+         Android only shows the status bar's call chip for a call app's foreground service. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
 
     <queries>
         <!-- Contacts, named when it is on the phone, for a person's card. -->
@@ -103,6 +107,7 @@
         <service
             android:name=".call.CallService"
             android:exported="true"
+            android:foregroundServiceType="phoneCall"
             android:permission="android.permission.BIND_INCALL_SERVICE">
             <meta-data
                 android:name="android.telecom.IN_CALL_SERVICE_UI"

@@ -7,7 +7,7 @@ policy that cannot be checked is just a promise.
 
 ## What it asks for, and why
 
-`app/src/main/AndroidManifest.xml` declares nine permissions, and `INTERNET` is not one of them.
+`app/src/main/AndroidManifest.xml` declares eleven permissions, and `INTERNET` is not one of them.
 
 - **Contacts** (`READ_CONTACTS`) — to put a name to every number, list favourites and contacts,
   and tell whether a caller is in Contacts when a blocking rule asks. Read only: Phone never
@@ -23,6 +23,9 @@ policy that cannot be checked is just a promise.
   which is also how the call screen comes up over the lock screen, and the missed-call and
   voicemail notifications.
 - **Keeping the screen awake** (`WAKE_LOCK`) — to turn the panel off at the ear during a call.
+- **Running during a call** (`FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_PHONE_CALL`) — while a
+  call lasts, the call's notification is held in the foreground, which is what puts the call in
+  the status bar, where pressing it brings the call screen back.
 - **Vibration** (`VIBRATE`) — only for the few calls the app rings itself: a caller not in
   Contacts with a ringtone of their own, and a favourite ringing through Do Not Disturb.
 
