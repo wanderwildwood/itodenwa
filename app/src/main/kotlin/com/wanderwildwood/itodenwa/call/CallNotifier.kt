@@ -74,8 +74,10 @@ class CallNotifier(private val context: Context) {
         )
 
         // While the call is going, the notification is the system's call style: Android 12 draws
-        // the green call chip in the status bar for it, and pressing the chip opens the call
-        // screen. Without it there is an icon that does nothing when pressed. The call style is
+        // the call chip in the status bar for it, and pressing the chip opens the call screen.
+        // MuditaOS leaves the chip out of its status bar and draws a call icon of its own that
+        // opens nothing; there the Phone icon on the home screen goes back to the call
+        // (MainActivity.backToCall). The call style is
         // only taken from a call app's own foreground service, so the call service holds the
         // notification while there is a call; should that be refused, the plain one is posted.
         val callStyle = !ringing && state != Call.STATE_DISCONNECTING && state != Call.STATE_DISCONNECTED
