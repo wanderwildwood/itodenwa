@@ -23,9 +23,8 @@ policy that cannot be checked is just a promise.
   which is also how the call screen comes up over the lock screen, and the missed-call and
   voicemail notifications.
 - **Keeping the screen awake** (`WAKE_LOCK`) — to turn the panel off at the ear during a call.
-- **Running during a call** (`FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_PHONE_CALL`) — while a
-  call lasts, the call's notification is held in the foreground, which is what puts the call in
-  the status bar, where pressing it brings the call screen back.
+- **Running during a call** (`FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_PHONE_CALL`) — so the
+  call keeps running and its notification stays while a call lasts. Nothing is sent.
 - **Vibration** (`VIBRATE`) — only for the few calls the app rings itself: a caller not in
   Contacts with a ringtone of their own, and a favourite ringing through Do Not Disturb.
 
