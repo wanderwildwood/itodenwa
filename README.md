@@ -60,7 +60,8 @@ are named where they are used.
 - **Speed dial**: hold 2 to 9 on the keypad to call the person set on it in **Settings → Speed
   dial**, where 1 is shown as Voicemail's.
 - **Through Do Not Disturb**, favourites, and someone calling a second time within three minutes,
-  can still ring, each a switch in **Settings → Ringing**, off to start with.
+  can still ring, each a switch in **Settings → Ringing**, off to start with. Favourites ring
+  under Priority only and Alarms only, not under Total silence.
 - **Ringtones**: a contact's own ringtone, chosen on their card, rings for them, and numbers not
   in Contacts can have a ringtone of their own, in **Settings → Ringing**.
 - **Settings look like Messaging's**, the two being a pair: the cog at the top right, a list of

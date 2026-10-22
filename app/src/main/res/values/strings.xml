@@ -163,6 +163,7 @@
     <string name="settings_voicemail_none">No number from the SIM</string>
     <string name="settings_quiet">Do Not Disturb</string>
     <string name="settings_quiet_favourites">Favourites ring</string>
+    <string name="settings_favourites_note">Ring under Priority only and Alarms only, not Total silence</string>
     <string name="settings_quiet_repeat">Repeat callers ring</string>
     <string name="settings_repeat_note">The same number twice within three minutes</string>
     <string name="settings_ringing">Ringing</string>

@@ -333,7 +333,7 @@ fun RingingScreen(onBack: () -> Unit) {
         }
         item(key = "quiet") { SettingsHeading(stringResource(R.string.settings_quiet)) }
         item(key = "quiet-favourites") {
-            SwitchRow(stringResource(R.string.settings_quiet_favourites), remember(v) { prefs.favouritesThroughQuiet }) {
+            SwitchRow(stringResource(R.string.settings_quiet_favourites), remember(v) { prefs.favouritesThroughQuiet }, note = stringResource(R.string.settings_favourites_note)) {
                 prefs.favouritesThroughQuiet = it
                 v++
             }
@@ -732,7 +732,7 @@ fun SpeedDialScreen(model: PhoneModel, onBack: () -> Unit, onPick: (Int) -> Unit
         Prefs.SPEED_KEYS.forEach { key ->
             item(key = key) {
                 val number = remember(v) { prefs.speedDial(key) }
-                val who = number?.let { model.names[it] ?: model.people.firstOrNull { p -> p.numbers.any { n -> com.wanderwildwood.itodenwa.data.Numbers.same(n.value, it) } }?.let { p -> p.name } }
+                val who = number?.let { model.names[it]?.name ?: model.people.firstOrNull { p -> p.numbers.any { n -> com.wanderwildwood.itodenwa.data.Numbers.same(n.value, it) } }?.let { p -> p.name } }
                 val note = when {
                     number == null -> stringResource(R.string.speed_not_set)
                     who != null -> "$who · ${Lookup.display(context, number)}"
