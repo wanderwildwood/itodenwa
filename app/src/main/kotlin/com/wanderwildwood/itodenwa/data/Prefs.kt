@@ -46,6 +46,14 @@ class Prefs(context: Context) {
         get() = p.getString(UNKNOWN_TONE, null)?.let(Uri::parse)
         set(v) = p.edit().putString(UNKNOWN_TONE, v?.toString()).apply()
 
+    /**
+     * Whether each key press on the keypad gives a short tick. Off to begin with; the tick is
+     * the phone's own keyboard tap, so its touch feedback setting still has the last word.
+     */
+    var vibrate: Boolean
+        get() = p.getBoolean(VIBRATE, Buzz.DEFAULT)
+        set(v) = p.edit().putBoolean(VIBRATE, v).apply()
+
     /** The number on each of the keys 2 to 9, held down on the keypad to call it. */
     fun speedDial(key: Int): String? = p.getString("$SPEED$key", null)
 
@@ -81,6 +89,7 @@ class Prefs(context: Context) {
         private const val THROUGH_FAVOURITES = "quiet_favourites"
         private const val THROUGH_REPEAT = "quiet_repeat"
         private const val UNKNOWN_TONE = "ringtone_unknown"
+        private const val VIBRATE = "vibrate"
         private const val SPEED = "speed_"
         private const val DURASPEED_ANSWERED = "duraspeed_answered"
 

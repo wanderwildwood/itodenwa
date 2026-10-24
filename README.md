@@ -66,6 +66,8 @@ are named where they are used.
   in Contacts can have a ringtone of their own, in **Settings → Ringing**.
 - **Settings look like Messaging's**, the two being a pair: the cog at the top right, a list of
   rows each with its value under it, and About behind the i.
+- **A vibration at each key press** on the keypad (off to begin with; it follows the phone's own touch
+  feedback setting), in **Settings**.
 - **A keypad** with the letters on its keys: typing finds people by the start of a name or by part
   of a number, and pressing one fills in their number — it still waits for Call. With nothing
   typed, Call puts the last number called back in the box.

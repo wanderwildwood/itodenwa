@@ -2,6 +2,7 @@ package com.wanderwildwood.itodenwa.ui
 
 import android.media.AudioManager
 import android.media.ToneGenerator
+import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -44,6 +46,7 @@ import androidx.compose.ui.unit.sp
 import com.mudita.mmd.components.text.TextMMD
 import com.wanderwildwood.itodenwa.R
 import com.wanderwildwood.itodenwa.data.Actions
+import com.wanderwildwood.itodenwa.data.Buzz
 import com.wanderwildwood.itodenwa.data.LoggedCall
 import com.wanderwildwood.itodenwa.data.Prefs
 import com.wanderwildwood.itodenwa.data.Voicemail
@@ -77,6 +80,7 @@ fun KeypadScreen(model: PhoneModel, typed: String, onTyped: (String) -> Unit, on
     val cannotCall = stringResource(R.string.cannot_call)
     val call = rememberCaller { notice = cannotCall }
     val tones = rememberTones()
+    val buzz = rememberKeyBuzz()
     val prefs = remember { Prefs(context) }
     var unset by remember { mutableStateOf<Int?>(null) }
 
@@ -120,7 +124,7 @@ fun KeypadScreen(model: PhoneModel, typed: String, onTyped: (String) -> Unit, on
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .size(52.dp)
-                            .combinedClickable(onClick = { onTyped(typed.dropLast(1)) }, onLongClick = { onTyped("") }),
+                            .combinedClickable(onClick = { buzz(); onTyped(typed.dropLast(1)) }, onLongClick = { buzz(); onTyped("") }),
                     ) {
                         Icon(Icons.Backspace, contentDescription = stringResource(R.string.cd_delete), tint = MaterialTheme.colorScheme.onSurface, modifier = Modifier.size(32.dp))
                     }
@@ -201,6 +205,7 @@ fun KeyGrid(
     keyHeight: androidx.compose.ui.unit.Dp = 56.dp,
     onHold: ((Char) -> Boolean)? = null,
 ) {
+    val buzz = rememberKeyBuzz()
     Column(Modifier.fillMaxWidth().padding(horizontal = 10.dp)) {
         KEYS.chunked(3).forEach { row ->
             Row(Modifier.fillMaxWidth()) {
@@ -212,9 +217,9 @@ fun KeyGrid(
                             .weight(1f)
                             .height(keyHeight)
                             .combinedClickable(
-                                onClick = { onKey(digit) },
+                                onClick = { buzz(); onKey(digit) },
                                 onLongClick = when {
-                                    digit == '0' && onPlus != null -> onPlus
+                                    digit == '0' && onPlus != null -> { -> buzz(); onPlus() }
                                     onHold != null && digit in '1'..'9' -> { -> onHold(digit); Unit }
                                     else -> null
                                 },
@@ -302,4 +307,17 @@ private fun rememberTones(): Tones {
     val tones = remember { Tones(context.getSystemService(AudioManager::class.java)) }
     DisposableEffect(Unit) { onDispose { tones.release() } }
     return tones
+}
+
+/**
+ * Asks the phone for its keyboard tap at a key press when Settings has the buzz on: through the
+ * view rather than the vibrator, so the phone's own touch feedback setting is respected and no
+ * permission is needed. The setting is read at each press, so turning it on needs no restart.
+ */
+@Composable
+fun rememberKeyBuzz(): () -> Unit {
+    val context = LocalContext.current
+    val view = LocalView.current
+    val prefs = remember { Prefs(context) }
+    return { Buzz.press(prefs.vibrate) { view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP) } }
 }

@@ -257,6 +257,14 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
             val jumpShown by rememberListJumpShown()
             SwitchRow(stringResource(R.string.list_jump_setting), jumpShown) { ListJumpPrefs.setShown(context, it) }
         }
+        item(key = "vibrate") {
+            val prefs = remember { Prefs(context) }
+            var vibrate by remember { mutableStateOf(prefs.vibrate) }
+            SwitchRow(stringResource(R.string.settings_vibrate), vibrate, note = stringResource(R.string.settings_vibrate_note)) {
+                vibrate = it
+                prefs.vibrate = it
+            }
+        }
         if (DuraSpeed.present(context)) {
             // Until the person says Phone is switched on in DuraSpeed, the row carries the one
             // step left and opens the explanation. After that it is a plain door to DuraSpeed,

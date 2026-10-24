@@ -242,6 +242,8 @@
     <string name="speed_pick">Speed dial %1$d</string>
     <!-- On the keypad, a held key with nothing set on it -->
     <string name="speed_unset">Nothing is set on %1$d. Hold a key to call the number set on it.</string>
+    <string name="settings_vibrate">Vibrate at each key press</string>
+    <string name="settings_vibrate_note">A short tick at each key. Stays quiet if the phone\'s own touch feedback is off.</string>
     <string name="list_jump_setting">Letters and page dots</string>
     <string name="list_jump_shown">Shown</string>
     <string name="list_jump_hidden">Hidden</string>
