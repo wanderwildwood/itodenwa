@@ -151,7 +151,7 @@ internal fun SettingRow(
             }
         }
         if (trailing != null) {
-            Box(Modifier.padding(end = 16.dp)) { trailing() }
+            Box(Modifier.padding(start = 16.dp, end = 16.dp)) { trailing() }
         } else if (opens && onPress != null) {
             androidx.compose.material3.Icon(
                 imageVector = Icons.ChevronRight,
