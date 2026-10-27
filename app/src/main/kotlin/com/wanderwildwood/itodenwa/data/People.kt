@@ -5,7 +5,7 @@ import android.content.res.Resources
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.provider.ContactsContract.CommonDataKinds.StructuredName
-import com.wanderwildwood.itodenwa.ui.jumpLetterOf
+import java.text.Normalizer
 
 /** A number on a person's card, and what kind it is there. */
 data class CardNumber(val value: String, val kind: String)
@@ -77,4 +77,15 @@ object People {
         for (n in numbers) if (out.none { Numbers.match(it.value, n.value) >= Numbers.SHORTEST }) out += n
         return out
     }
+}
+
+/**
+ * The letter a name is filed under, matching how a list sorted by the name as written puts
+ * it: "The Beatles" is under T. Accents come off (Ödland is under O); a digit, a symbol or a
+ * script with no A to Z is under #.
+ */
+fun jumpLetterOf(name: String): String {
+    val first = name.firstOrNull { it.isLetterOrDigit() } ?: return "#"
+    val base = Normalizer.normalize(first.toString(), Normalizer.Form.NFKD).first().uppercaseChar()
+    return if (base in 'A'..'Z') base.toString() else "#"
 }

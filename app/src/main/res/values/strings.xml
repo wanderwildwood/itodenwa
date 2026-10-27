@@ -9,6 +9,8 @@
     <string name="tab_recents">Recents</string>
     <string name="tab_contacts">Contacts</string>
     <string name="tab_keypad">Keypad</string>
+    <string name="voicemail_waiting">1, voicemail waiting</string>
+    <string name="voicemail_waiting_tab">Voicemail waiting</string>
 
     <string name="banner_make_phone_app">Make this the phone app</string>
     <string name="banner_make_phone_app_note">Calls come in and go out through the phone app</string>
@@ -90,12 +92,18 @@
 
     <string name="about_title">Phone %1$s</string>
     <string name="about_what">Calls, recent calls and the people to call. The app has no internet permission.</string>
+    <string name="about_privacy_heading">Privacy</string>
+    <string name="about_privacy">Everything you put in this app stays on this phone. It has no internet access, so nothing is sent anywhere, and nothing is collected about you.\n\nIt reads your contacts to put names to numbers and list favourites. It reads your call log to list recent calls, and changes it only to delete a call, clear the list or mark missed calls seen. It reads the phone state for the names of your SIMs, your voicemail number and whether a voicemail is waiting. Numbers you block go into the phone\'s own blocked-numbers list; a record of the calls it turned away (time, number and rule) is kept on this phone for 30 days.\n\nThere are no ads, no analytics and no tracking. Backups and exports go only where you choose to save them.</string>
+    <string name="about_terms_heading">Terms</string>
+    <string name="about_terms">This app is free software under the GNU General Public License v3. It comes with no warranty: use it at your own risk.</string>
+    <string name="about_made_heading">Made from</string>
     <string name="about_licence">GNU General Public License v3</string>
-    <string name="about_base">Built on Fossify Phone, GPL-3.0</string>
+    <string name="about_base">Fossify Phone and Fossify Commons, GPL-3.0</string>
+    <string name="about_libraries">Mudita MMD, Jetpack Compose and AndroidX, Apache 2.0. The missed-call notification follows Android\'s own, Apache 2.0.</string>
     <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
+    <string name="about_source_text">Source: github.com/wanderwildwood/itodenwa</string>
     <string name="about_feed_the_llamas">feed the llamas</string>
     <string name="about_no_browser">There is no browser on this phone to open that with.</string>
-    <string name="about_close">Close</string>
 
     <!-- The call screen\'s menu, under the three dots -->
     <string name="call_menu_contact">Open in Contacts</string>
@@ -202,6 +210,7 @@
     <!-- Settings, Blocked numbers -->
     <string name="blocked_add">Block a number</string>
     <string name="blocked_add_hint">Number</string>
+    <string name="blocked_already">Already blocked</string>
     <string name="blocked_add_note">End with * to block every number that starts that way, like 555*.</string>
     <string name="blocked_add_failed">The number could not be blocked. Phone has to be the phone app to block whole numbers.</string>
     <string name="blocked_needs_phone_app">Whole numbers are kept in the phone\'s own block list, which only the phone app may read. Numbers ending in * are kept here.</string>
@@ -244,9 +253,6 @@
     <string name="speed_unset">Nothing is set on %1$d. Hold a key to call the number set on it.</string>
     <string name="settings_vibrate">Vibrate at each key press</string>
     <string name="settings_vibrate_note">A short tick at each key. Stays quiet if the phone\'s own touch feedback is off.</string>
-    <string name="list_jump_setting">Letters and page dots</string>
-    <string name="list_jump_shown">Shown</string>
-    <string name="list_jump_hidden">Hidden</string>
 
     <!-- Android 13+ keeps an app installed from a file out of Accessibility, notification access
          and the default phone/texting roles until App info, then ⋮, then Allow restricted settings. -->

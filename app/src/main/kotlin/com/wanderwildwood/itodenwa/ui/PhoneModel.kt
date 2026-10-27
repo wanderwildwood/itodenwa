@@ -23,6 +23,9 @@ import com.wanderwildwood.itodenwa.data.Person
 import com.wanderwildwood.itodenwa.data.Recent
 import com.wanderwildwood.itodenwa.data.Recents
 import com.wanderwildwood.itodenwa.data.Who
+import android.telephony.TelephonyCallback
+import android.telephony.TelephonyManager
+import com.wanderwildwood.itodenwa.data.Prefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -55,6 +58,11 @@ class PhoneModel(app: Application) : AndroidViewModel(app) {
     var blocked by mutableStateOf<List<Blocked>>(emptyList())
         private set
 
+    /** The carrier says a voicemail is waiting: from the last signal kept, then live while the app is open. */
+    var voicemailWaiting by mutableStateOf(false)
+        private set
+
+    private var mwiListener: TelephonyCallback? = null
     private var reading: Job? = null
     private val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean) = refresh(soon = true)
@@ -63,8 +71,27 @@ class PhoneModel(app: Application) : AndroidViewModel(app) {
     private var watchingCalls = false
 
     fun start() {
+        val app = getApplication<Application>()
+        voicemailWaiting = Prefs(app).voicemailWaiting
+        watchVoicemail()
         watch()
         refresh()
+    }
+
+    private class Waiting(val changed: (Boolean) -> Unit) : TelephonyCallback(), TelephonyCallback.MessageWaitingIndicatorListener {
+        override fun onMessageWaitingIndicatorChanged(mwi: Boolean) = changed(mwi)
+    }
+
+    /** The message-waiting light, followed while the app is open once the phone state may be read. */
+    private fun watchVoicemail() {
+        val app = getApplication<Application>()
+        if (mwiListener != null || app.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) return
+        val telephony = app.getSystemService(TelephonyManager::class.java) ?: return
+        val l = Waiting { on ->
+            voicemailWaiting = on
+            Prefs(app).voicemailWaiting = on
+        }
+        mwiListener = l.takeIf { runCatching { telephony.registerTelephonyCallback(app.mainExecutor, it) }.isSuccess }
     }
 
     private fun watch() {
@@ -131,6 +158,7 @@ class PhoneModel(app: Application) : AndroidViewModel(app) {
     }
 
     override fun onCleared() {
+        mwiListener?.let { runCatching { getApplication<Application>().getSystemService(TelephonyManager::class.java)?.unregisterTelephonyCallback(it) } }
         getApplication<Application>().contentResolver.unregisterContentObserver(observer)
     }
 }

@@ -18,7 +18,8 @@ policy that cannot be checked is just a promise.
   and "the same number twice within three minutes".
 - **Phone calls** (`CALL_PHONE`) — to place a call when Call is pressed.
 - **Phone state** (`READ_PHONE_STATE`) — the names of the SIMs, for a phone with two and no
-  default, and the voicemail number the SIM gives.
+  default, the voicemail number the SIM gives, and whether the carrier says a voicemail is
+  waiting (a small dot on the keypad; only that yes-or-no is kept).
 - **Notifications** (`POST_NOTIFICATIONS`, `USE_FULL_SCREEN_INTENT`) — a call's notification,
   which is also how the call screen comes up over the lock screen, and the missed-call and
   voicemail notifications.

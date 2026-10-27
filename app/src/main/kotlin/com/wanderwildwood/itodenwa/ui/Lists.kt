@@ -93,23 +93,21 @@ fun RecentsList(model: PhoneModel, onOpen: (String) -> Unit) {
     androidx.compose.runtime.LaunchedEffect(newest) {
         if (state.firstVisibleItemIndex <= 1) state.scrollToItem(0)
     }
-    ListJumpBox(state, ListJump.Pages) {
-        PagedColumn(Modifier.fillMaxSize(), state = state) {
-            items(model.recents, key = { it.last.id }) { r ->
-                val number = r.number
-                val who = number?.let { model.names[it] }
-                val title = who?.name
-                    ?: number?.takeIf { voicemail != null && com.wanderwildwood.itodenwa.data.Numbers.same(it, voicemail) }?.let { voicemailWord }
-                    ?: number?.let { Lookup.display(context, it) } ?: hidden
-                val note = listOfNotNull(who?.kind, Recents.whenSaid(r.last.at, now, today, yesterday, hours24)).joinToString(" · ")
-                RecentRow(
-                    r,
-                    title,
-                    note,
-                    onPress = number?.let { { onOpen(it) } },
-                    onLongPress = { menu = title to r },
-                )
-            }
+    PagedColumn(Modifier.fillMaxSize(), state = state) {
+        items(model.recents, key = { it.last.id }) { r ->
+            val number = r.number
+            val who = number?.let { model.names[it] }
+            val title = who?.name
+                ?: number?.takeIf { voicemail != null && com.wanderwildwood.itodenwa.data.Numbers.same(it, voicemail) }?.let { voicemailWord }
+                ?: number?.let { Lookup.display(context, it) } ?: hidden
+            val note = listOfNotNull(who?.kind, Recents.whenSaid(r.last.at, now, today, yesterday, hours24)).joinToString(" · ")
+            RecentRow(
+                r,
+                title,
+                note,
+                onPress = number?.let { { onOpen(it) } },
+                onLongPress = { menu = title to r },
+            )
         }
     }
     menu?.let { (title, r) ->
@@ -230,19 +228,14 @@ fun ContactsList(model: PhoneModel, onOpen: (Person) -> Unit) {
     }
 }
 
-/** People in the contacts' own order, with the letters down the edge once the list is long. */
+/** People in the contacts' own order. */
 @Composable
 internal fun PeopleRows(people: List<Person>, onOpen: (Person) -> Unit) {
     val noName = stringResource(R.string.no_name)
     val state = rememberLazyListState()
-    // Names that start with a figure or a sign are filed under # and listed first (see People),
-    // so # heads the column as it heads the list.
-    val jump = remember(people) { ListJump.Letters(people.map { jumpLetterOf(it.name) }) }
-    ListJumpBox(state, jump) {
-        PagedColumn(Modifier.fillMaxSize(), state = state) {
-            items(people, key = { it.id }) { p ->
-                NameRow(boldSurname(p.name.ifBlank { noName }, p.family)) { onOpen(p) }
-            }
+    PagedColumn(Modifier.fillMaxSize(), state = state) {
+        items(people, key = { it.id }) { p ->
+            NameRow(boldSurname(p.name.ifBlank { noName }, p.family)) { onOpen(p) }
         }
     }
 }

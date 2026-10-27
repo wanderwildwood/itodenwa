@@ -79,7 +79,16 @@ class Prefs(context: Context) {
         get() = if (p.contains(LAST_SCREENED)) p.getBoolean(LAST_SCREENED, true) else null
         set(v) = p.edit().apply { if (v == null) remove(LAST_SCREENED) else putBoolean(LAST_SCREENED, v) }.apply()
 
+    /**
+     * Whether the carrier last said a voicemail is waiting. Kept so the keypad can show it from
+     * the moment it opens; the carrier's next signal, or a call to voicemail, changes it.
+     */
+    var voicemailWaiting: Boolean
+        get() = p.getBoolean(VOICEMAIL_WAITING, false)
+        set(v) = p.edit().putBoolean(VOICEMAIL_WAITING, v).apply()
+
     companion object {
+        private const val VOICEMAIL_WAITING = "voicemail_waiting"
         private const val LAST_SCREENED = "last_call_screened"
         private const val UNKNOWN = "rule_unknown"
         private const val HIDDEN = "rule_hidden"

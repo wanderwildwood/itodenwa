@@ -4,9 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalCursorBlinkEnabled
 import com.mudita.mmd.ThemeMMD
 import com.wanderwildwood.itodenwa.call.CallManager
 import com.wanderwildwood.itodenwa.data.Numbers
@@ -33,7 +35,11 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             ThemeMMD(colorScheme = monochrome) {
-                PhoneApp(opening, onOpened = { opening = null })
+                // A steady cursor in every text box, dialogs included: a blinking one redraws the
+                // screen twice a second for as long as the box has the focus.
+                CompositionLocalProvider(LocalCursorBlinkEnabled provides false) {
+                    PhoneApp(opening, onOpened = { opening = null })
+                }
             }
         }
     }

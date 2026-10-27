@@ -12,6 +12,8 @@ import android.telecom.TelecomManager
 import android.telephony.TelephonyManager
 import com.wanderwildwood.itodenwa.MainActivity
 import com.wanderwildwood.itodenwa.R
+import com.wanderwildwood.itodenwa.data.Prefs
+import com.wanderwildwood.itodenwa.data.Voicemail
 import com.wanderwildwood.itodenwa.data.Lookup
 import kotlin.concurrent.thread
 
@@ -43,6 +45,7 @@ class MissedCalls : BroadcastReceiver() {
             }
             TelephonyManager.ACTION_SHOW_VOICEMAIL_NOTIFICATION -> {
                 val count = intent.getIntExtra(TelephonyManager.EXTRA_NOTIFICATION_COUNT, 0)
+                Prefs(context).voicemailWaiting = Voicemail.waitingFromCount(count)
                 if (count <= 0) cancelVoicemail(context) else showVoicemail(context, count)
             }
         }

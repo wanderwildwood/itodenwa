@@ -13,6 +13,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.ui.semantics.Role
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -71,7 +75,7 @@ import kotlinx.coroutines.withContext
 
 /** A page of settings: the library's bar with a back arrow, and its rows. */
 @Composable
-private fun SettingsPage(
+internal fun SettingsPage(
     title: String,
     onBack: () -> Unit,
     notice: String? = null,
@@ -112,13 +116,21 @@ internal fun SettingRow(
     bold: Boolean = false,
     opens: Boolean = true,
     trailing: (@Composable () -> Unit)? = null,
+    /** For a switch: whether it is on, so the row says so to TalkBack as a switch. */
+    checked: Boolean? = null,
     onPress: (() -> Unit)?,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .let { if (onPress != null) it.clickable(onClick = onPress) else it },
+            .let {
+                when {
+                    onPress == null -> it
+                    checked != null -> it.toggleable(value = checked, role = Role.Switch, onValueChange = { onPress() })
+                    else -> it.clickable(onClick = onPress)
+                }
+            },
     ) {
         Column(Modifier.weight(1f).padding(start = 24.dp, end = 24.dp, top = 16.dp, bottom = 16.dp)) {
             TextMMD(
@@ -167,7 +179,7 @@ internal fun SettingsHeading(text: String) {
 /** A row with MMD's switch at its end; the row takes the press. */
 @Composable
 internal fun SwitchRow(title: String, checked: Boolean, note: String? = null, onChange: (Boolean) -> Unit) {
-    SettingRow(title, summary = note, opens = false, trailing = {
+    SettingRow(title, summary = note, opens = false, checked = checked, trailing = {
         SwitchMMD(checked = checked, onCheckedChange = null)
     }, onPress = { onChange(!checked) })
 }
@@ -177,7 +189,9 @@ internal fun SwitchRow(title: String, checked: Boolean, note: String? = null, on
 private fun ChoiceRow(title: String, chosen: Boolean, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
+            .selectable(selected = chosen, role = Role.RadioButton, onClick = onClick)
+            .padding(vertical = 8.dp),
     ) {
         RadioButtonMMD(selected = chosen, onClick = null)
         Spacer(Modifier.width(8.dp))
@@ -204,7 +218,6 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
     val context = LocalContext.current
     val prefs = remember { Prefs(context) }
     var v by remember { mutableIntStateOf(0) }
-    var about by remember { mutableStateOf(false) }
     var notice by remember { mutableStateOf<String?>(null) }
     var isPhoneApp by remember { mutableStateOf(Actions.isPhoneApp(context)) }
     var voicemail by remember { mutableStateOf<String?>(null) }
@@ -226,7 +239,7 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
         onBack = onBack,
         notice = notice,
         onNoticeSeen = { notice = null },
-        actions = { BarButton(Icons.Info, stringResource(R.string.cd_about)) { about = true } },
+        actions = { BarButton(Icons.Info, stringResource(R.string.cd_about)) { onOpen(Page.About) } },
     ) {
         item(key = "top") { Spacer(Modifier.height(8.dp)) }
         item(key = "blocking") {
@@ -252,10 +265,6 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
         }
         item(key = "ringing") {
             SettingRow(stringResource(R.string.settings_ringing), onPress = { onOpen(Page.Ringing) })
-        }
-        item(key = "listjump") {
-            val jumpShown by rememberListJumpShown()
-            SwitchRow(stringResource(R.string.list_jump_setting), jumpShown) { ListJumpPrefs.setShown(context, it) }
         }
         item(key = "vibrate") {
             val prefs = remember { Prefs(context) }
@@ -298,7 +307,6 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
             }
         }
     }
-    if (about) AboutDialog(onDismiss = { about = false })
 }
 
 /**
@@ -541,18 +549,16 @@ fun BlockedNumbersScreen(model: PhoneModel, onBack: () -> Unit) {
         },
         bottomBar = { notice?.let { NoticeStrip(it) { notice = null } } },
     ) { padding ->
-        ListJumpBox(state, ListJump.Pages, Modifier.padding(padding)) {
-            PagedColumn(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface), state = state) {
-                if (!canWrite) {
-                    item(key = "cannot") { SettingRow(stringResource(R.string.blocked_needs_phone_app), titleLines = 4, onPress = null) }
-                }
-                item(key = "add") { SettingRow(stringResource(R.string.blocked_add), onPress = { adding = true }) }
-                items(model.blocked, key = { "${it.id}:${it.text}" }) { b -> BlockedRow(b) { list.remove(b); refresh() } }
-                item(key = "file") { SettingsHeading(stringResource(R.string.blocked_file)) }
-                item(key = "import") { SettingRow(stringResource(R.string.blocked_import), onPress = { import.launch(arrayOf("text/*", "application/octet-stream")) }) }
-                item(key = "export") {
-                    SettingRow(stringResource(R.string.blocked_export), onPress = { export.launch("blocked-numbers.txt") })
-                }
+        PagedColumn(Modifier.padding(padding).fillMaxSize().background(MaterialTheme.colorScheme.surface), state = state) {
+            if (!canWrite) {
+                item(key = "cannot") { SettingRow(stringResource(R.string.blocked_needs_phone_app), titleLines = 4, onPress = null) }
+            }
+            item(key = "add") { SettingRow(stringResource(R.string.blocked_add), onPress = { adding = true }) }
+            items(model.blocked, key = { "${it.id}:${it.text}" }) { b -> BlockedRow(b) { list.remove(b); refresh() } }
+            item(key = "file") { SettingsHeading(stringResource(R.string.blocked_file)) }
+            item(key = "import") { SettingRow(stringResource(R.string.blocked_import), onPress = { import.launch(arrayOf("text/*", "application/octet-stream")) }) }
+            item(key = "export") {
+                SettingRow(stringResource(R.string.blocked_export), onPress = { export.launch("blocked-numbers.txt") })
             }
         }
     }
@@ -560,6 +566,7 @@ fun BlockedNumbersScreen(model: PhoneModel, onBack: () -> Unit) {
     if (adding) {
         var typed by remember { mutableStateOf("") }
         val cannot = stringResource(R.string.blocked_add_failed)
+        val already = stringResource(R.string.blocked_already)
         EInkDialog(onDismiss = { adding = false }) {
             TextMMD(text = stringResource(R.string.blocked_add), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(8.dp))
@@ -571,7 +578,10 @@ fun BlockedNumbersScreen(model: PhoneModel, onBack: () -> Unit) {
                 FootButton(stringResource(R.string.cancel), Modifier.weight(1f)) { adding = false }
                 Spacer(Modifier.width(12.dp))
                 FootButton(stringResource(R.string.block), Modifier.weight(1f), enabled = Patterns.tidy(typed) != null) {
-                    if (list.add(typed)) {
+                    if (list.has(typed)) {
+                        notice = already
+                        adding = false
+                    } else if (list.add(typed)) {
                         adding = false
                         refresh()
                     } else {
@@ -637,14 +647,12 @@ fun BlockedCallsScreen(model: PhoneModel, onBack: () -> Unit) {
         val today = stringResource(R.string.calls_today)
         val yesterday = stringResource(R.string.calls_yesterday)
         val hidden = stringResource(R.string.call_hidden_number)
-        ListJumpBox(state, ListJump.Pages, Modifier.padding(padding)) {
-            PagedColumn(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface), state = state) {
-                items(r, key = { "${it.at}:${it.number}" }) { row ->
-                    val who = row.number?.let { model.names[it] }
-                    val title = who?.name ?: row.number?.let { Lookup.display(context, it) } ?: hidden
-                    val whenSaid = com.wanderwildwood.itodenwa.data.Recents.whenSaid(row.at, now, today, yesterday, hours24)
-                    PlainRow(title, note = "$whenSaid · ${row.why}", onPress = { menu = row })
-                }
+        PagedColumn(Modifier.padding(padding).fillMaxSize().background(MaterialTheme.colorScheme.surface), state = state) {
+            items(r, key = { "${it.at}:${it.number}" }) { row ->
+                val who = row.number?.let { model.names[it] }
+                val title = who?.name ?: row.number?.let { Lookup.display(context, it) } ?: hidden
+                val whenSaid = com.wanderwildwood.itodenwa.data.Recents.whenSaid(row.at, now, today, yesterday, hours24)
+                PlainRow(title, note = "$whenSaid · ${row.why}", onPress = { menu = row })
             }
         }
     }

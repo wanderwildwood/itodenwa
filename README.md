@@ -68,6 +68,8 @@ are named where they are used.
   rows each with its value under it, and About behind the i.
 - **A vibration at each key press** on the keypad (off to begin with; it follows the phone's own touch
   feedback setting), in **Settings**.
+- **A small dot** on the Keypad tab and beside the 1 key while the carrier says a voicemail is
+  waiting.
 - **A keypad** with the letters on its keys: typing finds people by the start of a name or by part
   of a number, and pressing one fills in their number — it still waits for Call. With nothing
   typed, Call puts the last number called back in the box.
@@ -78,7 +80,6 @@ are named where they are used.
   button opens the person's card in [Contacts](https://github.com/wanderwildwood/enishi) when it
   is installed, or in whatever contacts app the phone has, and Add puts a number from Recents on
   a new card or an existing one there. A person starred in Contacts is listed under Favourites.
-- **Long lists** have letters down the edge of Contacts and page dots beside Recents.
 
 ## Making it the phone app
 
@@ -176,7 +177,6 @@ and acted on while they last (its CallManager, itself inspired by
 notification and its buttons, the keypad's tones, the grouping of calls in a row in Recents,
 and its call screener and block-list file format, from
 [Fossify Commons](https://github.com/FossifyOrg/Commons). The missed-call notification follows
-AOSP's MissedCallNotifier (Apache-2.0). The letters and page dots beside long lists are adapted
-from [inkOS](https://github.com/gezimos/inkOS) (GPL-3.0).
+AOSP's MissedCallNotifier (Apache-2.0).
 Its screens and its shared library were replaced: the screens are Mudita's MMD, drawn to sit
 beside Contacts and the Kompakt's own Phone app.

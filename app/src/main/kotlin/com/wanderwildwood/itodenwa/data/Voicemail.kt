@@ -14,6 +14,13 @@ import com.wanderwildwood.itodenwa.call.MissedCalls
 /** Voicemail: the number the SIM gives for it, a call to it, and the carrier's settings for it. */
 object Voicemail {
 
+    /**
+     * What the carrier's message-waiting signal says: a count of messages, where 0 is none and a
+     * negative count is "some, number not known" (the network lit the indicator without a
+     * count). Only none is not waiting.
+     */
+    fun waitingFromCount(count: Int): Boolean = count != 0
+
     /** The voicemail number of the phone's calling account, or null where the SIM gives none. */
     @SuppressLint("MissingPermission")
     fun number(context: Context): String? = runCatching {
@@ -50,6 +57,7 @@ object Voicemail {
         return try {
             telecom.placeCall(Uri.fromParts(PhoneAccount.SCHEME_VOICEMAIL, "", null), Bundle())
             MissedCalls.cancelVoicemail(context)
+            Prefs(context).voicemailWaiting = false
             true
         } catch (_: SecurityException) {
             false

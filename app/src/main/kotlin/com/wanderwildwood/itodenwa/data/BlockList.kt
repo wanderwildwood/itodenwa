@@ -116,6 +116,13 @@ class BlockList(private val context: Context) {
     /** Every prefix, those in Android's list included. */
     fun allPrefixes(): List<String> = prefixes() + numbers().filter { it.isPrefix }.map { it.text }
 
+    /** Whether [raw], as it would be added, is already a line on the list. */
+    fun has(raw: String): Boolean {
+        val line = Patterns.tidy(raw) ?: return false
+        if (Patterns.isPrefix(line)) return line in allPrefixes()
+        return numbers().any { !it.isPrefix && Numbers.same(it.text, line) }
+    }
+
     fun add(raw: String): Boolean {
         val line = Patterns.tidy(raw) ?: return false
         if (Patterns.isPrefix(line)) {

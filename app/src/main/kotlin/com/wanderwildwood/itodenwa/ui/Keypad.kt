@@ -10,6 +10,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -93,7 +98,13 @@ fun KeypadScreen(model: PhoneModel, typed: String, onTyped: (String) -> Unit, on
         else model.people.filter { Numbers.typedFinds(typed, it.name, it.numbers.map { n -> n.value }) }.take(2)
     }
 
-    Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface)) {
+    // The keys give up height before the people the keys find do: under a banner (Make this the
+    // phone app, Return to call) there is less room, and the suggestion above the number was
+    // squeezed to a sliver while the keys kept their full height. The number's line and one
+    // suggestion are kept; the keys share what is left, down to 48 dp, which still holds the letters.
+    BoxWithConstraints(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface)) {
+    val keyHeight = ((maxHeight - TOP_KEEPS - CALL_ROW) / 4).coerceIn(48.dp, 56.dp)
+    Column(Modifier.fillMaxSize()) {
         Column(Modifier.weight(1f).fillMaxWidth().padding(horizontal = 16.dp)) {
             // Who the number is, or who the keys find, in the room above the number; the number
             // itself always shows, and whatever does not fit above it is cut, not the number.
@@ -133,6 +144,8 @@ fun KeypadScreen(model: PhoneModel, typed: String, onTyped: (String) -> Unit, on
             DottedRule(start = 0.dp, end = 0.dp)
         }
         KeyGrid(
+            keyHeight = keyHeight,
+            oneMarked = model.voicemailWaiting,
             onKey = { c ->
                 tones.start(c)
                 onTyped(typed + c)
@@ -167,6 +180,7 @@ fun KeypadScreen(model: PhoneModel, typed: String, onTyped: (String) -> Unit, on
         }
         notice?.let { NoticeStrip(it) { notice = null } }
     }
+    }
     unset?.let { key ->
         EInkDialog(onDismiss = { unset = null }) {
             TextMMD(text = stringResource(R.string.speed_unset, key), style = MaterialTheme.typography.bodyLarge)
@@ -182,6 +196,12 @@ fun KeypadScreen(model: PhoneModel, typed: String, onTyped: (String) -> Unit, on
         }
     }
 }
+
+/** What the number's line, its rule and one suggestion need above the keys. */
+private val TOP_KEEPS = 140.dp
+
+/** The Call button with the room around it. */
+private val CALL_ROW = 74.dp
 
 /** Someone the keys found: a press fills in their number. */
 @Composable
@@ -203,6 +223,8 @@ fun KeyGrid(
     onKey: (Char) -> Unit,
     onPlus: (() -> Unit)?,
     keyHeight: androidx.compose.ui.unit.Dp = 56.dp,
+    /** A small dot beside the 1 key: a voicemail is waiting. Not drawn on the in-call keypad. */
+    oneMarked: Boolean = false,
     onHold: ((Char) -> Boolean)? = null,
 ) {
     val buzz = rememberKeyBuzz()
@@ -225,9 +247,20 @@ fun KeyGrid(
                                 },
                             ),
                     ) {
-                        TextMMD(text = digit.toString(), style = MaterialTheme.typography.headlineMedium.copy(fontSize = 30.sp, lineHeight = 32.sp), fontWeight = FontWeight.Medium)
+                        if (digit == '1' && oneMarked) {
+                            val waiting = stringResource(R.string.voicemail_waiting)
+                            Box(contentAlignment = Alignment.Center, modifier = Modifier.semantics { contentDescription = waiting }) {
+                                TextMMD(text = "1", style = MaterialTheme.typography.headlineMedium.copy(fontSize = 30.sp, lineHeight = 32.sp), fontWeight = FontWeight.Medium)
+                                Box(
+                                    Modifier.align(Alignment.CenterEnd).offset(x = 14.dp, y = (-6).dp).size(9.dp)
+                                        .background(MaterialTheme.colorScheme.onSurface, CircleShape),
+                                )
+                            }
+                        } else {
+                            TextMMD(text = digit.toString(), style = MaterialTheme.typography.headlineMedium.copy(fontSize = 30.sp, lineHeight = 32.sp), fontWeight = FontWeight.Medium)
+                        }
                         if (letters.isNotEmpty()) {
-                            TextMMD(text = letters, style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp, lineHeight = 14.sp))
+                            TextMMD(text = letters, style = MaterialTheme.typography.labelSmall.copy(fontSize = 14.sp, lineHeight = 16.sp))
                         }
                     }
                 }

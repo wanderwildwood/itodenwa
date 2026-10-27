@@ -76,7 +76,7 @@ internal fun BarWord(text: String, ready: Boolean = true, onClick: () -> Unit) {
 
 /**
  * A row that asks before it acts: the first press arms it and changes what it says, a second
- * press does it, and it disarms itself after four seconds so nothing is left live for whoever
+ * press does it, and it disarms itself after six seconds so nothing is left live for whoever
  * picks the phone up next. Returns whether it is armed, and the press to hand the row.
  */
 @Composable
@@ -84,7 +84,7 @@ internal fun rememberArmed(key: Any?, onConfirmed: () -> Unit): Pair<Boolean, ()
     var armed by remember(key) { mutableStateOf(false) }
     LaunchedEffect(armed) {
         if (armed) {
-            delay(4000)
+            delay(6000)
             armed = false
         }
     }
@@ -153,7 +153,7 @@ internal fun FootButton(label: String, modifier: Modifier, enabled: Boolean = tr
     OutlinedButtonMMD(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier.height(44.dp),
+        modifier = modifier.height(48.dp),
         contentPadding = PaddingValues(horizontal = 6.dp),
     ) {
         TextMMD(text = label, style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)

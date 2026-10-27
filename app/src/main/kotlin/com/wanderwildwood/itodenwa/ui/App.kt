@@ -54,6 +54,7 @@ sealed class Page {
     data class OfNumber(val number: String) : Page()
     data class OfPerson(val id: Long) : Page()
     data object Settings : Page()
+    data object About : Page()
     data object Blocking : Page()
     data object BlockedNumbers : Page()
     data object BlockedCalls : Page()
@@ -152,6 +153,7 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
         is Page.OfNumber -> NumberPage(model, p.number, onBack = ::back)
         is Page.OfPerson -> PersonPage(model, p.id, onBack = ::back)
         Page.Settings -> SettingsScreen(model, onBack = ::back, onOpen = ::open, onDuraSpeed = { askDuraSpeed = true })
+        Page.About -> AboutScreen(onBack = ::back)
         Page.Ringing -> RingingScreen(onBack = ::back)
         Page.Blocking -> BlockingScreen(model, onBack = ::back, onOpen = ::open)
         Page.BlockedNumbers -> BlockedNumbersScreen(model, onBack = ::back)
@@ -179,6 +181,9 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
                         Banner(stringResource(R.string.banner_return_to_call)) {
                             Actions.start(context, InCallActivity.intent(context))
                         }
+                    } else if (tab == TAB_KEYPAD) {
+                        // The keypad keeps its room for the number and the people the keys find; the
+                        // two asks below are on every other tab.
                     } else if (!isPhoneApp) {
                         Banner(stringResource(R.string.banner_make_phone_app), stringResource(R.string.banner_make_phone_app_note)) {
                             Actions.askToBePhoneApp(context)?.let { asked.launch(it) }
@@ -195,6 +200,8 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
                         labels = listOf(R.string.tab_favourites, R.string.tab_recents, R.string.tab_contacts, R.string.tab_keypad).map { stringResource(it) },
                         selected = tab,
                         onSelect = { tab = it },
+                        marked = if (model.voicemailWaiting) setOf(TAB_KEYPAD) else emptySet(),
+                        markedSaid = stringResource(R.string.voicemail_waiting_tab),
                     )
                     Box(Modifier.weight(1f)) {
                         when (tab) {
