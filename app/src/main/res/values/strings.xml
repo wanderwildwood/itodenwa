@@ -89,6 +89,8 @@
     <string name="cd_more">More</string>
     <string name="cd_back">Back</string>
     <string name="cd_delete">Delete</string>
+    <string name="paste">Paste</string>
+    <string name="paste_not_number">That is not a phone number</string>
 
     <string name="about_title">Phone %1$s</string>
     <string name="about_what">Calls, recent calls and the people to call. The app has no internet permission.</string>

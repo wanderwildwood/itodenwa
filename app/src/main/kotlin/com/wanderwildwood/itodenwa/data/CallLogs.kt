@@ -82,13 +82,13 @@ object CallLogs {
                 context.contentResolver.delete(Calls.CONTENT_URI, "${Calls._ID} IN (${chunk.joinToString(",")})", null)
             }
             true
-        }.getOrDefault(false)
+        }.getOrDefault(false).also { markMissedSeen(context) }
     }
 
     /** Deletes every call in the log. */
     fun clear(context: Context): Boolean {
         if (!mayWrite(context)) return false
-        return runCatching { context.contentResolver.delete(Calls.CONTENT_URI, null, null); true }.getOrDefault(false)
+        return runCatching { context.contentResolver.delete(Calls.CONTENT_URI, null, null); true }.getOrDefault(false).also { markMissedSeen(context) }
     }
 
     /**

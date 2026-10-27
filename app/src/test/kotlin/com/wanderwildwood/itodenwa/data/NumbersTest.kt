@@ -9,6 +9,24 @@ import java.time.ZoneOffset
 class NumbersTest {
 
     @Test
+    fun pastedTextKeepsOnlyDialableCharacters() {
+        assertEquals("+15555550143", Numbers.pasteable(" +1 (555) 555-0143\n"))
+        assertEquals("*675555550143", Numbers.pasteable("*67 555.555.0143"))
+        assertEquals("5555550143,1234#", Numbers.pasteable("555-555-0143,1234#"))
+        assertEquals("5551234;5", Numbers.pasteable("555 1234;5"))
+        // A plus only leads.
+        assertEquals("15555550143", Numbers.pasteable("1+555-555-0143"))
+    }
+
+    @Test
+    fun pastedTextThatIsNotANumberGivesNothing() {
+        assertEquals("", Numbers.pasteable(null))
+        assertEquals("", Numbers.pasteable("hello"))
+        assertEquals("", Numbers.pasteable("12"))
+        assertEquals("", Numbers.pasteable("1".repeat(65)))
+    }
+
+    @Test
     fun internationalAndNationalAreTheSameNumber() {
         assertTrue(Numbers.same("+1 555-555-0143", "5555550143"))
         assertTrue(Numbers.same("(555) 555-0143", "+15555550143"))

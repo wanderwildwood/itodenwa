@@ -89,6 +89,24 @@ fun KeypadScreen(model: PhoneModel, typed: String, onTyped: (String) -> Unit, on
     val prefs = remember { Prefs(context) }
     var unset by remember { mutableStateOf<Int?>(null) }
 
+    // Something to paste: the clipboard holds text. Only the kind is looked at until Paste is
+    // pressed, so the phone's "pasted from" notice does not show on every visit.
+    val clipboard = remember { context.getSystemService(android.content.ClipboardManager::class.java) }
+    var clipHasText by remember { mutableStateOf(false) }
+    DisposableEffect(clipboard) {
+        fun look() { clipHasText = runCatching { clipboard?.primaryClipDescription?.hasMimeType("text/*") == true }.getOrDefault(false) }
+        look()
+        val l = android.content.ClipboardManager.OnPrimaryClipChangedListener { look() }
+        clipboard?.addPrimaryClipChangedListener(l)
+        onDispose { clipboard?.removePrimaryClipChangedListener(l) }
+    }
+    val notNumber = stringResource(R.string.paste_not_number)
+    val paste = {
+        val text = runCatching { clipboard?.primaryClip?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.coerceToText(context)?.toString() }.getOrNull()
+        val add = Numbers.pasteable(text)
+        if (add.isEmpty()) notice = notNumber else onTyped(Numbers.dialable(typed + add))
+    }
+
     var who by remember { mutableStateOf<Who?>(null) }
     LaunchedEffect(typed, model.people) {
         who = if (Numbers.digits(typed).length >= Numbers.SHORTEST) withContext(Dispatchers.IO) { Lookup.get(context).who(typed) } else null
@@ -128,8 +146,13 @@ fun KeypadScreen(model: PhoneModel, typed: String, onTyped: (String) -> Unit, on
                     style = MaterialTheme.typography.headlineLarge.copy(fontSize = 34.sp),
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f).combinedClickable(onClick = {}, onLongClick = { buzz(); paste() }),
                 )
+                if (typed.isEmpty() && clipHasText) {
+                    Box(contentAlignment = Alignment.Center, modifier = Modifier.height(52.dp).clickable { buzz(); paste() }.padding(horizontal = 8.dp)) {
+                        TextMMD(text = stringResource(R.string.paste), style = MaterialTheme.typography.bodyLarge.copy(fontSize = 20.sp), fontWeight = FontWeight.Bold, maxLines = 1)
+                    }
+                }
                 if (typed.isNotEmpty()) {
                     Box(
                         contentAlignment = Alignment.Center,

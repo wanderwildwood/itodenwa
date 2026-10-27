@@ -127,9 +127,9 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
         view.viewTreeObserver.addOnWindowFocusChangeListener(listener)
         onDispose { view.viewTreeObserver.removeOnWindowFocusChangeListener(listener) }
     }
-    LaunchedEffect(tab, pages.isEmpty(), resumed, focused) {
+    LaunchedEffect(tab, pages.size, resumed, focused) {
         val locked = context.getSystemService(android.app.KeyguardManager::class.java)?.isKeyguardLocked == true
-        if (tab == TAB_RECENTS && pages.isEmpty() && focused && !locked) {
+        if (tab == TAB_RECENTS && focused && !locked) {
             kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { CallLogs.markMissedSeen(context) }
         }
     }

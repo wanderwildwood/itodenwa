@@ -65,6 +65,17 @@ object Numbers {
         }
     }
 
+    /**
+     * What to take from a pasted text for the keypad: only the dialable characters, or nothing
+     * when the text is not a number (too long, or fewer than three digits).
+     */
+    fun pasteable(raw: String?): String {
+        val text = raw?.trim() ?: return ""
+        if (text.length > 64) return ""
+        val kept = dialable(text)
+        return if (kept.count { it in '0'..'9' } >= 3) kept else ""
+    }
+
     // ------------------------------------------------------------ the letters on the keys
 
     private val keyOf: Map<Char, Char> = buildMap {
