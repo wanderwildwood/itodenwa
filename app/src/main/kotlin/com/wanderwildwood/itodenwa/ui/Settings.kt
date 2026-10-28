@@ -237,7 +237,7 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
         onBack = onBack,
         notice = notice,
         onNoticeSeen = { notice = null },
-        actions = { BarButton(Icons.Info, stringResource(R.string.cd_about)) { onOpen(Page.About) } },
+        actions = { BarButton(Icons.Info, stringResource(R.string.cd_about), 22.dp) { onOpen(Page.About) } },
     ) {
         item(key = "top") { Spacer(Modifier.height(8.dp)) }
         item(key = "blocking") {
