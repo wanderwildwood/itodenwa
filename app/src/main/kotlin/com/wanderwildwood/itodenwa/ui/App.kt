@@ -197,12 +197,11 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
                         }
                     }
                     StoneTabs(
-                        labels = listOf(R.string.tab_favourites, R.string.tab_recents, R.string.tab_contacts, R.string.tab_keypad).mapIndexed { i, id ->
-                            // The shared StoneTabs has no dot of its own: a waiting voicemail adds one to the Keypad's label.
-                            stringResource(id) + if (i == TAB_KEYPAD && model.voicemailWaiting) " \u2022" else ""
-                        },
+                        labels = listOf(R.string.tab_favourites, R.string.tab_recents, R.string.tab_contacts, R.string.tab_keypad).map { stringResource(it) },
                         selected = tab,
                         onSelect = { tab = it },
+                        marked = if (model.voicemailWaiting) setOf(TAB_KEYPAD) else emptySet(),
+                        markedSaid = stringResource(R.string.voicemail_waiting_tab),
                     )
                     Box(Modifier.weight(1f)) {
                         when (tab) {
