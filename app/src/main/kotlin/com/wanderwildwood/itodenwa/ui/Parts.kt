@@ -47,9 +47,12 @@ import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.text_field.TextFieldMMD
 import kotlinx.coroutines.delay
 
-/** A glyph in the top bar: 28dp in a 48dp box, as the phone's own contacts app sets its. */
+/** A glyph in the top bar: 28dp in a 48dp box, as the phone's own contacts app sets its; the cog is 22dp. */
 @Composable
-internal fun BarButton(icon: ImageVector, description: String, onClick: () -> Unit) {
+internal fun BarButton(icon: ImageVector, description: String, onClick: () -> Unit) = BarButton(icon, description, 28.dp, onClick)
+
+@Composable
+internal fun BarButton(icon: ImageVector, description: String, size: androidx.compose.ui.unit.Dp, onClick: () -> Unit) {
     Box(
         modifier = Modifier.size(48.dp).clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
@@ -58,7 +61,7 @@ internal fun BarButton(icon: ImageVector, description: String, onClick: () -> Un
             imageVector = icon,
             contentDescription = description,
             tint = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.size(28.dp),
+            modifier = Modifier.size(size),
         )
     }
 }

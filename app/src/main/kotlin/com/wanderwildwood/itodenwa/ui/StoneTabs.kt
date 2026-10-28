@@ -18,10 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.stateDescription
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -52,9 +48,6 @@ fun StoneTabs(
     selected: Int,
     onSelect: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    /** Tabs with something waiting in them: a small dot at the corner, said aloud as [markedSaid]. It takes no room. */
-    marked: Set<Int> = emptySet(),
-    markedSaid: String = "",
 ) {
     val roomy = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
     val tight = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold)
@@ -92,7 +85,6 @@ fun StoneTabs(
                                 role = Role.Tab,
                                 onClick = { onSelect(index) },
                             )
-                            .semantics { if (index in marked) stateDescription = markedSaid }
                             .padding(horizontal = inner),
                         contentAlignment = Alignment.Center,
                     ) {
@@ -103,12 +95,6 @@ fun StoneTabs(
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
-                        if (index in marked) {
-                            Box(
-                                Modifier.align(Alignment.TopEnd).padding(top = 3.dp, end = 1.dp).size(7.dp)
-                                    .background(if (chosen) Color.White else Color.Black, CircleShape),
-                            )
-                        }
                     }
                 }
             }

@@ -51,7 +51,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import com.mudita.mmd.components.divider.HorizontalDividerMMD
 import com.mudita.mmd.components.radio_button.RadioButtonMMD
 import com.mudita.mmd.components.switcher.SwitchMMD
 import com.mudita.mmd.components.text.TextMMD
@@ -163,11 +162,10 @@ internal fun SettingRow(
     }
 }
 
-/** A heading inside a settings page, as Messaging's: a heavy rule across, then the name in bold. */
+/** A heading inside a settings page: the name in bold, set apart by space, no rule above it. */
 @Composable
 internal fun SettingsHeading(text: String) {
     Spacer(Modifier.height(8.dp))
-    HorizontalDividerMMD(thickness = 3.dp)
     TextMMD(
         text = text,
         style = MaterialTheme.typography.bodySmall,

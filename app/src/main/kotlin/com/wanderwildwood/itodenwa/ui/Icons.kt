@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
  * The icons this app draws, cut like the phone's own contacts app draws its: a line two
  * units wide with round ends on a 28-unit grid, so a glyph at the bar's 28dp has a 2dp line and
  * the big tiles under a name a little more. Nothing is filled but a dot, the starred star, and the
- * two taken from Messaging so the pair match: the cog and a settings row's arrow.
+ * one taken from Messaging, a settings row's arrow; the cog is Recipes'.
  * Everything else on the screen is a word.
  *
  * Each is drawn here from measurements of the phone's own — the arrow's reach, where the
@@ -85,22 +85,26 @@ object Icons {
     val Search: ImageVector = lined("Search", "M11.5,20.25A8.75,8.75 0 1 1 11.5,2.75A8.75,8.75 0 1 1 11.5,20.25ZM17.8,17.8L25,25")
 
     /**
-     * The cog, as Messaging marks its settings: the two are a pair, and open the same door the
-     * same way. Material's `settings` (Apache-2.0), the same outline Messaging draws, filled, and
-     * set 24 units wide in the middle of this grid so it stands as large as Messaging's does.
+     * The cog: Material Symbols' outlined `settings` (Apache-2.0), as Recipes draws it, drawn
+     * 22dp inside a 48dp touch target (see [BarButton]'s `size`). Its path runs on a 960 grid
+     * from -960 to 0 vertically, so the group moves it down by 960.
      */
-    val Settings: ImageVector = filledIn24(
-        "Settings",
-        "M19.14,12.94c0.04,-0.31 0.06,-0.63 0.06,-0.94c0,-0.31 -0.02,-0.63 -0.06,-0.94l2.03,-1.58c0.18,-0.14 0.23,-0.41 0.12,-0.61" +
-            "l-1.92,-3.32c-0.12,-0.22 -0.37,-0.29 -0.59,-0.22l-2.39,0.96c-0.5,-0.38 -1.03,-0.7 -1.62,-0.94L14.4,2.81" +
-            "c-0.04,-0.24 -0.24,-0.41 -0.48,-0.41h-3.84c-0.24,0 -0.43,0.17 -0.47,0.41L9.25,5.35C8.66,5.59 8.12,5.92 7.63,6.29" +
-            "L5.24,5.33c-0.22,-0.08 -0.47,0 -0.59,0.22L2.74,8.87C2.62,9.08 2.66,9.34 2.86,9.48l2.03,1.58" +
-            "C4.84,11.37 4.8,11.69 4.8,12s0.02,0.63 0.06,0.94l-2.03,1.58c-0.18,0.14 -0.23,0.41 -0.12,0.61l1.92,3.32" +
-            "c0.12,0.22 0.37,0.29 0.59,0.22l2.39,-0.96c0.5,0.38 1.03,0.7 1.62,0.94l0.36,2.54c0.05,0.24 0.24,0.41 0.48,0.41" +
-            "h3.84c0.24,0 0.44,-0.17 0.47,-0.41l0.36,-2.54c0.59,-0.24 1.13,-0.56 1.62,-0.94l2.39,0.96c0.22,0.08 0.47,0 0.59,-0.22" +
-            "l1.92,-3.32c0.12,-0.22 0.07,-0.47 -0.12,-0.61L19.14,12.94z" +
-            "M12,15.6c-1.98,0 -3.6,-1.62 -3.6,-3.6s1.62,-3.6 3.6,-3.6s3.6,1.62 3.6,3.6S13.98,15.6 12,15.6z",
+    val Settings: ImageVector = ImageVector.Builder(
+        name = "Settings",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 960f,
+        viewportHeight = 960f,
     )
+        .addGroup(name = "Settings", translationY = 960f)
+        .addPath(
+            pathData = PathParser().parsePathString(
+                "m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z",
+            ).toNodes(),
+            fill = SolidColor(Color.Black),
+        )
+        .clearGroup()
+        .build()
 
     /** The small arrow at the end of a settings row that opens something, as Messaging's rows have. */
     val ChevronRight: ImageVector = filledIn24("ChevronRight", "M10,6L8.59,7.41 13.17,12l-4.58,4.59L10,18l6,-6z")
