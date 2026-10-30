@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Telefon</string>
+    <!-- The application\'s own label, where Android lists apps rather than launching one: the default-app
+         chooser, App info, DuraSpeed. Mudita\'s dialer is "Phone" there too. -->
+    <string name="app_label_full" translatable="false">Phone (itodenwa)</string>
+
+    <string name="tab_favourites">Favoriten</string>
+    <string name="tab_recents">Letzte Anrufe</string>
+    <string name="tab_contacts">Kontakte</string>
+    <string name="tab_keypad">Tastenfeld</string>
+    <string name="voicemail_waiting">1, Mailbox-Nachricht wartet</string>
+    <string name="voicemail_waiting_tab">Mailbox-Nachricht wartet</string>
+
+    <string name="banner_make_phone_app">Dies zur Telefon-App machen</string>
+    <string name="banner_make_phone_app_note">Anrufe kommen und gehen über die Telefon-App</string>
+    <string name="banner_full_screen">Anrufe dürfen den Bildschirm wecken</string>
+    <string name="banner_full_screen_note">Anrufe wecken das Telefon erst, wenn das erlaubt ist</string>
+    <string name="banner_return_to_call">Zurück zum Anruf</string>
+
+    <string name="recents_allow">Letzte Anrufe anzeigen</string>
+    <string name="recents_allow_note">Telefon muss die Anrufliste lesen dürfen</string>
+    <string name="recents_none">Noch keine Anrufe</string>
+    <!-- A long press on a missed call: its page, and a message back to the number -->
+    <string name="recents_open">Öffnen</string>
+    <string name="recents_text_back">Zurückschreiben</string>
+    <string name="contacts_allow">Kontakte anzeigen</string>
+    <string name="contacts_allow_note">Telefon muss die Kontakte lesen dürfen</string>
+    <string name="contacts_find">Person suchen</string>
+    <string name="contacts_none">Niemand in den Kontakten hat eine Nummer</string>
+    <string name="contacts_none_found">Niemand mit diesem Namen</string>
+    <string name="favourites_none">Keine Favoriten. Markiere jemanden in den Kontakten mit einem Stern, dann erscheint er hier.</string>
+    <string name="no_name">Kein Name</string>
+    <string name="contact_gone">Dieser Kontakt ist nicht mehr auf dem Telefon</string>
+
+    <string name="details_title">Details</string>
+    <string name="call">Anrufen</string>
+    <string name="message">Nachricht</string>
+    <string name="contact">Kontakt</string>
+    <string name="add">Hinzufügen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="choose_number_call">Welche Nummer anrufen</string>
+    <string name="choose_number_message">Welche Nummer anschreiben</string>
+    <string name="nothing_opens">Auf diesem Telefon gibt es keine App, die das öffnen kann.</string>
+    <string name="cannot_call">Der Anruf konnte nicht aufgebaut werden.</string>
+
+    <string name="calls_heading">Anrufe</string>
+    <string name="calls_today">Heute</string>
+    <string name="calls_yesterday">Gestern</string>
+    <string name="calls_in">Eingehend</string>
+    <string name="calls_out">Ausgehend</string>
+    <string name="calls_missed">Verpasst</string>
+    <string name="calls_declined">Abgelehnt</string>
+
+    <string name="call_incoming">Eingehender Anruf</string>
+    <string name="call_calling">Anruf wird aufgebaut…</string>
+    <string name="call_ongoing">Im Gespräch</string>
+    <string name="call_on_hold">Gehalten</string>
+    <string name="call_ending">Wird beendet…</string>
+    <string name="call_ended">Anruf beendet</string>
+    <string name="call_hidden_number">Unterdrückte Nummer</string>
+    <string name="call_conference">Konferenzanruf</string>
+    <string name="call_answer">Annehmen</string>
+    <string name="call_decline">Ablehnen</string>
+    <string name="call_hang_up">Auflegen</string>
+    <string name="call_end">Anruf beenden</string>
+    <string name="call_mute">Stumm</string>
+    <string name="call_speaker">Lautsprecher</string>
+    <string name="call_audio">Ton</string>
+    <string name="call_keypad">Tastenfeld</string>
+    <!-- The in-call keys, beside Mute and Speaker: puts the keys away -->
+    <string name="call_hide_keys">Ausblenden</string>
+    <string name="call_hold">Halten</string>
+    <string name="call_swap">Wechseln</string>
+    <string name="call_merge">Anrufe zusammenführen</string>
+    <string name="call_held_line">Gehalten: %1$s</string>
+    <string name="call_waiting_line">Wartet: %1$s</string>
+    <string name="call_choose_sim">Anrufen über</string>
+    <string name="route_earpiece">Hörer</string>
+    <string name="route_speaker">Lautsprecher</string>
+    <string name="route_bluetooth">Bluetooth</string>
+    <string name="route_wired">Headset</string>
+    <string name="route_now">Aktiv</string>
+
+    <string name="channel_ringing">Eingehende Anrufe</string>
+    <string name="channel_ongoing">Laufende Anrufe</string>
+
+    <string name="cd_about">Über</string>
+    <string name="cd_more">Mehr</string>
+    <string name="cd_back">Zurück</string>
+    <string name="cd_delete">Löschen</string>
+    <string name="paste">Einfügen</string>
+    <string name="paste_not_number">Das ist keine Telefonnummer</string>
+
+    <string name="about_title">Telefon %1$s</string>
+    <string name="about_what">Anrufe, letzte Anrufe und die Menschen, die du anrufst. Die App hat keine Internetberechtigung.</string>
+    <string name="about_privacy_heading">Datenschutz</string>
+    <string name="about_privacy">Alles, was du in dieser App eingibst, bleibt auf diesem Telefon. Sie hat keinen Internetzugang, also wird nichts gesendet und nichts über dich gesammelt.\n\nSie liest deine Kontakte, um Nummern Namen zuzuordnen und Favoriten aufzulisten. Sie liest deine Anrufliste, um letzte Anrufe anzuzeigen, und ändert sie nur, um einen Anruf zu löschen, die Liste zu leeren oder verpasste Anrufe als gesehen zu markieren. Sie liest den Telefonstatus für die Namen deiner SIMs, deine Mailbox-Nummer und ob eine Mailbox-Nachricht wartet. Nummern, die du blockierst, landen in der Blockierliste des Telefons selbst; ein Protokoll der abgewiesenen Anrufe (Zeit, Nummer und Regel) bleibt 30 Tage auf diesem Telefon.\n\nEs gibt keine Werbung, keine Analysen und kein Tracking. Sicherungen und Exporte gehen nur dorthin, wo du sie speicherst.</string>
+    <string name="about_terms_heading">Bedingungen</string>
+    <string name="about_terms">Diese App ist freie Software unter der GNU General Public License v3. Sie kommt ohne Gewährleistung: Nutzung auf eigene Gefahr.</string>
+    <string name="about_made_heading">Basiert auf</string>
+    <string name="about_licence">GNU General Public License v3</string>
+    <string name="about_base">Fossify Phone und Fossify Commons, GPL-3.0</string>
+    <string name="about_libraries">Mudita MMD, Jetpack Compose und AndroidX, Apache 2.0. Die Benachrichtigung über verpasste Anrufe folgt der von Android, Apache 2.0.</string>
+    <string name="about_icons">Symbole von Material Symbols, Apache 2.0</string>
+    <string name="about_source_text">Quellcode: github.com/wanderwildwood/itodenwa</string>
+    <string name="about_feed_the_llamas">Füttere die Lamas</string>
+    <string name="about_no_browser_address">Es ist kein Browser installiert. Die Adresse lautet %1$s.</string>
+    <string name="permission_open_settings_note">Telefon braucht diese Berechtigung, und Android fragt nicht noch einmal. Öffne in den Einstellungen, die sich jetzt öffnen, die Berechtigungen und erlaube sie.</string>
+    <string name="about_no_browser">Auf diesem Telefon gibt es keinen Browser, um das zu öffnen.</string>
+
+    <!-- The call screen\'s menu, under the three dots -->
+    <string name="call_menu_contact">In Kontakten öffnen</string>
+    <string name="call_menu_add_contact">Zu Kontakten hinzufügen</string>
+    <string name="call_menu_note">Notiz</string>
+    <!-- A new note\'s title in Notes: %1$s is who the call is with, %2$s when it began, like "Oct 17, 2:05 PM" -->
+    <string name="call_note_title">%1$s, %2$s</string>
+
+    <!-- On a Kompakt, until the person says it is done, in Messaging's words. %1$s is the name DuraSpeed's list shows for this app -->
+    <string name="duraspeed_line">Auf einem Kompakt schließt ein Dienst namens DuraSpeed Apps wenige Minuten, nachdem der Bildschirm dunkel wird. Schließt er Telefon, verschwindet auch der Anrufbildschirm.\n\nÖffne unten DuraSpeed, tippe auf Öffnen und schalte %1$s ein. An heißt erlaubt.</string>
+    <string name="duraspeed_ask_done">Ist Telefon jetzt in DuraSpeed eingeschaltet?</string>
+    <string name="duraspeed_yes">Ja</string>
+    <string name="duraspeed_not_yet">Noch nicht</string>
+    <string name="duraspeed_open">DuraSpeed öffnen</string>
+    <string name="cd_settings">Einstellungen</string>
+
+    <!-- Recents\' long-press menu and its ⋮. A destructive row arms on the first press and says so; a second press within four seconds does it -->
+    <string name="block">Blockieren</string>
+    <string name="block_armed">Blockieren — tippe erneut</string>
+    <string name="unblock">Blockierung aufheben</string>
+    <string name="unblock_armed">Blockierung aufheben — tippe erneut</string>
+    <!-- %1$s is a number, or the start of one like 555* -->
+    <string name="unblock_this">Blockierung für %1$s aufheben</string>
+    <string name="delete">Löschen</string>
+    <string name="delete_armed">Löschen — tippe erneut</string>
+    <plurals name="recents_delete_count">
+        <item quantity="one">%1$d Anruf</item>
+        <item quantity="other">%1$d Anrufe</item>
+    </plurals>
+    <string name="recents_cannot_delete">Telefon darf die Anrufliste nicht ändern.</string>
+    <string name="recents_voicemail">Mailbox</string>
+    <string name="recents_clear">Alle löschen</string>
+    <string name="recents_clear_armed">Alle löschen — tippe erneut</string>
+
+    <!-- The call screen, while it rings: Answer and Decline act only when held down -->
+    <string name="call_hold_to">Gedrückt halten</string>
+
+    <!-- The missed-call and voicemail notifications -->
+    <string name="channel_missed">Verpasste Anrufe</string>
+    <string name="channel_voicemail">Mailbox</string>
+    <string name="missed_call">Verpasster Anruf</string>
+    <plurals name="missed_calls">
+        <item quantity="one">%1$d verpasster Anruf</item>
+        <item quantity="other">%1$d verpasste Anrufe</item>
+    </plurals>
+    <string name="missed_call_back">Zurückrufen</string>
+    <string name="voicemail_new">Neue Mailbox-Nachricht</string>
+    <plurals name="voicemail_count">
+        <item quantity="one">%1$d Nachricht</item>
+        <item quantity="other">%1$d Nachrichten</item>
+    </plurals>
+
+    <!-- Settings -->
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_on">An</string>
+    <string name="settings_off">Aus</string>
+    <string name="settings_blocking">Blockieren</string>
+    <string name="settings_speed_dial">Kurzwahl</string>
+    <string name="settings_speed_none">Nicht belegt</string>
+    <plurals name="settings_speed_some">
+        <item quantity="one">%1$d Taste</item>
+        <item quantity="other">%1$d Tasten</item>
+    </plurals>
+    <string name="settings_voicemail">Mailbox</string>
+    <string name="settings_voicemail_none">Keine Nummer von der SIM</string>
+    <string name="settings_quiet">Nicht stören</string>
+    <string name="settings_quiet_favourites">Favoriten klingeln</string>
+    <string name="settings_favourites_note">Klingeln bei „Nur Priorität“ und „Nur Wecker“, nicht bei „Lautlos“</string>
+    <string name="settings_quiet_repeat">Wiederholte Anrufer klingeln</string>
+    <string name="settings_repeat_note">Dieselbe Nummer zweimal innerhalb von drei Minuten</string>
+    <string name="settings_ringing">Klingeln</string>
+    <string name="settings_tone_unknown">Nummern, die nicht in den Kontakten sind</string>
+    <string name="settings_tone_same">Wie andere Anrufe</string>
+    <string name="settings_duraspeed">DuraSpeed</string>
+    <string name="duraspeed_later">Jetzt nicht</string>
+    <string name="settings_duraspeed_todo">Ein Schritt fehlt, damit Anrufe klingeln</string>
+    <string name="settings_stop_phone_app">Nicht mehr die Telefon-App sein</string>
+
+    <!-- Settings, Blocking. Every rule is off until it is set -->
+    <string name="blocking_unknown">Nummern, die nicht in den Kontakten sind</string>
+    <string name="blocking_hidden">Unterdrückte Nummern</string>
+    <string name="rule_ring">Klingeln</string>
+    <string name="rule_silence">Stumm</string>
+    <string name="rule_decline">Ablehnen</string>
+    <string name="blocking_choice_note">Stumm lässt den Anruf durch, ohne zu klingeln; er steht in den letzten Anrufen und geht zur Mailbox. Ablehnen weist ihn ab, und er erscheint unter Blockierte Anrufe.</string>
+    <string name="blocking_always">Immer klingeln</string>
+    <string name="blocking_always_favourites">Favoriten</string>
+    <string name="blocking_always_called">Nummern, die du angerufen hast</string>
+    <string name="blocking_always_repeat">Dieselbe Nummer zweimal innerhalb von drei Minuten</string>
+    <string name="blocking_list">Blockierliste</string>
+    <string name="blocking_numbers">Blockierte Nummern</string>
+    <string name="blocking_numbers_none">Keine</string>
+    <plurals name="blocking_numbers_count">
+        <item quantity="one">%1$d auf der Liste</item>
+        <item quantity="other">%1$d auf der Liste</item>
+    </plurals>
+    <string name="blocking_not_phone_app">Blockieren funktioniert, solange Telefon die Telefon-App ist. Mach sie zur Telefon-App</string>
+    <string name="blocking_needs_contacts">Um zu erkennen, wer nicht in den Kontakten ist, muss Telefon die Kontakte lesen dürfen. Erlaube es</string>
+    <string name="blocking_elsewhere">Eine andere App hat den letzten Anruf anstelle von Telefon geprüft, deshalb wurden diese Regeln nicht gefragt. Die Anrufer-ID- und Spam-App wird unter Standard-Apps gewählt.</string>
+    <!-- %1$s names the apps -->
+    <string name="blocking_elsewhere_named">%1$s hat den letzten Anruf anstelle von Telefon geprüft, deshalb wurden diese Regeln nicht gefragt. Die Anrufer-ID- und Spam-App wird unter Standard-Apps gewählt.</string>
+    <string name="blocking_elsewhere_maybe">%1$s kann Anrufe prüfen. Ist sie die Anrufer-ID- und Spam-App, prüft sie sie anstelle von Telefon, und diese Regeln werden nicht gefragt. Das wird unter Standard-Apps gewählt.</string>
+
+    <!-- Settings, Blocked numbers -->
+    <string name="blocked_add">Nummer blockieren</string>
+    <string name="blocked_add_hint">Nummer</string>
+    <string name="blocked_already">Schon blockiert</string>
+    <string name="blocked_add_note">Mit * am Ende blockierst du jede Nummer, die so beginnt, etwa 555*.</string>
+    <string name="blocked_add_failed">Die Nummer konnte nicht blockiert werden. Telefon muss die Telefon-App sein, um ganze Nummern zu blockieren.</string>
+    <string name="blocked_needs_phone_app">Ganze Nummern stehen in der Blockierliste des Telefons, die nur die Telefon-App lesen darf. Nummern mit * am Ende stehen hier.</string>
+    <!-- %1$s is the start of the numbers, like 555 -->
+    <string name="blocked_prefix_note">Jede Nummer, die mit %1$s beginnt</string>
+    <string name="blocked_file">Datei</string>
+    <string name="blocked_import">Liste importieren</string>
+    <string name="blocked_export">Liste exportieren</string>
+    <string name="blocked_exported">Die Liste ist gespeichert.</string>
+    <string name="blocked_file_failed">Die Datei konnte nicht gelesen oder geschrieben werden.</string>
+    <plurals name="blocked_imported">
+        <item quantity="one">%1$d Nummer hinzugefügt</item>
+        <item quantity="other">%1$d Nummern hinzugefügt</item>
+    </plurals>
+
+    <!-- Blocked calls, from Recents\' ⋮. Each row says which rule acted -->
+    <string name="blocked_calls">Blockierte Anrufe</string>
+    <string name="blocked_calls_none">In den letzten 30 Tagen keine Anrufe blockiert</string>
+    <string name="blocked_calls_nothing_to_do">Dieser Anrufer ist in den Kontakten oder hat seine Nummer unterdrückt. Eine Regel unter „Blockieren“ hat den Anruf abgewiesen.</string>
+    <string name="why_list">Blockierliste</string>
+    <!-- %1$s is the start of the numbers, like 555* -->
+    <string name="why_list_prefix">Blockierliste, %1$s</string>
+    <string name="why_unknown">Nicht in den Kontakten</string>
+    <string name="why_hidden">Unterdrückte Nummer</string>
+    <string name="why_declined">abgelehnt</string>
+    <string name="why_silenced">stumm geschaltet</string>
+    <!-- "Not in Contacts, declined": %1$s the rule, %2$s what was done -->
+    <string name="why_joined">%1$s, %2$s</string>
+
+    <!-- Settings, Speed dial -->
+    <!-- %1$d is the key, 1 to 9 -->
+    <string name="speed_key">Taste %1$d</string>
+    <string name="speed_voicemail">Mailbox</string>
+    <string name="speed_not_set">Nicht belegt</string>
+    <string name="speed_change">Jemand anderen wählen</string>
+    <string name="speed_clear">Leeren</string>
+    <string name="speed_clear_armed">Leeren — tippe erneut</string>
+    <string name="speed_pick">Kurzwahl %1$d</string>
+    <!-- On the keypad, a held key with nothing set on it -->
+    <string name="speed_unset">Auf %1$d ist nichts belegt. Halte eine Taste gedrückt, um die darauf belegte Nummer anzurufen.</string>
+    <string name="settings_vibrate">Bei jedem Tastendruck vibrieren</string>
+    <string name="settings_vibrate_note">Ein kurzer Impuls bei jeder Taste. Bleibt still, wenn die Berührungsrückmeldung des Telefons aus ist.</string>
+
+    <!-- Android 13+ keeps an app installed from a file out of Accessibility, notification access
+         and the default phone/texting roles until App info, then ⋮, then Allow restricted settings. -->
+    <string name="restricted_hint">Android blockiert das für Apps, die aus einer Datei installiert wurden. Öffne App-Info, tippe auf ⋮, dann auf „Eingeschränkte Einstellungen zulassen“, und versuche es erneut.</string>
+    <string name="restricted_app_info">App-Info</string>
+    <!-- The folio at the foot of a paged list, "2 / 6"; a tap on it asks for a page -->
+    <string name="folio_of">%1$d / %2$d</string>
+    <string name="folio_go_title">Zu Seite springen</string>
+    <string name="folio_page">Seite %1$d von %2$d</string>
+    <string name="folio_go">Los</string>
+    <string name="folio_cancel">Abbrechen</string>
+    <!-- Licences page, reached from About -->
+    <string name="licences_title">Lizenzen</string>
+    <string name="licences_source_heading">Quellcode</string>
+    <string name="licences_source">Quelle: %1$s</string>
+    <string name="licences_licence_heading">Lizenz</string>
+    <string name="licences_licence">Telefon ist freie Software unter der GNU General Public License, ausschließlich Version 3. Copyright wander wildwood und die Fossify-Autorinnen und -Autoren für die Teile, die von ihnen stammen. Der vollständige Text steht unten.</string>
+    <string name="licences_built_heading">Baut auf</string>
+    <string name="licences_gpl">GNU General Public License, Version 3</string>
+    <string name="licences_apache">Apache License, Version 2.0</string>
+    <string name="licences_ofl">SIL Open Font License, Version 1.1</string>
+    <string name="licences_no_browser">Es ist kein Browser installiert.</string>
+    <string name="licences_close">Schließen</string>
+</resources>
