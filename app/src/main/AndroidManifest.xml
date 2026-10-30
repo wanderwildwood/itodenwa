@@ -32,6 +32,11 @@
         <package android:name="com.wanderwildwood.oboegaki" />
         <!-- DuraSpeed, the Kompakt's background manager: only to say whether it is there. -->
         <package android:name="com.mediatek.duraspeed" />
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
         <!-- Other apps that can screen calls, to say so when one does in this app's place. -->
         <intent>
             <action android:name="android.telecom.CallScreeningService" />

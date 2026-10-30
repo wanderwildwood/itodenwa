@@ -380,7 +380,7 @@ fun BlockingScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
         v++
         onPauseOrDispose { }
     }
-    val askContacts = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { mayReadContacts = it }
+    val askContacts = rememberPermissionAsker(Manifest.permission.READ_CONTACTS) { granted, _ -> mayReadContacts = granted }
     var roleBlocked by rememberSaveable { mutableStateOf(false) }
     val askPhoneApp = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         isPhoneApp = Actions.isPhoneApp(context)
@@ -407,7 +407,7 @@ fun BlockingScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
         }
         if (!mayReadContacts && rules.unknown != Action.RING) {
             item(key = "contacts") {
-                SettingRow(stringResource(R.string.blocking_needs_contacts), titleLines = 4, opens = false, onPress = { askContacts.launch(Manifest.permission.READ_CONTACTS) })
+                SettingRow(stringResource(R.string.blocking_needs_contacts), titleLines = 4, opens = false, onPress = { askContacts() })
             }
         }
         item(key = "unknown") {

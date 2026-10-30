@@ -394,19 +394,18 @@ internal fun ActionTile(icon: ImageVector, label: String, onPress: () -> Unit) {
 internal fun rememberCaller(onFail: () -> Unit): (String) -> Unit {
     val context = androidx.compose.ui.platform.LocalContext.current
     var waiting by remember { mutableStateOf<String?>(null) }
-    val ask = androidx.activity.compose.rememberLauncherForActivityResult(
-        androidx.activity.result.contract.ActivityResultContracts.RequestPermission(),
-    ) { granted ->
+    val ask = rememberPermissionAsker(android.Manifest.permission.CALL_PHONE) { granted, stuck ->
         val n = waiting
         waiting = null
-        if (n != null && !(granted && com.wanderwildwood.itodenwa.data.Actions.call(context, n))) onFail()
+        // A refusal for good has already opened the app's settings and said why; no second message.
+        if (n != null && !stuck && !(granted && com.wanderwildwood.itodenwa.data.Actions.call(context, n))) onFail()
     }
     return { number ->
         if (com.wanderwildwood.itodenwa.data.Actions.mayCall(context)) {
             if (!com.wanderwildwood.itodenwa.data.Actions.call(context, number)) onFail()
         } else {
             waiting = number
-            ask.launch(android.Manifest.permission.CALL_PHONE)
+            ask()
         }
     }
 }

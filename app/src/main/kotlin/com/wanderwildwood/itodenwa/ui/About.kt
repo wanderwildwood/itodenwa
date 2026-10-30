@@ -1,8 +1,5 @@
 package com.wanderwildwood.itodenwa.ui
 
-import android.content.Intent
-import android.net.Uri
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -44,8 +41,7 @@ fun AboutScreen(onBack: () -> Unit) {
         item(key = "made_h") { SettingsHeading(stringResource(R.string.about_made_heading)) }
         item(key = "licence") { AboutText(stringResource(R.string.about_licence)) }
         item(key = "base") { AboutText(stringResource(R.string.about_base)) }
-        item(key = "libs") { AboutText(stringResource(R.string.about_libraries)) }
-        item(key = "icons") { AboutText(stringResource(R.string.about_icons)) }
+        item(key = "licences") { Box(Modifier.padding(horizontal = 24.dp)) { LicencesLink() } }
         item(key = "source") {
             AboutLink(stringResource(R.string.about_source_text)) { openAddress(context, "https://github.com/wanderwildwood/itodenwa") }
         }
@@ -76,11 +72,7 @@ private fun AboutLink(text: String, onPress: () -> Unit) {
 }
 
 private fun openAddress(context: android.content.Context, address: String) {
-    runCatching {
-        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(address)))
-    }.onFailure {
-        Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
-    }
+    openLink(context, address, context.getString(R.string.about_no_browser_address, address.removePrefix("https://")))
 }
 
 /**
@@ -113,13 +105,7 @@ private fun Llama() {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .clickable {
-                    runCatching {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://square.link/u/AGu8oT10")),
-                        )
-                    }.onFailure {
-                        Toast.makeText(context, context.getString(R.string.about_no_browser), Toast.LENGTH_SHORT).show()
-                    }
+                    openAddress(context, "https://square.link/u/AGu8oT10")
                 }
                 .heightIn(min = 48.dp),
         ) {

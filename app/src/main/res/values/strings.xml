@@ -105,6 +105,8 @@
     <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
     <string name="about_source_text">Source: github.com/wanderwildwood/itodenwa</string>
     <string name="about_feed_the_llamas">feed the llamas</string>
+    <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
+    <string name="permission_open_settings_note">Phone needs this permission, and Android will not ask again. Open Permissions in the settings that open now and allow it.</string>
     <string name="about_no_browser">There is no browser on this phone to open that with.</string>
 
     <!-- The call screen\'s menu, under the three dots -->
@@ -266,4 +268,16 @@
     <string name="folio_page">Page %1$d of %2$d</string>
     <string name="folio_go">Go</string>
     <string name="folio_cancel">Cancel</string>
+    <!-- Licences page, reached from About -->
+    <string name="licences_title">Licences</string>
+    <string name="licences_source_heading">Source code</string>
+    <string name="licences_source">Source: %1$s</string>
+    <string name="licences_licence_heading">Licence</string>
+    <string name="licences_licence">Phone is free software under the GNU General Public License, version 3 only. Copyright wander wildwood, and the Fossify authors for the parts that are theirs. The full text is below.</string>
+    <string name="licences_built_heading">Built with</string>
+    <string name="licences_gpl">GNU General Public License, version 3</string>
+    <string name="licences_apache">Apache License, version 2.0</string>
+    <string name="licences_ofl">SIL Open Font License, version 1.1</string>
+    <string name="licences_no_browser">No browser is installed.</string>
+    <string name="licences_close">Close</string>
 </resources>

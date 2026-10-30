@@ -47,9 +47,9 @@ import com.wanderwildwood.itodenwa.data.Recents
 /** A row that asks for a permission the list needs, in place of the list. */
 @Composable
 private fun AskRow(text: String, note: String, permission: String, model: PhoneModel) {
-    val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { model.refresh() }
+    val ask = rememberPermissionAsker(permission) { _, _ -> model.refresh() }
     Column(Modifier.fillMaxSize()) {
-        NameRow(AnnotatedString(text), note = note) { ask.launch(permission) }
+        NameRow(AnnotatedString(text), note = note) { ask() }
     }
 }
 
