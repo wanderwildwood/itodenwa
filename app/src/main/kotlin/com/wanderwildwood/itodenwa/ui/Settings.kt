@@ -1,7 +1,6 @@
 package com.wanderwildwood.itodenwa.ui
 
 import android.Manifest
-import android.app.Activity
 import android.app.role.RoleManager
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -322,28 +321,16 @@ fun RingingScreen(onBack: () -> Unit) {
     val tone = remember(v) { prefs.unknownRingtone }
     val toneName = remember(tone) { tone?.let { runCatching { RingtoneManager.getRingtone(context, it)?.getTitle(context) }.getOrNull() } ?: sameTone }
 
-    val pickTone = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            @Suppress("DEPRECATION")
-            val picked = result.data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
-            prefs.unknownRingtone = picked?.takeIf { it != AndroidSettings.System.DEFAULT_RINGTONE_URI }
-            v++
-        }
+    var picking by remember { mutableStateOf(false) }
+    if (picking) {
+        ToneScreen(tone = tone, onPick = { prefs.unknownRingtone = it; v++ }, onBack = { picking = false })
+        return
     }
 
     SettingsPage(stringResource(R.string.settings_ringing), onBack, notice = notice, onNoticeSeen = { notice = null }) {
         item(key = "top") { Spacer(Modifier.height(8.dp)) }
         item(key = "tone-unknown") {
-            SettingRow(stringResource(R.string.settings_tone_unknown), summary = toneName, onPress = {
-                val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
-                    .putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_RINGTONE)
-                    .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
-                    .putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, AndroidSettings.System.DEFAULT_RINGTONE_URI)
-                    .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
-                    .putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, tone ?: AndroidSettings.System.DEFAULT_RINGTONE_URI)
-                    .putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, context.getString(R.string.settings_tone_unknown))
-                if (runCatching { pickTone.launch(intent) }.isFailure) notice = nothing
-            })
+            SettingRow(stringResource(R.string.settings_tone_unknown), summary = toneName, onPress = { picking = true })
         }
         item(key = "quiet") { SettingsHeading(stringResource(R.string.settings_quiet)) }
         item(key = "quiet-favourites") {
@@ -356,6 +343,56 @@ fun RingingScreen(onBack: () -> Unit) {
             SwitchRow(stringResource(R.string.settings_quiet_repeat), remember(v) { prefs.repeatThroughQuiet }, note = stringResource(R.string.settings_repeat_note)) {
                 prefs.repeatThroughQuiet = it
                 v++
+            }
+        }
+    }
+}
+
+/**
+ * The ringtone for numbers not in Contacts, chosen from the phone's own ringtones in a list of
+ * this app's own: a press chooses it and plays a few seconds of it. Android's picker is not
+ * used, because on a Kompakt it has no OK button and a sound picked there is lost on going back.
+ */
+@Composable
+private fun ToneScreen(tone: Uri?, onPick: (Uri?) -> Unit, onBack: () -> Unit) {
+    val context = LocalContext.current
+    val tones = remember {
+        buildList {
+            val rm = RingtoneManager(context).apply { setType(RingtoneManager.TYPE_RINGTONE) }
+            rm.cursor?.use { c ->
+                while (c.moveToNext()) add(c.getString(RingtoneManager.TITLE_COLUMN_INDEX) to rm.getRingtoneUri(c.position))
+            }
+        }
+    }
+    var playing by remember { mutableStateOf<android.media.Ringtone?>(null) }
+    fun preview(uri: Uri?) {
+        playing?.stop()
+        playing = (uri ?: AndroidSettings.System.DEFAULT_RINGTONE_URI)?.let { u ->
+            RingtoneManager.getRingtone(context, u)?.apply {
+                audioAttributes = android.media.AudioAttributes.Builder().setUsage(android.media.AudioAttributes.USAGE_MEDIA).build()
+                play()
+            }
+        }
+    }
+    androidx.compose.runtime.LaunchedEffect(playing) {
+        if (playing != null) {
+            kotlinx.coroutines.delay(5_000L)
+            playing?.stop()
+        }
+    }
+    androidx.compose.runtime.DisposableEffect(Unit) { onDispose { playing?.stop() } }
+
+    SettingsPage(stringResource(R.string.settings_tone_unknown), { playing?.stop(); onBack() }) {
+        item(key = "same") {
+            Box(Modifier.padding(horizontal = 24.dp)) {
+                ChoiceRow(stringResource(R.string.settings_tone_same), tone == null) { onPick(null); preview(null) }
+            }
+        }
+        tones.forEachIndexed { i, (title, uri) ->
+            item(key = "t$i") {
+                Box(Modifier.padding(horizontal = 24.dp)) {
+                    ChoiceRow(title, tone == uri) { onPick(uri); preview(uri) }
+                }
             }
         }
     }
