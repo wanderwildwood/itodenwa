@@ -1,6 +1,6 @@
 # Privacy
 
-Phone sends nothing anywhere. It cannot: it has no permission to use the internet.
+Handset sends nothing anywhere. It cannot: it has no permission to use the internet.
 
 That is the whole policy. The rest of this page is the evidence for it, because a privacy
 policy that cannot be checked is just a promise.
@@ -10,7 +10,7 @@ policy that cannot be checked is just a promise.
 `app/src/main/AndroidManifest.xml` declares eleven permissions, and `INTERNET` is not one of them.
 
 - **Contacts** (`READ_CONTACTS`) — to put a name to every number, list favourites and contacts,
-  and tell whether a caller is in Contacts when a blocking rule asks. Read only: Phone never
+  and tell whether a caller is in Contacts when a blocking rule asks. Read only: Handset never
   changes a contact. Android asks you for this.
 - **Call log** (`READ_CALL_LOG`, `WRITE_CALL_LOG`) — Recents reads the phone's call log. Writing
   is for deleting a call from Recents, clearing the lot, and marking missed calls seen so the

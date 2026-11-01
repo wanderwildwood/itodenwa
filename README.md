@@ -1,4 +1,4 @@
-# 糸電話 itodenwa — Phone
+# 糸電話 itodenwa — Handset
 
 A phone app for the [Mudita Kompakt](https://mudita.com/products/kompakt/): Favourites, Recents,
 Contacts, a keypad, and the call screen, built with Mudita's [MMD](https://github.com/mudita/MMD)
@@ -76,8 +76,8 @@ are named where they are used.
 - **An emergency number is never dialled for you.** A held key, a speed dial or Call back on a
   notification puts it on the keypad instead, for Call to be pressed.
 - **Message** opens a new message to the number in the phone's messaging app.
-- **Contacts stay in Contacts.** Phone reads the contacts and never changes them: the Contact
-  button opens the person's card in [Contacts](https://github.com/wanderwildwood/enishi) when it
+- **Contacts stay in Contacts.** Handset reads the contacts and never changes them: the Contact
+  button opens the person's card in [Connections](https://github.com/wanderwildwood/enishi) when it
   is installed, or in whatever contacts app the phone has, and Add puts a number from Recents on
   a new card or an existing one there. A person starred in Contacts is listed under Favourites.
 
@@ -85,19 +85,19 @@ are named where they are used.
 
 Calls only come to this app's call screen once it is the phone's default phone app. Until it is,
 a line at the top of the app says so, and pressing it asks Android to make the change. Android
-then hands every call — in or out, from any app — to Phone, and asks it about every call coming
+then hands every call — in or out, from any app — to Handset, and asks it about every call coming
 in before it rings, which is how blocking works without any other permission. The phone's own
 ringer rings, with the ringtone and volume set in the phone's settings. To go back, press
 **Settings → Stop being the phone app**, and choose another in Default apps.
 
-On Android 15 and later, Android may refuse that change for an app installed from a file. Phone
+On Android 15 and later, Android may refuse that change for an app installed from a file. Handset
 then says to open App info, tap ⋮, then **Allow restricted settings**, and try again. On Android
 14 and later an app installed from a file may also not be allowed to fill the screen, which is
 what wakes a sleeping phone for a call; a line at the top, **Let calls wake the screen**, opens
 the page that allows it.
 
-In Default apps, App info and DuraSpeed's list it is called **Phone (itodenwa)**, because the
-Kompakt's own dialer is called Phone there too. In the app drawer it is Phone.
+In Default apps, App info and DuraSpeed's list it is called **Handset (itodenwa)**, so it cannot be
+taken for the Kompakt's own Phone app. In the app drawer it is Handset.
 
 If another app is set as the phone's caller ID and spam app, Android asks that app instead, and
 Blocking says so.
@@ -105,18 +105,18 @@ Blocking says so.
 ## On a Kompakt: DuraSpeed
 
 DuraSpeed shuts apps down a few minutes after the screen goes dark, and a phone app shut down
-that way misses its calls. Right after it becomes the phone app, Phone asks: press **Open
-DuraSpeed**, tap **Open** there, and switch **Phone (itodenwa)** on. Back in Phone, it asks
-whether that is done. If the question is never answered, it comes back the next time Phone
+that way misses its calls. Right after it becomes the phone app, Handset asks: press **Open
+DuraSpeed**, tap **Open** there, and switch **Handset (itodenwa)** on. Back in Handset, it asks
+whether that is done. If the question is never answered, it comes back the next time Handset
 opens; after that it waits behind **Settings → DuraSpeed** until it is done.
 
 ## With the other apps
 
-- **Contacts** ([enishi](https://github.com/wanderwildwood/enishi)) opens for a person's card,
+- **Connections** ([enishi](https://github.com/wanderwildwood/enishi)) opens for a person's card,
   for adding a number, and is where favourites are starred.
 - **Messaging** ([kotozute](https://github.com/wanderwildwood/kotozute)), or whichever app is
   the phone's messaging app, opens for Message and Text back.
-- **Notes** ([oboegaki](https://github.com/wanderwildwood/oboegaki)) takes a note about a call,
+- **Memo** ([oboegaki](https://github.com/wanderwildwood/oboegaki)) takes a note about a call,
   from the ⋮ on the call screen, when it is installed.
 - Any app that asks for a keypad (`DIAL`, a `tel:` link) gets this one, with the number typed
   and waiting for Call.

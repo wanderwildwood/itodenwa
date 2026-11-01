@@ -3,7 +3,7 @@
     <string name="app_name">Telefon</string>
     <!-- The application\'s own label, where Android lists apps rather than launching one: the default-app
          chooser, App info, DuraSpeed. Mudita\'s dialer is "Phone" there too. -->
-    <string name="app_label_full" translatable="false">Phone (itodenwa)</string>
+    <string name="app_label_full" translatable="false">Handset (itodenwa)</string>
 
     <string name="tab_favourites">Favoriten</string>
     <string name="tab_recents">Letzte Anrufe</string>
@@ -262,22 +262,11 @@
          and the default phone/texting roles until App info, then ⋮, then Allow restricted settings. -->
     <string name="restricted_hint">Android blockiert das für Apps, die aus einer Datei installiert wurden. Öffne App-Info, tippe auf ⋮, dann auf „Eingeschränkte Einstellungen zulassen“, und versuche es erneut.</string>
     <string name="restricted_app_info">App-Info</string>
-    <!-- The folio at the foot of a paged list, "2 / 6"; a tap on it asks for a page -->
-    <string name="folio_of">%1$d / %2$d</string>
-    <string name="folio_go_title">Zu Seite springen</string>
-    <string name="folio_page">Seite %1$d von %2$d</string>
-    <string name="folio_go">Los</string>
-    <string name="folio_cancel">Abbrechen</string>
     <!-- Licences page, reached from About -->
     <string name="licences_title">Lizenzen</string>
-    <string name="licences_source_heading">Quellcode</string>
+    <string name="licences_source_head">Quellcode</string>
     <string name="licences_source">Quelle: %1$s</string>
-    <string name="licences_licence_heading">Lizenz</string>
+    <string name="licences_licence_head">Lizenz</string>
     <string name="licences_licence">Telefon ist freie Software unter der GNU General Public License, ausschließlich Version 3. Copyright wander wildwood und die Fossify-Autorinnen und -Autoren für die Teile, die von ihnen stammen. Der vollständige Text steht unten.</string>
-    <string name="licences_built_heading">Baut auf</string>
-    <string name="licences_gpl">GNU General Public License, Version 3</string>
-    <string name="licences_apache">Apache License, Version 2.0</string>
-    <string name="licences_ofl">SIL Open Font License, Version 1.1</string>
-    <string name="licences_no_browser">Es ist kein Browser installiert.</string>
-    <string name="licences_close">Schließen</string>
+    <string name="licences_built_head">Baut auf</string>
 </resources>

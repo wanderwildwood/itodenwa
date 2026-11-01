@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Phone</string>
+    <string name="app_name">Handset</string>
     <!-- The application\'s own label, where Android lists apps rather than launching one: the default-app
          chooser, App info, DuraSpeed. Mudita\'s dialer is "Phone" there too. -->
-    <string name="app_label_full" translatable="false">Phone (itodenwa)</string>
+    <string name="app_label_full" translatable="false">Handset (itodenwa)</string>
 
     <string name="tab_favourites">Favourites</string>
     <string name="tab_recents">Recents</string>
@@ -19,13 +19,13 @@
     <string name="banner_return_to_call">Return to the call</string>
 
     <string name="recents_allow">Show recent calls</string>
-    <string name="recents_allow_note">Phone needs to read the call log</string>
+    <string name="recents_allow_note">Handset needs to read the call log</string>
     <string name="recents_none">No calls yet</string>
     <!-- A long press on a missed call: its page, and a message back to the number -->
     <string name="recents_open">Open</string>
     <string name="recents_text_back">Text back</string>
     <string name="contacts_allow">Show contacts</string>
-    <string name="contacts_allow_note">Phone needs to read the contacts</string>
+    <string name="contacts_allow_note">Handset needs to read the contacts</string>
     <string name="contacts_find">Find someone</string>
     <string name="contacts_none">No one in the contacts has a number</string>
     <string name="contacts_none_found">No one by that name</string>
@@ -92,7 +92,7 @@
     <string name="paste">Paste</string>
     <string name="paste_not_number">That is not a phone number</string>
 
-    <string name="about_title">Phone %1$s</string>
+    <string name="about_title">Handset %1$s</string>
     <string name="about_what">Calls, recent calls and the people to call. The app has no internet permission.</string>
     <string name="about_privacy_heading">Privacy</string>
     <string name="about_privacy">Everything you put in this app stays on this phone. It has no internet access, so nothing is sent anywhere, and nothing is collected about you.\n\nIt reads your contacts to put names to numbers and list favourites. It reads your call log to list recent calls, and changes it only to delete a call, clear the list or mark missed calls seen. It reads the phone state for the names of your SIMs, your voicemail number and whether a voicemail is waiting. Numbers you block go into the phone\'s own blocked-numbers list; a record of the calls it turned away (time, number and rule) is kept on this phone for 30 days.\n\nThere are no ads, no analytics and no tracking. Backups and exports go only where you choose to save them.</string>
@@ -106,7 +106,7 @@
     <string name="about_source_text">Source: github.com/wanderwildwood/itodenwa</string>
     <string name="about_feed_the_llamas">feed the llamas</string>
     <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
-    <string name="permission_open_settings_note">Phone needs this permission, and Android will not ask again. Open Permissions in the settings that open now and allow it.</string>
+    <string name="permission_open_settings_note">Handset needs this permission, and Android will not ask again. Open Permissions in the settings that open now and allow it.</string>
     <string name="about_no_browser">There is no browser on this phone to open that with.</string>
 
     <!-- The call screen\'s menu, under the three dots -->
@@ -117,8 +117,8 @@
     <string name="call_note_title">%1$s, %2$s</string>
 
     <!-- On a Kompakt, until the person says it is done, in Messaging's words. %1$s is the name DuraSpeed's list shows for this app -->
-    <string name="duraspeed_line">On a Kompakt, a service called DuraSpeed closes apps a few minutes after the screen goes dark. If it closes Phone, the call screen goes with it.\n\nTo stop it, open DuraSpeed below, tap Open, and switch %1$s on. On means allowed.</string>
-    <string name="duraspeed_ask_done">Is Phone switched on in DuraSpeed now?</string>
+    <string name="duraspeed_line">On a Kompakt, a service called DuraSpeed closes apps a few minutes after the screen goes dark. If it closes Handset, the call screen goes with it.\n\nTo stop it, open DuraSpeed below, tap Open, and switch %1$s on. On means allowed.</string>
+    <string name="duraspeed_ask_done">Is Handset switched on in DuraSpeed now?</string>
     <string name="duraspeed_yes">Yes</string>
     <string name="duraspeed_not_yet">Not yet</string>
     <string name="duraspeed_open">Open DuraSpeed</string>
@@ -137,7 +137,7 @@
         <item quantity="one">%1$d call</item>
         <item quantity="other">%1$d calls</item>
     </plurals>
-    <string name="recents_cannot_delete">Phone may not change the call log.</string>
+    <string name="recents_cannot_delete">Handset may not change the call log.</string>
     <string name="recents_voicemail">Voicemail</string>
     <string name="recents_clear">Clear all</string>
     <string name="recents_clear_armed">Clear all — tap again</string>
@@ -204,19 +204,19 @@
         <item quantity="one">%1$d on the list</item>
         <item quantity="other">%1$d on the list</item>
     </plurals>
-    <string name="blocking_not_phone_app">Blocking works while Phone is the phone app. Make it the phone app</string>
-    <string name="blocking_needs_contacts">To tell who is not in Contacts, Phone needs to read the contacts. Allow it</string>
-    <string name="blocking_elsewhere">Another app screened the last call in Phone\'s place, so these rules were not asked. The caller ID and spam app is chosen in Default apps.</string>
+    <string name="blocking_not_phone_app">Blocking works while Handset is the phone app. Make it the phone app</string>
+    <string name="blocking_needs_contacts">To tell who is not in Contacts, Handset needs to read the contacts. Allow it</string>
+    <string name="blocking_elsewhere">Another app screened the last call in Handset\'s place, so these rules were not asked. The caller ID and spam app is chosen in Default apps.</string>
     <!-- %1$s names the apps -->
-    <string name="blocking_elsewhere_named">%1$s screened the last call in Phone\'s place, so these rules were not asked. The caller ID and spam app is chosen in Default apps.</string>
-    <string name="blocking_elsewhere_maybe">%1$s can screen calls. If it is the caller ID and spam app, it screens them in Phone\'s place and these rules are not asked. That is chosen in Default apps.</string>
+    <string name="blocking_elsewhere_named">%1$s screened the last call in Handset\'s place, so these rules were not asked. The caller ID and spam app is chosen in Default apps.</string>
+    <string name="blocking_elsewhere_maybe">%1$s can screen calls. If it is the caller ID and spam app, it screens them in Handset\'s place and these rules are not asked. That is chosen in Default apps.</string>
 
     <!-- Settings, Blocked numbers -->
     <string name="blocked_add">Block a number</string>
     <string name="blocked_add_hint">Number</string>
     <string name="blocked_already">Already blocked</string>
     <string name="blocked_add_note">End with * to block every number that starts that way, like 555*.</string>
-    <string name="blocked_add_failed">The number could not be blocked. Phone has to be the phone app to block whole numbers.</string>
+    <string name="blocked_add_failed">The number could not be blocked. Handset has to be the phone app to block whole numbers.</string>
     <string name="blocked_needs_phone_app">Whole numbers are kept in the phone\'s own block list, which only the phone app may read. Numbers ending in * are kept here.</string>
     <!-- %1$s is the start of the numbers, like 555 -->
     <string name="blocked_prefix_note">Every number starting %1$s</string>
@@ -262,23 +262,16 @@
          and the default phone/texting roles until App info, then ⋮, then Allow restricted settings. -->
     <string name="restricted_hint">Android blocks this for apps installed from a file. Open App info, tap ⋮, then Allow restricted settings, and try again.</string>
     <string name="restricted_app_info">App info</string>
-    <!-- The folio at the foot of a paged list, "2 / 6"; a tap on it asks for a page -->
-    <string name="folio_of">%1$d / %2$d</string>
-    <string name="folio_go_title">Go to page</string>
-    <string name="folio_page">Page %1$d of %2$d</string>
-    <string name="folio_go">Go</string>
-    <string name="folio_cancel">Cancel</string>
     <!-- Licences page, reached from About -->
     <string name="licences_title">Licences</string>
-    <string name="licences_source_heading">Source code</string>
+    <string name="licences_source_head">Source code</string>
     <string name="licences_source">Source: %1$s</string>
-    <string name="licences_licence_heading">Licence</string>
-    <string name="licences_licence">Phone is free software under the GNU General Public License, version 3 only. Copyright wander wildwood, and the Fossify authors for the parts that are theirs. The full text is below.</string>
-    <string name="licences_built_heading">Built with</string>
-    <string name="licences_gpl">GNU General Public License, version 3</string>
-    <string name="licences_apache">Apache License, version 2.0</string>
-    <string name="licences_ofl">SIL Open Font License, version 1.1</string>
-    <string name="licences_no_browser">No browser is installed.</string>
-    <string name="licences_close">Close</string>
-    <string name="folio_of_approx">%1$d / ~%2$d</string>
+    <string name="licences_licence_head">Licence</string>
+    <string name="licences_licence">Handset is free software under the GNU General Public License, version 3 only. Copyright wander wildwood, and the Fossify authors for the parts that are theirs.</string>
+    <string name="licences_built_head">Built with</string>
+    <string name="licences_back">Back</string>
+    <string name="licences_full_head">Full texts</string>
+    <string name="licences_full_gpl">GNU General Public License v3 (full text)</string>
+    <string name="licences_full_apache">Apache License 2.0 (full text)</string>
+    <string name="licences_full_ofl">SIL Open Font Licence 1.1 (full text)</string>
 </resources>
