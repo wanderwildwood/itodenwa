@@ -170,7 +170,7 @@ Icons are from Material Symbols, Apache 2.0, or drawn on their grid.
 
 ## Where it comes from
 
-Phone began as a fork of [Fossify Phone](https://github.com/FossifyOrg/Phone) (GPL-3.0), at its
+Handset began as a fork of [Fossify Phone](https://github.com/FossifyOrg/Phone) (GPL-3.0), at its
 1.11.1 release, and its history is kept in this repository. From it come the way calls are kept
 and acted on while they last (its CallManager, itself inspired by
 [call_manage](https://github.com/Chooloo/call_manage)), the in-call service, the call
@@ -179,4 +179,4 @@ and its call screener and block-list file format, from
 [Fossify Commons](https://github.com/FossifyOrg/Commons). The missed-call notification follows
 AOSP's MissedCallNotifier (Apache-2.0).
 Its screens and its shared library were replaced: the screens are Mudita's MMD, drawn to sit
-beside Contacts and the Kompakt's own Phone app.
+beside Connections and the Kompakt's own Phone app.
