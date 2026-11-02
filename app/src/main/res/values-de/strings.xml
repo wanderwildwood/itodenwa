@@ -101,9 +101,6 @@
     <string name="about_made_heading">Basiert auf</string>
     <string name="about_licence">GNU General Public License v3</string>
     <string name="about_base">Fossify Phone und Fossify Commons, GPL-3.0</string>
-    <string name="about_libraries">Mudita MMD, Jetpack Compose und AndroidX, Apache 2.0. Die Benachrichtigung über verpasste Anrufe folgt der von Android, Apache 2.0.</string>
-    <string name="about_icons">Symbole von Material Symbols, Apache 2.0</string>
-    <string name="about_source_text">Quellcode: github.com/wanderwildwood/itodenwa</string>
     <string name="about_feed_the_llamas">Füttere die Lamas</string>
     <string name="about_no_browser_address">Es ist kein Browser installiert. Die Adresse lautet %1$s.</string>
     <string name="permission_open_settings_note">Telefon braucht diese Berechtigung, und Android fragt nicht noch einmal. Öffne in den Einstellungen, die sich jetzt öffnen, die Berechtigungen und erlaube sie.</string>
@@ -267,4 +264,5 @@
     <string name="licences_source_head">Quellcode</string>
     <string name="licences_source">Quelle: %1$s</string>
     <string name="licences_licence">Telefon ist freie Software unter der GNU General Public License, ausschließlich Version 3. Copyright wander wildwood und die Fossify-Autorinnen und -Autoren für die Teile, die von ihnen stammen. Was darauf aufbaut, behält seine eigenen Lizenzen, jede auf ihrer eigenen Seite.</string>
+    <string name="about_close">Schließen</string>
 </resources>

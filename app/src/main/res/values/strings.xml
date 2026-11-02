@@ -101,10 +101,7 @@
     <string name="about_made_heading">Made from</string>
     <string name="about_licence">GNU General Public License v3</string>
     <string name="about_base">Fossify Phone and Fossify Commons, GPL-3.0</string>
-    <string name="about_libraries">Mudita MMD, Jetpack Compose and AndroidX, Apache 2.0. The missed-call notification follows Android\'s own, Apache 2.0.</string>
-    <string name="about_icons">Icons from Material Symbols, Apache 2.0</string>
-    <string name="about_source_text">Source: github.com/wanderwildwood/itodenwa</string>
-    <string name="about_feed_the_llamas">feed the llamas</string>
+    <string name="about_feed_the_llamas">Feed the llamas</string>
     <string name="about_no_browser_address">No browser is installed. The address is %1$s.</string>
     <string name="permission_open_settings_note">Handset needs this permission, and Android will not ask again. Open Permissions in the settings that open now and allow it.</string>
     <string name="about_no_browser">There is no browser on this phone to open that with.</string>
@@ -273,4 +270,5 @@
     <string name="licences_full_gpl">GNU General Public License v3 (full text)</string>
     <string name="licences_full_apache">Apache License 2.0 (full text)</string>
     <string name="licences_full_ofl">SIL Open Font Licence 1.1 (full text)</string>
+    <string name="about_close">Close</string>
 </resources>

@@ -216,6 +216,7 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
     val prefs = remember { Prefs(context) }
     var v by remember { mutableIntStateOf(0) }
     var notice by remember { mutableStateOf<String?>(null) }
+    var aboutOpen by remember { mutableStateOf(false) }
     var isPhoneApp by remember { mutableStateOf(Actions.isPhoneApp(context)) }
     var voicemail by remember { mutableStateOf<String?>(null) }
     LifecycleResumeEffect(Unit) {
@@ -231,12 +232,13 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
     val blockingOn = remember(v, model.blocked) { Rules.anyOn(rules, model.blocked.filter { it.isPrefix }.map { it.text }) || model.blocked.isNotEmpty() }
     val speedSet = remember(v) { Prefs.SPEED_KEYS.count { prefs.speedDial(it) != null } }
 
+    if (aboutOpen) AboutDialog(onDismiss = { aboutOpen = false })
     SettingsPage(
         title = stringResource(R.string.settings_title),
         onBack = onBack,
         notice = notice,
         onNoticeSeen = { notice = null },
-        actions = { BarButton(Icons.Info, stringResource(R.string.cd_about), 22.dp) { onOpen(Page.About) } },
+        actions = { BarButton(Icons.Info, stringResource(R.string.cd_about), 22.dp) { aboutOpen = true } },
     ) {
         item(key = "top") { Spacer(Modifier.height(8.dp)) }
         item(key = "blocking") {
