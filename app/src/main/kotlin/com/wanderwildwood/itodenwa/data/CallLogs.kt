@@ -1,6 +1,7 @@
 package com.wanderwildwood.itodenwa.data
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
@@ -112,7 +113,14 @@ object CallLogs {
                 )
             }
         }
-        runCatching { context.getSystemService(TelecomManager::class.java)?.cancelMissedCallsNotification() }
+        if (Actions.isPhoneApp(context)) cancelMissedCallsNotification(context)
         com.wanderwildwood.itodenwa.call.MissedCalls.cancel(context)
+    }
+
+    // Android lets the default phone app clear the missed-call notification without
+    // MODIFY_PHONE_STATE (TelecomManager docs); the one caller checks the role first.
+    @SuppressLint("MissingPermission")
+    private fun cancelMissedCallsNotification(context: Context) {
+        runCatching { context.getSystemService(TelecomManager::class.java)?.cancelMissedCallsNotification() }
     }
 }

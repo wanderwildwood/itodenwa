@@ -24,6 +24,8 @@
          Android only shows the status bar's call chip for a call app's foreground service. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+    <!-- Calls need a phone line, but the app still installs where there is none (contacts, Recents). -->
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
 
     <queries>
         <!-- Contacts, named when it is on the phone, for a person's card. -->
