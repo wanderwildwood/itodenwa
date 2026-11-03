@@ -268,6 +268,12 @@
     <string name="licences_source_head">Quellcode</string>
     <string name="licences_source">Quelle: %1$s</string>
     <string name="licences_licence">Telefon ist freie Software unter der GNU General Public License, ausschließlich Version 3. Copyright wander wildwood und die Fossify-Autorinnen und -Autoren für die Teile, die von ihnen stammen. Was darauf aufbaut, behält seine eigenen Lizenzen, unten aufgeführt.</string>
+    <string name="licences_no_text">%s braucht hier keinen Lizenztext.</string>
+    <string name="licences_back">Zurück</string>
+    <string name="licences_full_head">Vollständige Texte</string>
+    <string name="licences_full_gpl">GNU General Public License v3 (vollständiger Text)</string>
+    <string name="licences_full_apache">Apache License 2.0 (vollständiger Text)</string>
+    <string name="licences_full_ofl">SIL Open Font License 1.1 (vollständiger Text)</string>
     <string name="about_close">Schließen</string>
     <!-- shared-about: contact row + privacy section (edit in /opt/projects/shared-about) -->
     <string name="about_write_to">Schreib an %1$s</string>
