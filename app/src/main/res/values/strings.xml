@@ -5,7 +5,7 @@
          chooser, App info, DuraSpeed. Mudita\'s dialer is "Phone" there too. -->
     <string name="app_label_full" translatable="false">Handset (itodenwa)</string>
 
-    <string name="tab_favourites">Favourites</string>
+    <string name="tab_favourites">Favorites</string>
     <string name="tab_recents">Recents</string>
     <string name="tab_contacts">Contacts</string>
     <string name="tab_keypad">Keypad</string>
@@ -29,7 +29,7 @@
     <string name="contacts_find">Find someone</string>
     <string name="contacts_none">No one in the contacts has a number</string>
     <string name="contacts_none_found">No one by that name</string>
-    <string name="favourites_none">No favourites. Star someone in Contacts and they are listed here.</string>
+    <string name="favourites_none">No favorites. Star someone in Contacts and they are listed here.</string>
     <string name="no_name">No name</string>
     <string name="contact_gone">This contact is no longer on the phone</string>
 
@@ -95,7 +95,7 @@
     <string name="about_title">Handset %1$s</string>
     <string name="about_what">Calls, recent calls and the people to call. The app has no internet permission.</string>
     <string name="about_privacy_heading">Privacy</string>
-    <string name="about_privacy">Everything you put in this app stays on this phone. It has no internet access, so nothing is sent anywhere, and nothing is collected about you.\n\nIt reads your contacts to put names to numbers and list favourites. It reads your call log to list recent calls, and changes it only to delete a call, clear the list or mark missed calls seen. It reads the phone state for the names of your SIMs, your voicemail number and whether a voicemail is waiting. Numbers you block go into the phone\'s own blocked-numbers list; a record of the calls it turned away (time, number and rule) is kept on this phone for 30 days.\n\nThere are no ads, no analytics and no tracking. Backups and exports go only where you choose to save them.</string>
+    <string name="about_privacy">Everything you put in this app stays on this phone. It has no internet access, so nothing is sent anywhere, and nothing is collected about you.\n\nIt reads your contacts to put names to numbers and list favorites. It reads your call log to list recent calls, and changes it only to delete a call, clear the list or mark missed calls seen. It reads the phone state for the names of your SIMs, your voicemail number and whether a voicemail is waiting. Numbers you block go into the phone\'s own blocked-numbers list; a record of the calls it turned away (time, number and rule) is kept on this phone for 30 days.\n\nThere are no ads, no analytics and no tracking. Backups and exports go only where you choose to save them.</string>
     <string name="about_terms_heading">Terms</string>
     <string name="about_terms">This app is free software under the GNU General Public License v3. It comes with no warranty: use it at your own risk.</string>
     <string name="about_made_heading">Made from</string>
@@ -171,7 +171,7 @@
     <string name="settings_voicemail">Voicemail</string>
     <string name="settings_voicemail_none">No number from the SIM</string>
     <string name="settings_quiet">Do Not Disturb</string>
-    <string name="settings_quiet_favourites">Favourites ring</string>
+    <string name="settings_quiet_favourites">Favorites ring</string>
     <string name="settings_favourites_note">Ring under Priority only and Alarms only, not Total silence</string>
     <string name="settings_quiet_repeat">Repeat callers ring</string>
     <string name="settings_repeat_note">The same number twice within three minutes</string>
@@ -191,7 +191,7 @@
     <string name="rule_decline">Decline</string>
     <string name="blocking_choice_note">Silence lets the call come in without ringing; it is in Recents and goes to voicemail. Decline turns it away, and it is listed under Blocked calls.</string>
     <string name="blocking_always">Always ring</string>
-    <string name="blocking_always_favourites">Favourites</string>
+    <string name="blocking_always_favourites">Favorites</string>
     <string name="blocking_always_called">Numbers you have called</string>
     <string name="blocking_always_repeat">The same number twice within three minutes</string>
     <string name="blocking_list">Block list</string>
@@ -260,15 +260,15 @@
     <string name="restricted_hint">Android blocks this for apps installed from a file. Open App info, tap ⋮, then Allow restricted settings, and try again.</string>
     <string name="restricted_app_info">App info</string>
     <!-- Licences page, reached from About -->
-    <string name="licences_title">Licences</string>
+    <string name="licences_title">Licenses</string>
     <string name="licences_source_head">Source code</string>
-    <string name="licences_no_text">%s needs no licence text here.</string>
+    <string name="licences_no_text">%s needs no license text here.</string>
     <string name="licences_source">Source: %1$s</string>
     <string name="licences_licence">Handset is free software under the GNU General Public License, version 3 only. Copyright wander wildwood, and the Fossify authors for the parts that are theirs.</string>
     <string name="licences_back">Back</string>
     <string name="licences_full_head">Full texts</string>
     <string name="licences_full_gpl">GNU General Public License v3 (full text)</string>
     <string name="licences_full_apache">Apache License 2.0 (full text)</string>
-    <string name="licences_full_ofl">SIL Open Font Licence 1.1 (full text)</string>
+    <string name="licences_full_ofl">SIL Open Font License 1.1 (full text)</string>
     <string name="about_close">Close</string>
 </resources>
