@@ -797,18 +797,22 @@ fun SpeedDialScreen(model: PhoneModel, onBack: () -> Unit, onPick: (Int) -> Unit
     }
     menu?.let { key ->
         EInkDialog(onDismiss = { menu = null }) {
-            TextMMD(text = stringResource(R.string.speed_key, key), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
-            Spacer(Modifier.height(8.dp))
-            NameRow(AnnotatedString(stringResource(R.string.speed_change))) {
-                menu = null
-                onPick(key)
+            ArmedScope {
+                Column {
+                    TextMMD(text = stringResource(R.string.speed_key, key), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
+                    Spacer(Modifier.height(8.dp))
+                    NameRow(AnnotatedString(stringResource(R.string.speed_change))) {
+                        menu = null
+                        onPick(key)
+                    }
+                    val (armed, press) = rememberArmed(key) {
+                        prefs.setSpeedDial(key, null)
+                        menu = null
+                        v++
+                    }
+                    NameRow(AnnotatedString(stringResource(if (armed) R.string.speed_clear_armed else R.string.speed_clear)), onPress = press)
+                }
             }
-            val (armed, press) = rememberArmed(key) {
-                prefs.setSpeedDial(key, null)
-                menu = null
-                v++
-            }
-            NameRow(AnnotatedString(stringResource(if (armed) R.string.speed_clear_armed else R.string.speed_clear)), onPress = press)
         }
     }
 }

@@ -79,7 +79,7 @@ fun NumberPage(model: PhoneModel, number: String, onBack: () -> Unit) {
 
 /**
  * Block, at the end of a number's bar. The first press arms it — "Block — tap again" — and a
- * second within six seconds blocks the number: its calls leave Recents, and the page closes.
+ * second press blocks the number: its calls leave Recents, and the page closes.
  * A number already blocked says Unblock, and asks the same way.
  */
 @Composable

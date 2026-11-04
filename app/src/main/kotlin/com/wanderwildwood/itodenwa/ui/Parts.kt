@@ -79,18 +79,13 @@ internal fun BarWord(text: String, ready: Boolean = true, onClick: () -> Unit) {
 
 /**
  * A row that asks before it acts: the first press arms it and changes what it says, a second
- * press does it, and it disarms itself after six seconds so nothing is left live for whoever
- * picks the phone up next. Returns whether it is armed, and the press to hand the row.
+ * press does it. It stays armed, with no timer, until the person does something else: a tap or
+ * drag anywhere else, Back (which only disarms), leaving the screen or the screen going off
+ * (shared Armed.kt). Returns whether it is armed, and the press to hand the row.
  */
 @Composable
 internal fun rememberArmed(key: Any?, onConfirmed: () -> Unit): Pair<Boolean, () -> Unit> {
-    var armed by remember(key) { mutableStateOf(false) }
-    LaunchedEffect(armed) {
-        if (armed) {
-            delay(6000)
-            armed = false
-        }
-    }
+    var armed by rememberArmedFlag(key)
     return armed to {
         if (armed) {
             armed = false

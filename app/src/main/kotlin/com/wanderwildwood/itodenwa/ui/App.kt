@@ -239,18 +239,22 @@ private fun RecentsMenu(model: PhoneModel, onDismiss: () -> Unit, onBlockedCalls
     val context = LocalContext.current
     val cannotClear = stringResource(R.string.recents_cannot_delete)
     EInkDialog(onDismiss = onDismiss) {
-        NameRow(AnnotatedString(stringResource(R.string.recents_voicemail))) {
-            onDismiss()
-            if (!Voicemail.call(context)) Actions.start(context, Voicemail.settings())
-        }
-        NameRow(AnnotatedString(stringResource(R.string.blocked_calls)), onPress = onBlockedCalls)
-        if (model.recents.isNotEmpty()) {
-            val (armed, press) = rememberArmed(Unit) {
-                onDismiss()
-                if (!CallLogs.clear(context)) android.widget.Toast.makeText(context, cannotClear, android.widget.Toast.LENGTH_SHORT).show()
-                model.refresh()
+        ArmedScope {
+            Column {
+                NameRow(AnnotatedString(stringResource(R.string.recents_voicemail))) {
+                    onDismiss()
+                    if (!Voicemail.call(context)) Actions.start(context, Voicemail.settings())
+                }
+                NameRow(AnnotatedString(stringResource(R.string.blocked_calls)), onPress = onBlockedCalls)
+                if (model.recents.isNotEmpty()) {
+                    val (armed, press) = rememberArmed(Unit) {
+                        onDismiss()
+                        if (!CallLogs.clear(context)) android.widget.Toast.makeText(context, cannotClear, android.widget.Toast.LENGTH_SHORT).show()
+                        model.refresh()
+                    }
+                    NameRow(AnnotatedString(stringResource(if (armed) R.string.recents_clear_armed else R.string.recents_clear)), onPress = press)
+                }
             }
-            NameRow(AnnotatedString(stringResource(if (armed) R.string.recents_clear_armed else R.string.recents_clear)), onPress = press)
         }
     }
 }

@@ -121,7 +121,7 @@
     <string name="duraspeed_open">DuraSpeed öffnen</string>
     <string name="cd_settings">Einstellungen</string>
 
-    <!-- Recents\' long-press menu and its ⋮. A destructive row arms on the first press and says so; a second press within four seconds does it -->
+    <!-- Recents\' long-press menu and its ⋮. A destructive row arms on the first press and says so; a second press does it; it stays armed until something else happens -->
     <string name="block">Blockieren</string>
     <string name="block_armed">Blockieren — tippe erneut</string>
     <string name="unblock">Blockierung aufheben</string>

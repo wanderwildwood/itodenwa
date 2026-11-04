@@ -17,6 +17,7 @@ import com.wanderwildwood.itodenwa.ui.PhoneApp
 import com.wanderwildwood.itodenwa.ui.TAB_KEYPAD
 import com.wanderwildwood.itodenwa.ui.TAB_RECENTS
 import com.wanderwildwood.itodenwa.ui.monochrome
+import com.wanderwildwood.itodenwa.ui.ArmedScope
 
 /**
  * The phone app, from the launcher and from every other app that asks for a keypad: a number
@@ -35,10 +36,12 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             ThemeMMD(colorScheme = monochrome) {
-                // A steady cursor in every text box, dialogs included: a blinking one redraws the
-                // screen twice a second for as long as the box has the focus.
-                CompositionLocalProvider(LocalCursorBlinkEnabled provides false) {
-                    PhoneApp(opening, onOpened = { opening = null })
+                ArmedScope {
+                    // A steady cursor in every text box, dialogs included: a blinking one redraws the
+                    // screen twice a second for as long as the box has the focus.
+                    CompositionLocalProvider(LocalCursorBlinkEnabled provides false) {
+                        PhoneApp(opening, onOpened = { opening = null })
+                    }
                 }
             }
         }

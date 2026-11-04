@@ -115,36 +115,40 @@ fun RecentsList(model: PhoneModel, onOpen: (String) -> Unit) {
         val missed = r.last.kind == LoggedCall.Kind.MISSED
         val gone = stringResource(R.string.recents_cannot_delete)
         EInkDialog(onDismiss = { menu = null }) {
-            TextMMD(text = title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            Spacer(Modifier.height(8.dp))
-            if (number != null) {
-                NameRow(AnnotatedString(stringResource(R.string.recents_open))) {
-                    menu = null
-                    onOpen(number)
-                }
-                if (missed && canText) {
-                    NameRow(AnnotatedString(stringResource(R.string.recents_text_back))) {
-                        menu = null
-                        Actions.message(context, number)
+            ArmedScope {
+                Column {
+                    TextMMD(text = title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Spacer(Modifier.height(8.dp))
+                    if (number != null) {
+                        NameRow(AnnotatedString(stringResource(R.string.recents_open))) {
+                            menu = null
+                            onOpen(number)
+                        }
+                        if (missed && canText) {
+                            NameRow(AnnotatedString(stringResource(R.string.recents_text_back))) {
+                                menu = null
+                                Actions.message(context, number)
+                            }
+                        }
+                        val (blockArmed, block) = rememberArmed(r.last.id) {
+                            menu = null
+                            BlockList(context).add(number)
+                            model.refresh()
+                        }
+                        NameRow(AnnotatedString(stringResource(if (blockArmed) R.string.block_armed else R.string.block)), onPress = block)
                     }
+                    val (deleteArmed, delete) = rememberArmed(r.last.id) {
+                        menu = null
+                        if (!CallLogs.delete(context, r.calls.map { it.id })) android.widget.Toast.makeText(context, gone, android.widget.Toast.LENGTH_SHORT).show()
+                        model.refresh()
+                    }
+                    NameRow(
+                        AnnotatedString(stringResource(if (deleteArmed) R.string.delete_armed else R.string.delete)),
+                        note = if (r.count > 1) pluralStringResource(R.plurals.recents_delete_count, r.count, r.count) else null,
+                        onPress = delete,
+                    )
                 }
-                val (blockArmed, block) = rememberArmed(r.last.id) {
-                    menu = null
-                    BlockList(context).add(number)
-                    model.refresh()
-                }
-                NameRow(AnnotatedString(stringResource(if (blockArmed) R.string.block_armed else R.string.block)), onPress = block)
             }
-            val (deleteArmed, delete) = rememberArmed(r.last.id) {
-                menu = null
-                if (!CallLogs.delete(context, r.calls.map { it.id })) android.widget.Toast.makeText(context, gone, android.widget.Toast.LENGTH_SHORT).show()
-                model.refresh()
-            }
-            NameRow(
-                AnnotatedString(stringResource(if (deleteArmed) R.string.delete_armed else R.string.delete)),
-                note = if (r.count > 1) pluralStringResource(R.plurals.recents_delete_count, r.count, r.count) else null,
-                onPress = delete,
-            )
         }
     }
 }
