@@ -16,6 +16,7 @@ import com.wanderwildwood.itodenwa.ui.Opening
 import com.wanderwildwood.itodenwa.ui.PhoneApp
 import com.wanderwildwood.itodenwa.ui.TAB_KEYPAD
 import com.wanderwildwood.itodenwa.ui.TAB_RECENTS
+import com.wanderwildwood.itodenwa.ui.houseTypography
 import com.wanderwildwood.itodenwa.ui.monochrome
 import com.wanderwildwood.itodenwa.ui.ArmedScope
 
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
             backToCall(intent)
         }
         setContent {
-            ThemeMMD(colorScheme = monochrome) {
+            ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
                 ArmedScope {
                     // A steady cursor in every text box, dialogs included: a blinking one redraws the
                     // screen twice a second for as long as the box has the focus.

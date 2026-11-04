@@ -11,6 +11,7 @@ import com.wanderwildwood.itodenwa.call.CallActions
 import com.wanderwildwood.itodenwa.call.CallManager
 import com.wanderwildwood.itodenwa.call.CallNotifier
 import com.wanderwildwood.itodenwa.ui.InCallScreen
+import com.wanderwildwood.itodenwa.ui.houseTypography
 import com.wanderwildwood.itodenwa.ui.monochrome
 import com.wanderwildwood.itodenwa.ui.ArmedScope
 
@@ -34,7 +35,7 @@ class InCallActivity : ComponentActivity() {
             return
         }
         setContent {
-            ThemeMMD(colorScheme = monochrome) {
+            ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
                 ArmedScope { InCallScreen(onDone = { finishAndRemoveTask() }) }
             }
         }

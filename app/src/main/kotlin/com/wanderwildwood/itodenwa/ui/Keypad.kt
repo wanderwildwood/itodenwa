@@ -283,6 +283,10 @@ fun KeyGrid(
                             TextMMD(text = digit.toString(), style = MaterialTheme.typography.headlineMedium.copy(fontSize = 30.sp, lineHeight = 32.sp), fontWeight = FontWeight.Medium)
                         }
                         if (letters.isNotEmpty()) {
+                            // Kept at 14 sp under the house 16 sp floor on purpose (decided 4 Nov 2026,
+                            // like the Calendar month grid): the letters are part of the key's face, a
+                            // printed legend under the digit, not helper text, and they share the key's
+                            // fixed height with a 30 sp digit.
                             TextMMD(text = letters, style = MaterialTheme.typography.labelSmall.copy(fontSize = 14.sp, lineHeight = 16.sp))
                         }
                     }
