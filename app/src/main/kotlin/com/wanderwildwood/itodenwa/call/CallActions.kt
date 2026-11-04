@@ -8,7 +8,8 @@ import com.wanderwildwood.itodenwa.data.Voicemail
 
 /**
  * The buttons on the app's notifications that need no screen: Decline and Hang up on a call,
- * Call back on a missed one, and a press on the voicemail one. Answer goes to the call screen
+ * Call back on a missed one, a missed one swiped away, and a press on the voicemail one. Answer
+ * goes to the call screen
  * instead. From Fossify Phone's CallActionReceiver. Not exported: nothing outside the app can
  * ask it to place a call.
  */
@@ -25,6 +26,15 @@ class CallActions : BroadcastReceiver() {
                 else Actions.call(context, number)
             }
             CALL_VOICEMAIL -> if (!Voicemail.call(context)) Actions.start(context, Voicemail.settings())
+            // The missed-call notification swiped away: the calls have been seen, as AOSP's dialer
+            // takes it, so the log stops counting them and every copy of the notice goes.
+            MISSED_DISMISSED -> {
+                val pending = goAsync()
+                kotlin.concurrent.thread(name = "missed-seen") {
+                    runCatching { com.wanderwildwood.itodenwa.data.CallLogs.markMissedSeen(context) }
+                    pending.finish()
+                }
+            }
         }
     }
 
@@ -34,5 +44,6 @@ class CallActions : BroadcastReceiver() {
         const val HANG_UP = "com.wanderwildwood.itodenwa.HANG_UP"
         const val CALL_BACK = "com.wanderwildwood.itodenwa.CALL_BACK"
         const val CALL_VOICEMAIL = "com.wanderwildwood.itodenwa.CALL_VOICEMAIL"
+        const val MISSED_DISMISSED = "com.wanderwildwood.itodenwa.MISSED_DISMISSED"
     }
 }

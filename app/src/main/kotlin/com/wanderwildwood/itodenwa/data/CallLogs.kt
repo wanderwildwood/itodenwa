@@ -93,7 +93,9 @@ object CallLogs {
 
     /**
      * Missed calls have been seen: the log stops counting them as new, and the missed-call
-     * notification goes, so no badge is left standing once Recents has been opened.
+     * notification goes, so no badge is left standing once Recents has been opened. Declined
+     * calls are marked read too: the Kompakt's own Phone counts unread missed and declined calls
+     * together for its missed-call badge, so one declined call left unread kept that count up.
      */
     fun markMissedSeen(context: Context) {
         if (mayWrite(context)) {
@@ -105,8 +107,8 @@ object CallLogs {
                 context.contentResolver.update(
                     Calls.CONTENT_URI,
                     values,
-                    "${Calls.TYPE} = ? AND (${Calls.NEW} = 1 OR ${Calls.IS_READ} = 0)",
-                    arrayOf(Calls.MISSED_TYPE.toString()),
+                    "${Calls.TYPE} IN (?, ?) AND (${Calls.NEW} = 1 OR ${Calls.IS_READ} = 0 OR ${Calls.IS_READ} IS NULL)",
+                    arrayOf(Calls.MISSED_TYPE.toString(), Calls.REJECTED_TYPE.toString()),
                 )
             }
         }
