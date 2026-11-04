@@ -1,0 +1,8 @@
+{
+  "uniqueId": "fossify-phone",
+  "name": "Fossify Phone and Fossify Commons",
+  "description": "The app this one was made from: its call handling and lists started from Fossify Phone and Fossify Commons.",
+  "developers": [{ "name": "Fossify" }],
+  "website": "https://github.com/FossifyOrg/Phone",
+  "licenses": ["GPL-3.0-only"]
+}

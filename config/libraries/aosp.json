@@ -1,0 +1,8 @@
+{
+  "uniqueId": "aosp",
+  "name": "Android Open Source Project",
+  "description": "The missed-call notification follows Android's own, from the Android Open Source Project.",
+  "developers": [{ "name": "The Android Open Source Project" }],
+  "website": "https://source.android.com",
+  "licenses": ["Apache-2.0"]
+}
