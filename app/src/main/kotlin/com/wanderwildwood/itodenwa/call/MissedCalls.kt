@@ -68,6 +68,14 @@ class MissedCalls : BroadcastReceiver() {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
 
+        /** The missed-call notification swiped away: its calls count as seen. */
+        private fun dismissedIntent(context: Context): PendingIntent = PendingIntent.getBroadcast(
+            context,
+            14,
+            Intent(context, CallActions::class.java).setAction(CallActions.MISSED_DISMISSED),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+        )
+
         private fun channel(context: Context, id: String, name: Int) {
             context.getSystemService(NotificationManager::class.java).createNotificationChannel(
                 NotificationChannel(id, context.getString(name), NotificationManager.IMPORTANCE_DEFAULT).apply {
@@ -95,6 +103,7 @@ class MissedCalls : BroadcastReceiver() {
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentTitle(title)
                 .setContentIntent(recentsIntent(context))
+                .setDeleteIntent(dismissedIntent(context))
                 .setAutoCancel(true)
                 .setCategory(Notification.CATEGORY_MISSED_CALL)
                 .setNumber(count)
