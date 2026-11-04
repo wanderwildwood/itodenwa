@@ -265,4 +265,14 @@
     <string name="licences_source">Quelle: %1$s</string>
     <string name="licences_licence">Telefon ist freie Software unter der GNU General Public License, ausschließlich Version 3. Copyright wander wildwood und die Fossify-Autorinnen und -Autoren für die Teile, die von ihnen stammen. Was darauf aufbaut, behält seine eigenen Lizenzen, jede auf ihrer eigenen Seite.</string>
     <string name="about_close">Schließen</string>
+    <!-- shared-about: contact row + privacy section (edit in /opt/projects/shared-about) -->
+    <string name="about_write_to">Schreib an %1$s</string>
+    <string name="about_no_mail_app">Keine E-Mail-App installiert. Die Adresse ist %1$s.</string>
+    <string name="privacy_who_title">Wer wir sind</string>
+    <string name="privacy_who">Diese App stammt von wander wildwood, einem unabhängigen Entwickler: eine Person, keine Firma. Damit ist wander wildwood Verantwortlicher für alles, was die App selbst verarbeitet, und das ist sehr wenig: Was du eingibst, bleibt auf diesem Telefon, außer du schickst es selbst woandershin, und nichts davon erreicht den Entwickler.</string>
+    <string name="privacy_contact_title">So erreichst du uns</string>
+    <string name="privacy_contact">Schreib an email@wanderthe.dev, zu deinen Daten oder zu allem anderen.</string>
+    <string name="privacy_rights_title">Deine Rechte</string>
+    <string name="privacy_rights">Nach der DSGVO kannst du Auskunft über die Daten verlangen, die über dich gespeichert sind, sie berichtigen oder löschen lassen, ihre Verarbeitung einschränken lassen oder ihr widersprechen, eine Kopie mitnehmen, eine Einwilligung widerrufen und dich bei einer Datenschutzbehörde beschweren. Da die App alles, was sie speichert, nur auf deinem Telefon ablegt, kannst du das meiste davon selbst tun: Anrufe unter Letzte Anrufe löschen oder alle löschen, Nummern unter Blockierte Anrufe freigeben, die App-Daten in den Android-Einstellungen löschen oder die App deinstallieren.</string>
+    <!-- /shared-about -->
 </resources>
