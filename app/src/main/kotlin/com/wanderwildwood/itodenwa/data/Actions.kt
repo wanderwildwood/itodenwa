@@ -120,6 +120,9 @@ object Actions {
         return toContacts(context, intent)
     }
 
+    /** Whether Connections is on the phone, so a row that opens it may say so by name. */
+    fun hasContactsApp(context: Context): Boolean = installed(context, CONTACTS_APP)
+
     private fun toContacts(context: Context, intent: Intent): Boolean {
         if (installed(context, CONTACTS_APP) && start(context, Intent(intent).setPackage(CONTACTS_APP))) return true
         return start(context, intent)

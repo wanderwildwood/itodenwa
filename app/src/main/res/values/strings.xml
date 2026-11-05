@@ -30,6 +30,7 @@
     <string name="contacts_none">No one in the contacts has a number</string>
     <string name="contacts_none_found">No one by that name</string>
     <string name="favourites_none">No favorites. Star someone in Contacts and they are listed here.</string>
+    <string name="favourites_none_connections">No favorites. Star someone in Connections and they are listed here.</string>
     <string name="no_name">No name</string>
     <string name="contact_gone">This contact is no longer on the phone</string>
 
@@ -111,6 +112,9 @@
     <!-- The call screen\'s menu, under the three dots -->
     <string name="call_menu_contact">Open in Contacts</string>
     <string name="call_menu_add_contact">Add to Contacts</string>
+    <!-- The same two rows when Connections is on the phone and opens in the stock app's place. -->
+    <string name="call_menu_contact_connections">Open in Connections</string>
+    <string name="call_menu_add_contact_connections">Add to Connections</string>
     <string name="call_menu_note">Note</string>
     <!-- A new note\'s title in Notes: %1$s is who the call is with, %2$s when it began, like "Oct 17, 2:05 PM" -->
     <string name="call_note_title">%1$s, %2$s</string>

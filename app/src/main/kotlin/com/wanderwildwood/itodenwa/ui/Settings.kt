@@ -715,7 +715,8 @@ fun BlockedCallsScreen(model: PhoneModel, onBack: () -> Unit) {
                 }
             }
             if (number != null && who == null) {
-                NameRow(AnnotatedString(stringResource(R.string.call_menu_add_contact))) {
+                val connections = Actions.hasContactsApp(context)
+                NameRow(AnnotatedString(stringResource(if (connections) R.string.call_menu_add_contact_connections else R.string.call_menu_add_contact))) {
                     menu = null
                     if (!Actions.addToContacts(context, number)) notice = nothing
                 }

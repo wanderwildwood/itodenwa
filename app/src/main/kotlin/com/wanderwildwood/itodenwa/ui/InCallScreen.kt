@@ -167,6 +167,7 @@ fun InCallScreen(onDone: () -> Unit) {
     var choosingRoute by remember { mutableStateOf(false) }
     var menu by remember { mutableStateOf(false) }
     val canNote = remember { Actions.canNote(context) }
+    val connections = remember { Actions.hasContactsApp(context) }
 
     val status = when {
         ended -> listOfNotNull(stringResource(R.string.call_ended), lastSeconds.takeIf { it > 0 }?.let(::clock)).joinToString(" · ")
@@ -327,7 +328,10 @@ fun InCallScreen(onDone: () -> Unit) {
             TextMMD(text = title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
             Spacer(Modifier.height(8.dp))
             val w = who
-            NameRow(AnnotatedString(stringResource(if (w != null) R.string.call_menu_contact else R.string.call_menu_add_contact))) {
+            NameRow(AnnotatedString(stringResource(
+                if (w != null) { if (connections) R.string.call_menu_contact_connections else R.string.call_menu_contact }
+                else { if (connections) R.string.call_menu_add_contact_connections else R.string.call_menu_add_contact }
+            ))) {
                 menu = false
                 if (w != null) Actions.openContact(context, w.contactId, w.lookupKey) else Actions.addToContacts(context, number)
             }

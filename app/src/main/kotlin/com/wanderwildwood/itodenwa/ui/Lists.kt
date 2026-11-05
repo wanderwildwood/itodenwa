@@ -202,7 +202,8 @@ fun FavouritesList(model: PhoneModel, onOpen: (Person) -> Unit) {
     if (!model.peopleLoaded) return
     val starred = model.people.filter { it.starred }
     if (starred.isEmpty()) {
-        Quiet(stringResource(R.string.favourites_none), Modifier.fillMaxSize())
+        val connections = Actions.hasContactsApp(LocalContext.current)
+        Quiet(stringResource(if (connections) R.string.favourites_none_connections else R.string.favourites_none), Modifier.fillMaxSize())
         return
     }
     PeopleRows(starred, onOpen)
