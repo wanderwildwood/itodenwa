@@ -62,6 +62,7 @@ import com.wanderwildwood.itodenwa.call.seconds
 import com.wanderwildwood.itodenwa.call.stateCompat
 import com.wanderwildwood.itodenwa.data.Actions
 import com.wanderwildwood.itodenwa.data.Lookup
+import com.wanderwildwood.itodenwa.data.Sims
 import com.wanderwildwood.itodenwa.data.Voicemail
 import com.wanderwildwood.itodenwa.data.Who
 import kotlinx.coroutines.Dispatchers
@@ -110,6 +111,7 @@ fun InCallScreen(onDone: () -> Unit) {
     var lastTitle by remember { mutableStateOf("") }
     var lastLine by remember { mutableStateOf<AnnotatedString?>(null) }
     var lastSeconds by remember { mutableLongStateOf(0L) }
+    var lastSim by remember { mutableStateOf<String?>(null) }
 
     val callState = call.stateCompat()
     val ended = call == null || callState == Call.STATE_DISCONNECTED
@@ -133,6 +135,10 @@ fun InCallScreen(onDone: () -> Unit) {
         otherWho = otherNumber?.let { n -> withContext(Dispatchers.IO) { Lookup.get(context).who(n) } }
     }
 
+    // Which SIM the call came in on or goes out from; only on phones with two.
+    val handle = call?.details?.accountHandle
+    val sim = remember(call, handle) { call?.let { Sims.labelFor(context, it) } }
+
     val hidden = stringResource(R.string.call_hidden_number)
     val conference = stringResource(R.string.call_conference)
     val voicemailWord = stringResource(R.string.recents_voicemail)
@@ -151,6 +157,7 @@ fun InCallScreen(onDone: () -> Unit) {
             else -> null
         }
         lastSeconds = call.seconds()
+        lastSim = sim
     }
 
     ProximityWhile(!ended && callState != Call.STATE_RINGING && !CallManager.isSpeaker())
@@ -203,6 +210,16 @@ fun InCallScreen(onDone: () -> Unit) {
                         BarButton(Icons.More, stringResource(R.string.cd_more)) { menu = true }
                     }
                 }
+            }
+            lastSim?.let {
+                TextMMD(
+                    text = it,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = 2.dp).border(1.5.dp, MaterialTheme.colorScheme.onSurface, RoundedCornerShape(50)).padding(horizontal = 12.dp, vertical = 3.dp),
+                )
             }
             Spacer(Modifier.height(10.dp))
             TextMMD(

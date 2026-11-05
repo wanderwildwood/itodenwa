@@ -75,6 +75,7 @@
     <string name="call_merge">Anrufe zusammenführen</string>
     <string name="call_held_line">Gehalten: %1$s</string>
     <string name="call_waiting_line">Wartet: %1$s</string>
+    <string name="call_sim">SIM %1$d</string>
     <string name="call_choose_sim">Anrufen über</string>
     <string name="route_earpiece">Hörer</string>
     <string name="route_speaker">Lautsprecher</string>

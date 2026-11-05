@@ -75,6 +75,8 @@
     <string name="call_merge">Merge the calls</string>
     <string name="call_held_line">On hold: %1$s</string>
     <string name="call_waiting_line">Waiting: %1$s</string>
+    <!-- Which SIM a call is on, on phones with two: "SIM 2", then the SIM's own name if it has one -->
+    <string name="call_sim">SIM %1$d</string>
     <string name="call_choose_sim">Call from</string>
     <string name="route_earpiece">Phone</string>
     <string name="route_speaker">Speaker</string>
