@@ -549,7 +549,7 @@ fun BlockedNumbersScreen(model: PhoneModel, onBack: () -> Unit) {
     fun refresh() = model.refresh()
     val doneExport = stringResource(R.string.blocked_exported)
     val failed = stringResource(R.string.blocked_file_failed)
-    val export = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri ->
+    val export = rememberLauncherForActivityResult(FilesCreateDocument("text/plain")) { uri ->
         if (uri == null) return@rememberLauncherForActivityResult
         scope.launch {
             val ok = withContext(Dispatchers.IO) {
@@ -560,7 +560,7 @@ fun BlockedNumbersScreen(model: PhoneModel, onBack: () -> Unit) {
             notice = if (ok) doneExport else failed
         }
     }
-    val import = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+    val import = rememberLauncherForActivityResult(FilesOpenDocument(writable = false)) { uri ->
         if (uri == null) return@rememberLauncherForActivityResult
         scope.launch {
             val count = withContext(Dispatchers.IO) {
