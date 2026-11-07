@@ -13,7 +13,7 @@ are named where they are used.
 | | |
 |---|---|
 | ![Recents, with a name for every number](screenshots/1-recents.png) | ![Settings: Blocking, Speed dial, Voicemail](screenshots/2-settings.png) |
-| ![Blocking: rules for unknown and hidden numbers](screenshots/3-blocking.png) | ![About: Privacy, Terms and Licences](screenshots/4-about.png) |
+| ![Blocking: rules for unknown and hidden numbers](screenshots/3-blocking.png) | ![About: what it is, Privacy, who we are](screenshots/4-about.png) |
 
 ## What it does
 
