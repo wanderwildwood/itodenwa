@@ -173,10 +173,14 @@ internal fun SettingsHeading(text: String) {
     )
 }
 
-/** A row with MMD's switch at its end; the row takes the press. */
+/**
+ * A row with MMD's switch at its end; the row takes the press. The switch takes room from the
+ * label, so a label may run to three lines ("The same number twice within three minutes" needed
+ * three at the Kompakt's density 210 and was cut off at two).
+ */
 @Composable
 internal fun SwitchRow(title: String, checked: Boolean, note: String? = null, onChange: (Boolean) -> Unit) {
-    SettingRow(title, summary = note, opens = false, checked = checked, trailing = {
+    SettingRow(title, summary = note, titleLines = 3, opens = false, checked = checked, trailing = {
         SwitchMMD(checked = checked, onCheckedChange = null)
     }, onPress = { onChange(!checked) })
 }
