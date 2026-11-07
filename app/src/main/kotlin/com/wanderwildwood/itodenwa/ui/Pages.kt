@@ -180,7 +180,7 @@ private fun DetailPage(
         val hours24 = android.text.format.DateFormat.is24HourFormat(context)
         val today = stringResource(R.string.calls_today)
         val yesterday = stringResource(R.string.calls_yesterday)
-        PagedColumn(Modifier.padding(padding).fillMaxSize().background(MaterialTheme.colorScheme.surface)) {
+        PagedColumn(Modifier.padding(padding).fillMaxSize().background(MaterialTheme.colorScheme.surface), showCutRow = true) {
             item(key = "who") {
                 Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 18.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     TextMMD(

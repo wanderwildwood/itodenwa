@@ -93,7 +93,7 @@ fun RecentsList(model: PhoneModel, onOpen: (String) -> Unit) {
     androidx.compose.runtime.LaunchedEffect(newest) {
         if (state.firstVisibleItemIndex <= 1) state.scrollToItem(0)
     }
-    PagedColumn(Modifier.fillMaxSize(), state = state) {
+    PagedColumn(Modifier.fillMaxSize(), state = state, showCutRow = true) {
         items(model.recents, key = { it.last.id }) { r ->
             val number = r.number
             val who = number?.let { model.names[it] }
@@ -238,7 +238,7 @@ fun ContactsList(model: PhoneModel, onOpen: (Person) -> Unit) {
 internal fun PeopleRows(people: List<Person>, onOpen: (Person) -> Unit) {
     val noName = stringResource(R.string.no_name)
     val state = rememberLazyListState()
-    PagedColumn(Modifier.fillMaxSize(), state = state) {
+    PagedColumn(Modifier.fillMaxSize(), state = state, showCutRow = true) {
         items(people, key = { it.id }) { p ->
             NameRow(boldSurname(p.name.ifBlank { noName }, p.family)) { onOpen(p) }
         }
