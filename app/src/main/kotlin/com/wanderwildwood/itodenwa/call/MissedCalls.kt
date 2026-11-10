@@ -54,8 +54,12 @@ class MissedCalls : BroadcastReceiver() {
     companion object {
         private const val MISSED_ID = 43
         private const val VOICEMAIL_ID = 44
-        private const val MISSED = "calls_missed"
-        private const val VOICEMAIL = "voicemail"
+        private const val MISSED = "calls_missed_light"
+        private const val VOICEMAIL = "voicemail_light"
+
+        // A channel's settings are frozen once it exists, the light among them, so the ones made
+        // before the light was asked for move to a new id (LightChannel).
+        private const val LIGHT = "_light"
 
         /** Recents, in this app. */
         fun recentsIntent(context: Context): PendingIntent = PendingIntent.getActivity(
@@ -77,7 +81,9 @@ class MissedCalls : BroadcastReceiver() {
         )
 
         private fun channel(context: Context, id: String, name: Int) {
-            context.getSystemService(NotificationManager::class.java).createNotificationChannel(
+            LightChannel.ensure(
+                context.getSystemService(NotificationManager::class.java),
+                id.removeSuffix(LIGHT),
                 NotificationChannel(id, context.getString(name), NotificationManager.IMPORTANCE_DEFAULT).apply {
                     setShowBadge(true)
                 },
