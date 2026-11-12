@@ -1,6 +1,6 @@
 # 糸電話 itodenwa — Handset
 
-A phone app for the [Mudita Kompakt](https://mudita.com/products/kompakt/): Favourites, Recents,
+A phone app for the [Mudita Kompakt](https://mudita.com/products/kompakt/): Favorites, Recents,
 Contacts, a keypad, and the call screen, built with Mudita's [MMD](https://github.com/mudita/MMD)
 design system and laid out like the phone's own Phone app. It installs on any Android 12 device.
 
@@ -17,7 +17,7 @@ are named where they are used.
 
 ## What it does
 
-- **Nothing in a list calls.** A press on a recent call, a favourite or a contact opens their
+- **Nothing in a list calls.** A press on a recent call, a favorite or a contact opens their
   page, with **Call**, **Message** and their card in Contacts as three big buttons and every call
   with them underneath. The phone's own Recents dials on a single tap, which is how calls get
   made by a thumb meant for scrolling.
@@ -42,13 +42,13 @@ are named where they are used.
   Decline turns it away. A number counts as "not in Contacts" only when the contacts were read
   and it is not there, so a phone slow to answer never turns a friend away. All of it is off
   until you turn it on.
-- **Always ring**: favourites, numbers you have called, and the same number calling twice within
+- **Always ring**: favorites, numbers you have called, and the same number calling twice within
   three minutes can each be let past the rules.
 - **A block list** of whole numbers and starts of numbers: `555*` blocks every number beginning
   555, `+44*` every number from the UK. Hold a row in Recents and press **Block**, or press Block
   on a number's page; each asks by changing what it says, and a second press does it. A blocked
   number's calls leave Recents. Whole numbers go into Android's own blocked-numbers list, which
-  messaging apps honour too. The list goes out to a file and comes back in Fossify's format.
+  messaging apps honor too. The list goes out to a file and comes back in Fossify's format.
 - **Blocked calls**, in Recents' ⋮: every call turned away or silenced in the last thirty days,
   when, who, and which rule did it, with **Unblock** and **Add to Contacts**.
 - **Delete** a row of Recents from its long press, or **Clear all** from the ⋮, each asking first.
@@ -59,8 +59,8 @@ are named where they are used.
   carrier sends one, calls it and goes once it is called.
 - **Speed dial**: hold 2 to 9 on the keypad to call the person set on it in **Settings → Speed
   dial**, where 1 is shown as Voicemail's.
-- **Through Do Not Disturb**, favourites, and someone calling a second time within three minutes,
-  can still ring, each a switch in **Settings → Ringing**, off to start with. Favourites ring
+- **Through Do Not Disturb**, favorites, and someone calling a second time within three minutes,
+  can still ring, each a switch in **Settings → Ringing**, off to start with. Favorites ring
   under Priority only and Alarms only, not under Total silence.
 - **Ringtones**: a contact's own ringtone, chosen on their card, rings for them, and numbers not
   in Contacts can have a ringtone of their own, in **Settings → Ringing**.
@@ -73,13 +73,13 @@ are named where they are used.
 - **A keypad** with the letters on its keys: typing finds people by the start of a name or by part
   of a number, and pressing one fills in their number — it still waits for Call. With nothing
   typed, Call puts the last number called back in the box.
-- **An emergency number is never dialled for you.** A held key, a speed dial or Call back on a
+- **An emergency number is never dialed for you.** A held key, a speed dial or Call back on a
   notification puts it on the keypad instead, for Call to be pressed.
 - **Message** opens a new message to the number in the phone's messaging app.
 - **Contacts stay in Contacts.** Handset reads the contacts and never changes them: the Contact
   button opens the person's card in [Connections](https://github.com/wanderwildwood/enishi) when it
   is installed, or in whatever contacts app the phone has, and Add puts a number from Recents on
-  a new card or an existing one there. A person starred in Contacts is listed under Favourites.
+  a new card or an existing one there. A person starred in Contacts is listed under Favorites.
 
 ## Making it the phone app
 
@@ -113,7 +113,7 @@ opens; after that it waits behind **Settings → DuraSpeed** until it is done.
 ## With the other apps
 
 - **Connections** ([enishi](https://github.com/wanderwildwood/enishi)) opens for a person's card,
-  for adding a number, and is where favourites are starred.
+  for adding a number, and is where favorites are starred.
 - **Messaging** ([kotozute](https://github.com/wanderwildwood/kotozute)), or whichever app is
   the phone's messaging app, opens for Message and Text back.
 - **Memo** ([oboegaki](https://github.com/wanderwildwood/oboegaki)) takes a note about a call,
@@ -149,7 +149,7 @@ For updates without doing this by hand, add this repository to
 
     https://github.com/wanderwildwood/itodenwa
 
-## Licence
+## License
 
 GPL-3.0-only. See [LICENSE](LICENSE).
 
