@@ -28,6 +28,8 @@
     <uses-feature android:name="android.hardware.telephony" android:required="false" />
 
     <queries>
+        <!-- Home, whose dark mode switch this app follows when Home is installed. -->
+        <package android:name="com.wanderwildwood.iori" />
         <!-- Contacts, named when it is on the phone, for a person's card. -->
         <package android:name="com.wanderwildwood.enishi" />
         <!-- Notes, for a note about a call. -->
@@ -68,6 +70,12 @@
         android:label="@string/app_label_full"
         android:supportsRtl="false"
         android:theme="@style/Theme.App">
+
+        <!-- Starts dark mode before the first screen is drawn. Holds no data. -->
+        <provider
+            android:name="com.wanderwildwood.itodenwa.ui.DarkModeInit"
+            android:authorities="${applicationId}.darkmodeinit"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
