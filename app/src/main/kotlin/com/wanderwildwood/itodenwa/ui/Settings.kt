@@ -277,6 +277,11 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
                 prefs.vibrate = it
             }
         }
+        item(key = "dark") {
+            SwitchRow(stringResource(R.string.settings_dark), DarkMode.on, note = stringResource(R.string.settings_dark_note)) {
+                DarkMode.set(context, it)
+            }
+        }
         if (DuraSpeed.present(context)) {
             // Until the person says Phone is switched on in DuraSpeed, the row carries the one
             // step left and opens the explanation. After that it is a plain door to DuraSpeed,
