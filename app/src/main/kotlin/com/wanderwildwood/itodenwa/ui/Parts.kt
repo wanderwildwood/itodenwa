@@ -206,14 +206,14 @@ internal fun BareField(
     focusNow: Boolean = false,
 ) {
     val focus = remember { FocusRequester() }
-    val keyboard = LocalSoftwareKeyboardController.current
+    val softKeyboard = LocalSoftwareKeyboardController.current
     // A frame after the box is drawn, so that in a dialog (a window of its own) the request
     // reaches it; and the keyboard comes up with the cursor.
     LaunchedEffect(focusNow) {
         if (focusNow) {
             withFrameNanos { }
             runCatching { focus.requestFocus() }
-            keyboard?.show()
+            softKeyboard?.show()
         }
     }
     TextFieldMMD(
