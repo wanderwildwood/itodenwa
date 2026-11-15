@@ -69,6 +69,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.toggleableState
 
 /**
  * The call screen. Who it is, large; what the call is doing; and the buttons, large and with
@@ -384,6 +389,7 @@ private fun Toggle(icon: ImageVector, label: String, on: Boolean, modifier: Modi
             .height(84.dp)
             .clip(shape)
             .let { if (on) it.background(ink, shape) else it.border(if (enabled) 2.5.dp else 1.dp, ink, shape) }
+            .semantics { role = Role.Switch; toggleableState = ToggleableState(on) }
             .clickable(enabled = enabled, onClick = onPress),
     ) {
         Icon(icon, contentDescription = null, tint = if (on) paper else ink, modifier = Modifier.size(32.dp))
@@ -586,6 +592,7 @@ private fun SmallToggle(label: String, on: Boolean, modifier: Modifier, onPress:
             .height(48.dp)
             .clip(shape)
             .let { if (on) it.background(ink, shape) else it.border(2.dp, ink, shape) }
+            .semantics { role = Role.Switch; toggleableState = ToggleableState(on) }
             .clickable(onClick = onPress),
     ) {
         TextMMD(

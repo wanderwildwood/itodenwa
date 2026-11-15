@@ -70,6 +70,9 @@ import com.wanderwildwood.itodenwa.data.Voicemail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.toggleableState
+import androidx.compose.ui.state.ToggleableState
 
 /** A page of settings: the library's bar with a back arrow, and its rows. */
 @Composable
@@ -181,7 +184,7 @@ internal fun SettingsHeading(text: String) {
 @Composable
 internal fun SwitchRow(title: String, checked: Boolean, note: String? = null, onChange: (Boolean) -> Unit) {
     SettingRow(title, summary = note, titleLines = 3, opens = false, checked = checked, trailing = {
-        SwitchMMD(checked = checked, onCheckedChange = null)
+        SwitchMMD(checked = checked, onCheckedChange = null, modifier = Modifier.semantics { toggleableState = ToggleableState(checked) })
     }, onPress = { onChange(!checked) })
 }
 
