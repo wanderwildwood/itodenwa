@@ -73,7 +73,7 @@ fun NumberPage(model: PhoneModel, number: String, onBack: () -> Unit) {
             Triple(Icons.PersonAdd, stringResource(R.string.add)) { Actions.addToContacts(context, number) }
         },
         onBack = onBack,
-        actions = { BlockWord(model, number, onBlocked = onBack) },
+        actions = { say -> BlockWord(model, number, onBlocked = onBack, onCannot = say) },
     )
 }
 
@@ -83,7 +83,7 @@ fun NumberPage(model: PhoneModel, number: String, onBack: () -> Unit) {
  * A number already blocked says Unblock, and asks the same way.
  */
 @Composable
-private fun BlockWord(model: PhoneModel, number: String, onBlocked: () -> Unit) {
+private fun BlockWord(model: PhoneModel, number: String, onBlocked: () -> Unit, onCannot: (String) -> Unit) {
     val context = LocalContext.current
     val line = model.blocking(number)
     val cannot = stringResource(R.string.blocked_add_failed)
@@ -95,7 +95,7 @@ private fun BlockWord(model: PhoneModel, number: String, onBlocked: () -> Unit) 
             model.refresh()
             onBlocked()
         } else {
-            android.widget.Toast.makeText(context, cannot, android.widget.Toast.LENGTH_SHORT).show()
+            onCannot(cannot)
         }
     }
     val word = when {
@@ -150,7 +150,8 @@ private fun DetailPage(
     showNumberOnCalls: Boolean,
     contactTile: Triple<androidx.compose.ui.graphics.vector.ImageVector, String, () -> Boolean>,
     onBack: () -> Unit,
-    actions: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit = {},
+    /** The bar's own words; the one they are given says something along the foot. */
+    actions: @Composable androidx.compose.foundation.layout.RowScope.(say: (String) -> Unit) -> Unit = {},
 ) {
     val context = LocalContext.current
     BackHandler(onBack = onBack)
@@ -171,7 +172,7 @@ private fun DetailPage(
             Bar(
                 title = { BarTitle(stringResource(R.string.details_title)) },
                 navigationIcon = { BarButton(Icons.Back, stringResource(R.string.cd_back), onBack) },
-                actions = actions,
+                actions = { actions { notice = it } },
             )
         },
         bottomBar = { notice?.let { NoticeStrip(it) { notice = null } } },

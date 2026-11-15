@@ -51,6 +51,9 @@ private fun refusedForGood(context: Context, permission: String): Boolean {
     return !ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
 }
 
+// A toast on purpose, the one left in the app: what it says is to be done in Android's own
+// settings, which open over the app at once, and no line of the app's can be seen there. Long, so
+// it is still up when that page has drawn.
 internal fun sayAndOpenSettings(context: Context) {
     Toast.makeText(context, context.getString(R.string.permission_open_settings_note), Toast.LENGTH_LONG).show()
     runCatching {

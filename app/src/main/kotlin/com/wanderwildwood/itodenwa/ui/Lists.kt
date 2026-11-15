@@ -65,7 +65,7 @@ private fun AskRow(text: String, note: String, permission: String, model: PhoneM
  * under Blocked calls, in the ⋮. Page dots down the edge once the list is long.
  */
 @Composable
-fun RecentsList(model: PhoneModel, onOpen: (String) -> Unit) {
+fun RecentsList(model: PhoneModel, onCannot: (String) -> Unit, onOpen: (String) -> Unit) {
     val context = LocalContext.current
     if (model.peopleLoaded && !model.mayReadCalls) {
         AskRow(stringResource(R.string.recents_allow), stringResource(R.string.recents_allow_note), Manifest.permission.READ_CALL_LOG, model)
@@ -139,7 +139,7 @@ fun RecentsList(model: PhoneModel, onOpen: (String) -> Unit) {
                     }
                     val (deleteArmed, delete) = rememberArmed(r.last.id) {
                         menu = null
-                        if (!CallLogs.delete(context, r.calls.map { it.id })) android.widget.Toast.makeText(context, gone, android.widget.Toast.LENGTH_SHORT).show()
+                        if (!CallLogs.delete(context, r.calls.map { it.id })) onCannot(gone)
                         model.refresh()
                     }
                     NameRow(

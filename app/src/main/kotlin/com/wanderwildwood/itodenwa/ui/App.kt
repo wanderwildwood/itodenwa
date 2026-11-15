@@ -81,6 +81,8 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
     var typed by rememberSaveable { mutableStateOf("") }
     var isPhoneApp by remember { mutableStateOf(Actions.isPhoneApp(context)) }
     var recentsMenu by remember { mutableStateOf(false) }
+    // What Recents could not do, along the foot of the tabs until the next press.
+    var notice by remember { mutableStateOf<String?>(null) }
     var askDuraSpeed by remember { mutableStateOf(false) }
     var resumed by remember { mutableIntStateOf(0) }
 
@@ -171,6 +173,7 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
                         },
                     )
                 },
+                bottomBar = { notice?.let { NoticeStrip(it) { notice = null } } },
             ) { padding ->
                 Column(Modifier.padding(padding).fillMaxSize().background(MaterialTheme.colorScheme.surface)) {
                     // A call going on: the way back to it, at the top, only while there is one.
@@ -204,7 +207,7 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
                     Box(Modifier.weight(1f)) {
                         when (tab) {
                             TAB_FAVOURITES -> FavouritesList(model) { open(Page.OfPerson(it.id)) }
-                            TAB_RECENTS -> RecentsList(model) { number -> open(Page.OfNumber(number)) }
+                            TAB_RECENTS -> RecentsList(model, onCannot = { notice = it }) { number -> open(Page.OfNumber(number)) }
                             TAB_CONTACTS -> ContactsList(model) { open(Page.OfPerson(it.id)) }
                             else -> KeypadScreen(model, typed, onTyped = { typed = it }, onSpeedDialUnset = { open(Page.SpeedDial) })
                         }
@@ -213,7 +216,7 @@ fun PhoneApp(opening: Opening?, onOpened: () -> Unit) {
             }
         }
     }
-    if (recentsMenu) RecentsMenu(model, onDismiss = { recentsMenu = false }, onBlockedCalls = {
+    if (recentsMenu) RecentsMenu(model, onDismiss = { recentsMenu = false }, onCannot = { notice = it }, onBlockedCalls = {
         recentsMenu = false
         open(Page.BlockedCalls)
     })
@@ -235,7 +238,7 @@ private fun Banner(text: String, note: String? = null, onPress: () -> Unit) {
  * asking first by changing what it says.
  */
 @Composable
-private fun RecentsMenu(model: PhoneModel, onDismiss: () -> Unit, onBlockedCalls: () -> Unit) {
+private fun RecentsMenu(model: PhoneModel, onDismiss: () -> Unit, onCannot: (String) -> Unit, onBlockedCalls: () -> Unit) {
     val context = LocalContext.current
     val cannotClear = stringResource(R.string.recents_cannot_delete)
     EInkDialog(onDismiss = onDismiss) {
@@ -249,7 +252,7 @@ private fun RecentsMenu(model: PhoneModel, onDismiss: () -> Unit, onBlockedCalls
                 if (model.recents.isNotEmpty()) {
                     val (armed, press) = rememberArmed(Unit) {
                         onDismiss()
-                        if (!CallLogs.clear(context)) android.widget.Toast.makeText(context, cannotClear, android.widget.Toast.LENGTH_SHORT).show()
+                        if (!CallLogs.clear(context)) onCannot(cannotClear)
                         model.refresh()
                     }
                     NameRow(AnnotatedString(stringResource(if (armed) R.string.recents_clear_armed else R.string.recents_clear)), onPress = press)
