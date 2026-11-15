@@ -273,14 +273,14 @@ fun KeyGrid(
                         if (digit == '1' && oneMarked) {
                             val waiting = stringResource(R.string.voicemail_waiting)
                             Box(contentAlignment = Alignment.Center, modifier = Modifier.semantics { contentDescription = waiting }) {
-                                TextMMD(text = "1", style = MaterialTheme.typography.headlineMedium.copy(fontSize = 30.sp, lineHeight = 32.sp), fontWeight = FontWeight.Medium)
+                                TextMMD(text = "1", style = MaterialTheme.typography.headlineLarge.copy(fontSize = 30.sp, lineHeight = 32.sp), fontWeight = FontWeight.Medium)
                                 Box(
                                     Modifier.align(Alignment.CenterEnd).offset(x = 14.dp, y = (-6).dp).size(9.dp)
                                         .background(MaterialTheme.colorScheme.onSurface, CircleShape),
                                 )
                             }
                         } else {
-                            TextMMD(text = digit.toString(), style = MaterialTheme.typography.headlineMedium.copy(fontSize = 30.sp, lineHeight = 32.sp), fontWeight = FontWeight.Medium)
+                            TextMMD(text = digit.toString(), style = MaterialTheme.typography.headlineLarge.copy(fontSize = 30.sp, lineHeight = 32.sp), fontWeight = FontWeight.Medium)
                         }
                         if (letters.isNotEmpty()) {
                             // Kept at 14 sp under the house 16 sp floor on purpose (decided 4 Nov 2026,

@@ -239,7 +239,7 @@ fun InCallScreen(onDone: () -> Unit) {
                 Spacer(Modifier.weight(1f))
                 TextMMD(
                     text = if (sent.length > 18) "…" + sent.takeLast(17) else sent,
-                    style = MaterialTheme.typography.headlineMedium.copy(fontSize = 28.sp),
+                    style = MaterialTheme.typography.headlineLarge.copy(fontSize = 28.sp),
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     modifier = Modifier.padding(bottom = 4.dp),
