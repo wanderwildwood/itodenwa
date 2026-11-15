@@ -46,6 +46,8 @@ import com.mudita.mmd.components.divider.HorizontalDividerMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.text_field.TextFieldMMD
 import kotlinx.coroutines.delay
+import androidx.compose.runtime.withFrameNanos
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
 /** A glyph in the top bar: 28dp in a 48dp box, as the phone's own contacts app sets its; the cog is 22dp. */
 @Composable
@@ -204,7 +206,16 @@ internal fun BareField(
     focusNow: Boolean = false,
 ) {
     val focus = remember { FocusRequester() }
-    LaunchedEffect(focusNow) { if (focusNow) runCatching { focus.requestFocus() } }
+    val keyboard = LocalSoftwareKeyboardController.current
+    // A frame after the box is drawn, so that in a dialog (a window of its own) the request
+    // reaches it; and the keyboard comes up with the cursor.
+    LaunchedEffect(focusNow) {
+        if (focusNow) {
+            withFrameNanos { }
+            runCatching { focus.requestFocus() }
+            keyboard?.show()
+        }
+    }
     TextFieldMMD(
         value = value,
         onValueChange = onChange,
