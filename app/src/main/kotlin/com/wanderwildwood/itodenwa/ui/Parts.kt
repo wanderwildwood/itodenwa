@@ -45,7 +45,6 @@ import com.mudita.mmd.components.buttons.OutlinedButtonMMD
 import com.mudita.mmd.components.divider.HorizontalDividerMMD
 import com.mudita.mmd.components.text.TextMMD
 import com.mudita.mmd.components.text_field.TextFieldMMD
-import kotlinx.coroutines.delay
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 
@@ -160,11 +159,11 @@ internal fun FootButton(label: String, modifier: Modifier, enabled: Boolean = tr
     }
 }
 
-/** A short thing to say, along the foot, gone after a few seconds. */
+/** A short thing to say, along the foot, until the next press. */
 @Composable
 internal fun NoticeStrip(text: String, onSeen: () -> Unit) {
     LaunchedEffect(text) {
-        delay(5000)
+        NextPress.await()
         onSeen()
     }
     HorizontalDividerMMD()

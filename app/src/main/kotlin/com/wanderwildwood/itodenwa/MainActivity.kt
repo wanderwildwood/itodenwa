@@ -27,6 +27,17 @@ import com.wanderwildwood.itodenwa.ui.ArmedScope
  * goes straight back to the call screen.
  */
 class MainActivity : ComponentActivity() {
+    // A notice stays until the next press; see NextPress.
+    override fun dispatchTouchEvent(ev: android.view.MotionEvent): Boolean {
+        com.wanderwildwood.itodenwa.ui.NextPress.seen(ev)
+        return super.dispatchTouchEvent(ev)
+    }
+
+    override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
+        com.wanderwildwood.itodenwa.ui.NextPress.seen(event)
+        return super.dispatchKeyEvent(event)
+    }
+
     private var opening by mutableStateOf<Opening?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
