@@ -14,6 +14,7 @@ import com.wanderwildwood.itodenwa.ui.InCallScreen
 import com.wanderwildwood.itodenwa.ui.houseTypography
 import com.wanderwildwood.itodenwa.ui.monochrome
 import com.wanderwildwood.itodenwa.ui.ArmedScope
+import com.wanderwildwood.itodenwa.ui.DarkSelection
 
 /**
  * The call screen, over the lock screen when the phone is locked — it shows there and wakes the
@@ -35,9 +36,9 @@ class InCallActivity : ComponentActivity() {
             return
         }
         setContent {
-            ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
+            ThemeMMD(colorScheme = monochrome, typography = houseTypography) { DarkSelection {
                 ArmedScope { InCallScreen(onDone = { finishAndRemoveTask() }) }
-            }
+            } }
         }
     }
 
