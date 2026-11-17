@@ -45,6 +45,9 @@ class CallService : InCallService() {
         call.registerCallback(callback)
 
         val incoming = !call.isOutgoing()
+        if (!incoming && call.number()?.let { Actions.isEmergency(this, it) } == true) {
+            Prefs(this).lastEmergencyCall = System.currentTimeMillis()
+        }
         if (incoming) {
             // Whether the phone asked the screener about this call: if not, another app screens.
             Prefs(this).lastCallScreened = System.currentTimeMillis() - Screener.lastAsked < 15_000L

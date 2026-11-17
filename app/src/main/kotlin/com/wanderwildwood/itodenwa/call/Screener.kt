@@ -79,7 +79,8 @@ class Screener : CallScreeningService() {
             calledBefore = number != null && set.alwaysCalled && CallLogs.calledBefore(context, number),
             repeat = repeat,
             prefix = number?.let { blocks.prefixFor(it, prefixes) },
-            afterEmergency = CallLogs.emergencyRecently(context, EMERGENCY_MS),
+            afterEmergency = System.currentTimeMillis() - Prefs(context).lastEmergencyCall in 0 until EMERGENCY_MS ||
+                CallLogs.emergencyRecently(context, EMERGENCY_MS),
         )
         val verdict = Rules.decide(set, caller)
 

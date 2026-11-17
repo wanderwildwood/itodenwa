@@ -80,6 +80,14 @@ class Prefs(context: Context) {
         set(v) = p.edit().apply { if (v == null) remove(LAST_SCREENED) else putBoolean(LAST_SCREENED, v) }.apply()
 
     /**
+     * When the last emergency call went out, kept here because Android leaves emergency calls out
+     * of the call log on most phones, so the call back from the dispatcher still rings.
+     */
+    var lastEmergencyCall: Long
+        get() = p.getLong(LAST_EMERGENCY, 0L)
+        set(v) = p.edit().putLong(LAST_EMERGENCY, v).apply()
+
+    /**
      * Whether the carrier last said a voicemail is waiting. Kept so the keypad can show it from
      * the moment it opens; the carrier's next signal, or a call to voicemail, changes it.
      */
@@ -90,6 +98,7 @@ class Prefs(context: Context) {
     companion object {
         private const val VOICEMAIL_WAITING = "voicemail_waiting"
         private const val LAST_SCREENED = "last_call_screened"
+        private const val LAST_EMERGENCY = "last_emergency_call"
         private const val UNKNOWN = "rule_unknown"
         private const val HIDDEN = "rule_hidden"
         private const val ALWAYS_FAVOURITES = "always_favourites"
