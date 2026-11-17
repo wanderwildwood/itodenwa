@@ -44,9 +44,11 @@ class MissedCalls : BroadcastReceiver() {
                 }
             }
             TelephonyManager.ACTION_SHOW_VOICEMAIL_NOTIFICATION -> {
-                val count = intent.getIntExtra(TelephonyManager.EXTRA_NOTIFICATION_COUNT, 0)
+                // A negative count, or none at all, is "some, number not known" (as AOSP's dialer
+                // reads it): only 0 means none.
+                val count = intent.getIntExtra(TelephonyManager.EXTRA_NOTIFICATION_COUNT, -1)
                 Prefs(context).voicemailWaiting = Voicemail.waitingFromCount(count)
-                if (count <= 0) cancelVoicemail(context) else showVoicemail(context, count)
+                if (count == 0) cancelVoicemail(context) else showVoicemail(context, count)
             }
         }
     }
@@ -152,10 +154,15 @@ class MissedCalls : BroadcastReceiver() {
             val n = Notification.Builder(context, VOICEMAIL)
                 .setSmallIcon(R.drawable.ic_notify)
                 .setContentTitle(context.getString(R.string.voicemail_new))
-                .setContentText(context.resources.getQuantityString(R.plurals.voicemail_count, count, count))
                 .setContentIntent(call)
                 .setCategory(Notification.CATEGORY_STATUS)
-                .setNumber(count)
+                .apply {
+                    // How many only when the network says; otherwise the title alone.
+                    if (count > 0) {
+                        setContentText(context.resources.getQuantityString(R.plurals.voicemail_count, count, count))
+                        setNumber(count)
+                    }
+                }
                 .build()
             context.getSystemService(NotificationManager::class.java).notify(VOICEMAIL_ID, n)
         }
