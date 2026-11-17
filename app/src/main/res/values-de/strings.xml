@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Telefon</string>
-    <!-- The application\'s own label, where Android lists apps rather than launching one: the default-app
-         chooser, App info, DuraSpeed. Mudita\'s dialer is "Phone" there too. -->
-    <string name="app_label_full" translatable="false">Handset (itodenwa)</string>
 
     <string name="tab_favourites">Favoriten</string>
     <string name="tab_recents">Letzte Anrufe</string>
