@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- No internet: the call log and the contacts have no way off the phone through this app. -->
+    <!-- No INTERNET permission: the call log and the contacts have no way off the phone through this app. -->
 
     <!-- Names for numbers, and the people to call. Read only: changing people is Contacts' job. -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />

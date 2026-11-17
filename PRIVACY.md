@@ -35,8 +35,11 @@ as with any phone app; what the carrier keeps about them is covered by its own p
 
 ## What it keeps
 
-- **Settings**: the blocking rules, speed dial, the ringtone for unknown callers, and whether
-  favorites ring through Do Not Disturb.
+- **Settings**: the blocking rules, speed dial, the ringtone for unknown callers, whether
+  favorites and repeat callers ring through Do Not Disturb, and whether the keypad vibrates.
+  Beside them, a few yes-or-no notes for the app's own use (whether the DuraSpeed question was
+  answered, whether the last call coming in was screened), and the time of the last emergency
+  call made, so that the call back rings whatever the rules say.
 - **The block list.** Whole numbers go into Android's own blocked-numbers list, where the phone
   itself and messaging apps read them. Numbers ending in `*` are kept in the app's settings.
 - **Blocked calls**: when a rule turned a call away or silenced it, the time, the number and the
@@ -48,8 +51,8 @@ you choose.
 
 ## Checking this
 
-Every line of the app is in this repository. Search it for `INTERNET` — the only hit is the
-comment in the manifest saying it is not there.
+Every line of the app is in this repository. Search it for `INTERNET`: besides this page, the
+only hit is the comment in the manifest saying it is not there.
 
 <!-- shared-about privacy section -->
 ## Who we are
