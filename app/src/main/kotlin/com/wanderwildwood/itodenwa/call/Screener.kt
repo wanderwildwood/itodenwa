@@ -41,18 +41,25 @@ class Screener : CallScreeningService() {
             return
         }
         val answered = AtomicBoolean(false)
-        fun answer(response: CallResponse) {
-            if (answered.compareAndSet(false, true)) runCatching { respondToCall(details, response) }
+        // What a decision leaves behind (the call service's note, the blocked-calls list) is kept
+        // only if that decision is the answer given: one too late for the deadline leaves nothing,
+        // so a call the phone rang is not then treated as silenced.
+        fun answer(response: CallResponse, effects: List<() -> Unit> = emptyList()) {
+            if (answered.compareAndSet(false, true)) {
+                effects.forEach { runCatching { it() } }
+                runCatching { respondToCall(details, response) }
+            }
         }
         // Whatever happens below, the call rings by the deadline.
         Handler(Looper.getMainLooper()).postDelayed({ answer(CallResponse.Builder().build()) }, DEADLINE_MS)
         thread(name = "screen-call") {
-            val response = runCatching { decide(details) }.getOrNull() ?: CallResponse.Builder().build()
-            answer(response)
+            val effects = mutableListOf<() -> Unit>()
+            val response = runCatching { decide(details, effects) }.getOrNull()
+            if (response == null) answer(CallResponse.Builder().build()) else answer(response, effects)
         }
     }
 
-    private fun decide(details: Call.Details): CallResponse {
+    private fun decide(details: Call.Details, effects: MutableList<() -> Unit>): CallResponse {
         val context = applicationContext
         val prefs = Prefs(context)
         val set = prefs.rules
@@ -85,7 +92,8 @@ class Screener : CallScreeningService() {
         val verdict = Rules.decide(set, caller)
 
         if (verdict.action != Action.RING && verdict.rule != null) {
-            Screened(context).add(ScreenedCall(System.currentTimeMillis(), number, verdict.action, verdict.rule, verdict.pattern))
+            val screened = ScreenedCall(System.currentTimeMillis(), number, verdict.action, verdict.rule, verdict.pattern)
+            effects += { Screened(context).add(screened) }
         }
         return when (verdict.action) {
             Action.DECLINE -> CallResponse.Builder()
@@ -96,10 +104,10 @@ class Screener : CallScreeningService() {
                 .setSkipNotification(true)
                 .build()
             Action.SILENCE -> {
-                Decisions.put(number, Decision.Silenced)
+                effects += { Decisions.put(number, Decision.Silenced) }
                 CallResponse.Builder().setSilenceCall(true).build()
             }
-            Action.RING -> ringing(context, prefs, number, who, inContacts, repeat)
+            Action.RING -> ringing(context, prefs, number, who, inContacts, repeat, effects)
         }
     }
 
@@ -115,6 +123,7 @@ class Screener : CallScreeningService() {
         who: com.wanderwildwood.itodenwa.data.Who?,
         inContacts: Boolean?,
         repeat: Boolean,
+        effects: MutableList<() -> Unit>,
     ): CallResponse {
         val ring = CallResponse.Builder().build()
         val starred = who?.starred == true
@@ -122,14 +131,15 @@ class Screener : CallScreeningService() {
         if (quiet) {
             val through = (prefs.favouritesThroughQuiet && starred) || (prefs.repeatThroughQuiet && repeat)
             if (through && !Quiet.phoneWouldRing(context, inContacts == true, starred, repeat)) {
-                Decisions.put(number, Decision.RingThroughQuiet(who?.let { Ringer.contactTone(context, it.contactId) }))
+                val tone = who?.let { Ringer.contactTone(context, it.contactId) }
+                effects += { Decisions.put(number, Decision.RingThroughQuiet(tone)) }
             }
             return ring
         }
         val tone: Uri? = prefs.unknownRingtone
         if (tone != null && number != null && inContacts == false) {
             // The phone's ringer is told to stay quiet, and the app rings the other tone.
-            Decisions.put(number, Decision.RingWith(tone))
+            effects += { Decisions.put(number, Decision.RingWith(tone)) }
             return CallResponse.Builder().setSilenceCall(true).build()
         }
         return ring
