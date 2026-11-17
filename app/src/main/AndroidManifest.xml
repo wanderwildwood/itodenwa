@@ -57,17 +57,16 @@
         </intent>
     </queries>
 
-    <!-- Two labels. The drawer, the bar and the recent-apps list show the activity's, "Phone". Android's
-         default-app chooser, App info and DuraSpeed's list show the application's, "Phone (itodenwa)",
-         because Mudita's own dialer is called "Phone" there too, with the same handset, and two
-         identical rows could not be told apart. -->
+    <!-- One name everywhere, "Handset", in every language: the drawer, the recent-apps list, Android's
+         default-app chooser, App info and DuraSpeed's list. (Under its old name, "Phone", the application
+         label carried "(itodenwa)" so it could be told apart from Mudita's dialer; "Handset" needs no suffix.) -->
     <application
         android:allowBackup="false"
         android:dataExtractionRules="@xml/no_backup"
         android:fullBackupContent="false"
         android:icon="@drawable/ic_launcher_mudita"
         android:roundIcon="@drawable/ic_launcher_mudita"
-        android:label="@string/app_label_full"
+        android:label="@string/app_name"
         android:supportsRtl="false"
         android:theme="@style/Theme.App">
 

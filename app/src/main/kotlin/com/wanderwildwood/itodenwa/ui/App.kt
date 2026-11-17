@@ -272,7 +272,7 @@ private fun DuraSpeedAsk(onDismiss: () -> Unit) {
     EInkDialog(onDismiss = onDismiss) {
         TextMMD(text = stringResource(R.string.settings_duraspeed), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(8.dp))
-        TextMMD(text = stringResource(R.string.duraspeed_line, stringResource(R.string.app_label_full)), style = MaterialTheme.typography.bodyMedium)
+        TextMMD(text = stringResource(R.string.duraspeed_line, stringResource(R.string.app_name)), style = MaterialTheme.typography.bodyMedium)
         Spacer(Modifier.height(16.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             FootButton(stringResource(R.string.duraspeed_later), Modifier.weight(1f), onClick = onDismiss)

@@ -96,9 +96,6 @@ then says to open App info, tap ⋮, then **Allow restricted settings**, and try
 what wakes a sleeping phone for a call; a line at the top, **Let calls wake the screen**, opens
 the page that allows it.
 
-In Default apps, App info and DuraSpeed's list it is called **Handset (itodenwa)**, so it cannot be
-taken for the Kompakt's own Phone app. In the app drawer it is Handset.
-
 If another app is set as the phone's caller ID and spam app, Android asks that app instead, and
 Blocking says so.
 
@@ -106,7 +103,7 @@ Blocking says so.
 
 DuraSpeed shuts apps down a few minutes after the screen goes dark, and a phone app shut down
 that way misses its calls. Right after it becomes the phone app, Handset asks: press **Open
-DuraSpeed**, tap **Open** there, and switch **Handset (itodenwa)** on. Back in Handset, it asks
+DuraSpeed**, tap **Open** there, and switch **Handset** on. Back in Handset, it asks
 whether that is done. If the question is never answered, it comes back the next time Handset
 opens; after that it waits behind **Settings → DuraSpeed** until it is done.
 
