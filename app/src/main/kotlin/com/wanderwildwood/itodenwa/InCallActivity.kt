@@ -30,7 +30,9 @@ class InCallActivity : ComponentActivity() {
         // ear; the volume keys set the call's own volume, the earpiece's, at the phone's full range.
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         volumeControlStream = android.media.AudioManager.STREAM_VOICE_CALL
-        handle(intent)
+        // Only a fresh launch: an Answer that opened this screen is not answered again when the
+        // screen is made anew (a change of dark mode, font size or language).
+        if (savedInstanceState == null) handle(intent)
         if (!CallManager.hasCalls()) {
             finish()
             return
@@ -56,6 +58,7 @@ class InCallActivity : ComponentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        setIntent(intent)
         handle(intent)
     }
 

@@ -454,13 +454,16 @@ private fun AccountDialog() {
  * Turns the panel off while the phone is held to the ear, so a cheek does not press Mute or End
  * call. Not while ringing, and not on the speaker. From Fossify Phone's CallActivity.
  */
+/** Longer than any call; the effect lets go when the call screen does. An hour was too short. */
+private const val PROXIMITY_HOLD_MS = 24 * 60 * 60 * 1000L
+
 @Composable
 private fun ProximityWhile(wanted: Boolean) {
     val context = LocalContext.current
     DisposableEffect(wanted) {
         val power = context.getSystemService(PowerManager::class.java)
         val lock = if (wanted && power.isWakeLockLevelSupported(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK)) {
-            power.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "itodenwa:proximity").apply { acquire(60 * 60 * 1000L) }
+            power.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "itodenwa:proximity").apply { acquire(PROXIMITY_HOLD_MS) }
         } else {
             null
         }
