@@ -31,6 +31,12 @@ object CallManager {
     /** The call the app's own ringer is ringing for, if any. */
     var ringingOurselves: Call? = null
 
+    /** A call the app would ring, only buzzed for because another call was under way. */
+    class RingLater(val call: Call, val tone: android.net.Uri?, val throughQuiet: Boolean)
+
+    /** Rung by the app once the other call ends, if it is still ringing then. */
+    var ringLater: RingLater? = null
+
     /** Bumped on every change to any call, its audio, or which call is in front. */
     val changes = mutableIntStateOf(0)
 

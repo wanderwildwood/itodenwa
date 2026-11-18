@@ -30,6 +30,7 @@ class CallService : InCallService() {
                 Ringer.stop()
                 CallManager.ringingOurselves = null
             }
+            if (state != Call.STATE_RINGING && CallManager.ringLater?.call == call) CallManager.ringLater = null
             if (state == Call.STATE_DISCONNECTED || state == Call.STATE_DISCONNECTING) {
                 if (!CallManager.hasCalls()) notifier.cancel()
             } else {
@@ -96,10 +97,13 @@ class CallService : InCallService() {
 
     private fun ringOurselves(call: Call, tone: android.net.Uri?, throughQuiet: Boolean) {
         // A second call during one in progress: one short buzz, never a full ring in the ear.
+        // It is rung in full if it is still ringing when that call ends.
         if (CallManager.otherCallGoing(call)) {
             Ringer.nudge(this)
+            CallManager.ringLater = CallManager.RingLater(call, tone, throughQuiet)
             return
         }
+        CallManager.ringLater = null
         CallManager.ringingOurselves = call
         Ringer.start(this, tone, throughQuiet)
     }
@@ -109,6 +113,7 @@ class CallService : InCallService() {
         super.onSilenceRinger()
         Ringer.stop()
         CallManager.ringingOurselves = null
+        CallManager.ringLater = null
     }
 
     override fun onCallRemoved(call: Call) {
@@ -119,8 +124,15 @@ class CallService : InCallService() {
             Ringer.stop()
             CallManager.ringingOurselves = null
         }
+        if (CallManager.ringLater?.call == call) CallManager.ringLater = null
         val wasFront = call == CallManager.primary()
         CallManager.onCallRemoved(call)
+        // A call only buzzed for while this one was going, still ringing: now it rings.
+        CallManager.ringLater?.let { later ->
+            if (later.call.stateCompat() == Call.STATE_RINGING && !CallManager.otherCallGoing(later.call)) {
+                ringOurselves(later.call, later.tone, later.throughQuiet)
+            }
+        }
         if (CallManager.phoneState() == NoCall) {
             CallManager.inCallService = null
             notifier.cancel()
