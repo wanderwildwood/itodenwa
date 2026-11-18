@@ -132,7 +132,9 @@ class MissedCalls : BroadcastReceiver() {
                 val message = PendingIntent.getActivity(
                     context,
                     12,
-                    Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto", known, null)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                    // Through the same activity, so the call counts as seen once it is answered.
+                    Intent(context, NotificationAction::class.java).setAction(NotificationAction.MESSAGE)
+                        .setData(Uri.fromParts("smsto", known, null)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
                 )
                 builder.addAction(Notification.Action.Builder(null, context.getString(R.string.missed_call_back), callBack).build())
