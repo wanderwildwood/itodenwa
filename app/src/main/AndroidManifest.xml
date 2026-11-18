@@ -150,6 +150,16 @@
             android:name=".call.CallActions"
             android:exported="false" />
 
+        <!-- Call back and voicemail from a notification: an activity with nothing to show, so a
+             locked phone asks for the unlock before anything is dialed. -->
+        <activity
+            android:name=".call.NotificationAction"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.NoDisplay" />
+
         <!-- The missed-call and voicemail notifications, handed over by the phone. Both are
              broadcasts only the system may send. -->
         <receiver

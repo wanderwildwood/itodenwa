@@ -121,10 +121,12 @@ class MissedCalls : BroadcastReceiver() {
             if (count == 1 && known != null) {
                 // Call back and Message, each a deliberate press in the shade; a press on the
                 // notification itself only opens Recents.
-                val callBack = PendingIntent.getBroadcast(
+                // Through an activity, so a locked phone asks for the unlock before it dials.
+                val callBack = PendingIntent.getActivity(
                     context,
                     11,
-                    Intent(context, CallActions::class.java).setAction(CallActions.CALL_BACK).setData(Uri.fromParts("tel", known, null)),
+                    Intent(context, NotificationAction::class.java).setAction(NotificationAction.CALL_BACK)
+                        .setData(Uri.fromParts("tel", known, null)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                     PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
                 )
                 val message = PendingIntent.getActivity(
@@ -145,10 +147,12 @@ class MissedCalls : BroadcastReceiver() {
 
         fun showVoicemail(context: Context, count: Int) {
             channel(context, VOICEMAIL, R.string.channel_voicemail)
-            val call = PendingIntent.getBroadcast(
+            // Through an activity, so a locked phone asks for the unlock before it dials.
+            val call = PendingIntent.getActivity(
                 context,
                 13,
-                Intent(context, CallActions::class.java).setAction(CallActions.CALL_VOICEMAIL),
+                Intent(context, NotificationAction::class.java).setAction(NotificationAction.CALL_VOICEMAIL)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
             )
             val n = Notification.Builder(context, VOICEMAIL)

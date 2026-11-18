@@ -53,7 +53,8 @@ are named where they are used.
   when, who, and which rule did it, with **Unblock** and **Add to Contacts**.
 - **Delete** a row of Recents from its long press, or **Clear all** from the ⋮, each asking first.
 - **Missed calls** get a notification with **Call back** and **Message**; it opens Recents, and
-  goes once Recents has been seen.
+  goes once Recents has been seen. On a locked phone, Call back (and a press on the voicemail
+  notification) asks for the unlock before it dials.
 - **Voicemail**: hold 1 on the keypad, or press Voicemail in Recents' ⋮. The call screen and
   Recents say "Voicemail", not the carrier's number for it. A voicemail notification, where the
   carrier sends one, calls it and goes once it is called.
