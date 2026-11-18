@@ -33,6 +33,22 @@ object Quiet {
         }
     }
 
+    /**
+     * [phoneWouldRing] for a caller known only by [number]: under "priority only" the caller is
+     * looked up in Contacts and the call log ([repeatMs] for a repeat caller); under the other
+     * filters there is nothing to look up. A lookup that fails counts as not in Contacts and not
+     * starred. Reads the contacts and the call log: not on the main thread.
+     */
+    fun phoneWouldRingFor(context: Context, number: String?, repeatMs: Long): Boolean {
+        if (filter(context) != NotificationManager.INTERRUPTION_FILTER_PRIORITY) {
+            return phoneWouldRing(context, inContacts = false, starred = false, repeat = false)
+        }
+        val check = number?.let { runCatching { Lookup.get(context).check(it) }.getOrNull() }
+        val who = (check as? Lookup.Check.Found)?.who
+        val repeat = number != null && runCatching { CallLogs.calledRecently(context, number, repeatMs) }.getOrDefault(false)
+        return phoneWouldRing(context, check is Lookup.Check.Found, who?.starred == true, repeat)
+    }
+
     /** The phone's Do Not Disturb filter right now. */
     fun filter(context: Context): Int =
         context.getSystemService(NotificationManager::class.java)?.currentInterruptionFilter

@@ -1,6 +1,8 @@
 package com.wanderwildwood.itodenwa.call
 
 import android.app.KeyguardManager
+import android.os.Handler
+import android.os.Looper
 import android.os.PowerManager
 import android.telecom.Call
 import android.telecom.CallAudioState
@@ -9,6 +11,7 @@ import com.wanderwildwood.itodenwa.InCallActivity
 import com.wanderwildwood.itodenwa.data.Actions
 import com.wanderwildwood.itodenwa.data.Prefs
 import com.wanderwildwood.itodenwa.data.Quiet
+import kotlin.concurrent.thread
 
 /**
  * What the phone hands every call to while this is the phone app. From Fossify Phone's
@@ -55,6 +58,8 @@ class CallService : InCallService() {
         // never, even for a moment, the one in front of a call in progress.
         var throughQuiet = false
         var heardThroughQuiet = false
+        // No word on that from the screener: it ran late or failed, or another app screens.
+        var heardUnknown = false
         if (incoming && call.stateCompat() == Call.STATE_RINGING) {
             when (val d = Decisions.take(call.number())) {
                 is Decision.Silenced -> CallManager.silenced += call
@@ -64,8 +69,11 @@ class CallService : InCallService() {
                     ringOurselves(call, d.tone, true)
                 }
                 // Rung by the phone; whether Do Not Disturb lets that ring be heard.
-                is Decision.Rings -> heardThroughQuiet = d.heard == true
-                null -> Unit
+                is Decision.Rings -> {
+                    heardThroughQuiet = d.heard == true
+                    heardUnknown = d.heard == null
+                }
+                null -> heardUnknown = true
             }
         }
         CallManager.onCallAdded(call)
@@ -94,6 +102,20 @@ class CallService : InCallService() {
         val quietHoldsIt = incoming && Quiet.isOn(this) && !throughQuiet && !heardThroughQuiet
         if (!(incoming && locked) || (!fullScreenWorks && !quietHoldsIt)) {
             runCatching { startActivity(InCallActivity.intent(this)) }
+        } else if (!fullScreenWorks && heardUnknown) {
+            // Whether Do Not Disturb lets the phone ring this caller is looked up here instead,
+            // away from the main thread, and the screen opened if it does and the call still rings.
+            val app = applicationContext
+            thread(name = "call-quiet") {
+                val heard = runCatching { Quiet.phoneWouldRingFor(app, call.number(), Screener.REPEAT_MS) }.getOrDefault(false)
+                if (heard) {
+                    Handler(Looper.getMainLooper()).post {
+                        if (call.stateCompat() == Call.STATE_RINGING && call !in CallManager.silenced) {
+                            runCatching { startActivity(InCallActivity.intent(this)) }
+                        }
+                    }
+                }
+            }
         }
     }
 

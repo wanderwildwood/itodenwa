@@ -74,7 +74,10 @@ class Screener : CallScreeningService() {
         val needsCaller = Rules.anyOn(set, prefixes) || prefs.unknownRingtone != null ||
             prefs.favouritesThroughQuiet || prefs.repeatThroughQuiet
         if (!needsCaller) {
-            effects += { Decisions.put(number, Decision.Rings(null)) }
+            // Nothing to decide, but the call service still needs to know whether Do Not Disturb
+            // lets the phone ring it, so that a call it lets ring comes up on a locked phone.
+            val heard = !Quiet.isOn(context) || Quiet.phoneWouldRingFor(context, number, REPEAT_MS)
+            effects += { Decisions.put(number, Decision.Rings(heard)) }
             return CallResponse.Builder().build()
         }
 
@@ -161,7 +164,8 @@ class Screener : CallScreeningService() {
 
     companion object {
         private const val DEADLINE_MS = 4000L
-        private const val REPEAT_MS = 3 * 60 * 1000L
+        /** How recent a first call makes the next one from the same number a repeat caller. */
+        const val REPEAT_MS = 3 * 60 * 1000L
         private const val EMERGENCY_MS = 15 * 60 * 1000L
 
         /** When the phone last asked, so Settings can tell whether another app is screening instead. */
