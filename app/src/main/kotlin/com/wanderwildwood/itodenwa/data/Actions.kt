@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.Telephony
 import android.telecom.TelecomManager
+import com.wanderwildwood.itodenwa.ui.HouseApps
 
 /**
  * What the app hands to the phone and to the other apps: a call to Telecom, a message to the
@@ -22,7 +23,7 @@ object Actions {
     const val CONTACTS_APP = "com.wanderwildwood.enishi"
 
     /** Notes — oboegaki — which takes a shared text with a subject as a new note of that title. */
-    const val NOTES_APP = "com.wanderwildwood.oboegaki"
+    const val NOTES_APP = HouseApps.MEMO
 
     /**
      * Whether a ringing call may fill the screen and wake the phone. Android 14 on takes this from
@@ -95,16 +96,19 @@ object Actions {
         .putExtra(Intent.EXTRA_SUBJECT, title)
         .putExtra(Intent.EXTRA_TEXT, "")
 
-    /** Whether Notes is on the phone to take a note. */
-    fun canNote(context: Context): Boolean =
-        context.packageManager.queryIntentActivities(toNotes(""), 0).isNotEmpty()
+    /**
+     * Whether Notes is on the phone to take a note: the real one, signed with its release
+     * certificate ([HouseApps]); an app that only took its name is passed over.
+     */
+    fun canNote(context: Context): Boolean = HouseApps.aimed(context, toNotes(""), NOTES_APP) != null
 
     /**
      * A new note in Notes titled [title], open and waiting for the first word. In a task of its
-     * own, so the call screen stays where it was, a press away in the recent apps.
+     * own, so the call screen stays where it was, a press away in the recent apps. Only to the
+     * real Notes ([canNote]).
      */
     fun note(context: Context, title: String): Boolean =
-        start(context, toNotes(title).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        canNote(context) && start(context, toNotes(title).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
 
     /** The person's own page in the Contacts app, where they are edited. */
     fun openContact(context: Context, id: Long, lookupKey: String): Boolean {
