@@ -53,6 +53,7 @@ class CallService : InCallService() {
             Prefs(this).lastCallScreened = System.currentTimeMillis() - Screener.lastAsked < 15_000L
         }
         var throughQuiet = false
+        var heardThroughQuiet = false
         if (incoming && call.stateCompat() == Call.STATE_RINGING) {
             when (val d = Decisions.take(call.number())) {
                 is Decision.Silenced -> CallManager.silenced += call
@@ -61,6 +62,8 @@ class CallService : InCallService() {
                     throughQuiet = true
                     ringOurselves(call, d.tone, true)
                 }
+                // Rung by the phone; whether Do Not Disturb lets that ring be heard.
+                is Decision.Rings -> heardThroughQuiet = d.heard == true
                 null -> Unit
             }
         }
@@ -77,14 +80,15 @@ class CallService : InCallService() {
         // The full-screen intent does nothing when its channel has been switched off, or when Do
         // Not Disturb holds the notification back from a call that is ringing through it. Then
         // the screen is opened directly, as a phone app's call service may do from behind; a
-        // call that Do Not Disturb keeps quiet is left to wait in the shade, as it asks.
+        // call that Do Not Disturb keeps quiet is left to wait in the shade, as it asks. One its
+        // Priority settings let ring is not kept quiet, and comes up like any other.
         val power = getSystemService(PowerManager::class.java)
         val keyguard = getSystemService(KeyguardManager::class.java)
         val locked = !power.isInteractive || keyguard.isKeyguardLocked
         notifier.show(fullScreen = incoming)
         // Not allowed to fill the screen (Android 14 on, an app installed from a file): opened directly.
         val fullScreenWorks = notifier.canAlert() && Actions.canFillScreen(this) && !throughQuiet
-        val quietHoldsIt = incoming && Quiet.isOn(this) && !throughQuiet
+        val quietHoldsIt = incoming && Quiet.isOn(this) && !throughQuiet && !heardThroughQuiet
         if (!(incoming && locked) || (!fullScreenWorks && !quietHoldsIt)) {
             runCatching { startActivity(InCallActivity.intent(this)) }
         }

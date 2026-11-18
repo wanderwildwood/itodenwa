@@ -41,6 +41,10 @@ class Screener : CallScreeningService() {
             return
         }
         val answered = AtomicBoolean(false)
+        val number = details.handle?.schemeSpecificPart?.takeIf { it.isNotBlank() }
+        // Every answer leaves its decision, the plain "ring" too, so it replaces any older one
+        // for the same number (or for "hidden") that a call which never came in left behind.
+        val rings: List<() -> Unit> = listOf({ Decisions.put(number, Decision.Rings(null)) })
         // What a decision leaves behind (the call service's note, the blocked-calls list) is kept
         // only if that decision is the answer given: one too late for the deadline leaves nothing,
         // so a call the phone rang is not then treated as silenced.
@@ -51,11 +55,11 @@ class Screener : CallScreeningService() {
             }
         }
         // Whatever happens below, the call rings by the deadline.
-        Handler(Looper.getMainLooper()).postDelayed({ answer(CallResponse.Builder().build()) }, DEADLINE_MS)
+        Handler(Looper.getMainLooper()).postDelayed({ answer(CallResponse.Builder().build(), rings) }, DEADLINE_MS)
         thread(name = "screen-call") {
             val effects = mutableListOf<() -> Unit>()
             val response = runCatching { decide(details, effects) }.getOrNull()
-            if (response == null) answer(CallResponse.Builder().build()) else answer(response, effects)
+            if (response == null) answer(CallResponse.Builder().build(), rings) else answer(response, effects)
         }
     }
 
@@ -69,7 +73,10 @@ class Screener : CallScreeningService() {
 
         val needsCaller = Rules.anyOn(set, prefixes) || prefs.unknownRingtone != null ||
             prefs.favouritesThroughQuiet || prefs.repeatThroughQuiet
-        if (!needsCaller) return CallResponse.Builder().build()
+        if (!needsCaller) {
+            effects += { Decisions.put(number, Decision.Rings(null)) }
+            return CallResponse.Builder().build()
+        }
 
         val check = number?.let { Lookup.get(context).check(it) }
         val who = (check as? Lookup.Check.Found)?.who
@@ -133,9 +140,12 @@ class Screener : CallScreeningService() {
             val mayThrough = Quiet.mayRingThrough(Quiet.filter(context))
             val favourite = prefs.favouritesThroughQuiet && starred
             val through = mayThrough && (favourite || (prefs.repeatThroughQuiet && repeat))
-            if (through && !Quiet.phoneWouldRing(context, inContacts == true, starred, repeat)) {
+            val heard = Quiet.phoneWouldRing(context, inContacts == true, starred, repeat)
+            if (through && !heard) {
                 val tone = who?.let { Ringer.contactTone(context, it.contactId) }
                 effects += { Decisions.put(number, Decision.RingThroughQuiet(tone)) }
+            } else {
+                effects += { Decisions.put(number, Decision.Rings(heard)) }
             }
             return ring
         }
@@ -145,6 +155,7 @@ class Screener : CallScreeningService() {
             effects += { Decisions.put(number, Decision.RingWith(tone)) }
             return CallResponse.Builder().setSilenceCall(true).build()
         }
+        effects += { Decisions.put(number, Decision.Rings(true)) }
         return ring
     }
 
@@ -169,6 +180,12 @@ sealed class Decision {
 
     /** The app rings it through Do Not Disturb, with the contact's own ringtone if they have one. */
     data class RingThroughQuiet(val tone: Uri?) : Decision()
+
+    /**
+     * The phone's own ringer rings it. [heard]: whether Do Not Disturb lets that ring be heard,
+     * or null when the screener did not look.
+     */
+    data class Rings(val heard: Boolean?) : Decision()
 }
 
 /**
