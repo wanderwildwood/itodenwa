@@ -63,11 +63,26 @@ class Lookup private constructor(private val context: Context) {
         }.isSuccess
     }
 
-    @Synchronized
+    /** Bumped when a contact changes; the answers kept are dropped at the next [who]. */
+    private val generation = java.util.concurrent.atomic.AtomicInteger()
+    private var keptFor = 0
+
+    /**
+     * Forgets every answer kept. Takes no lock: the contacts observer calls it on the main thread,
+     * which must not wait for a lookup holding the lock through a read of every contact.
+     */
     fun forget() {
+        generation.incrementAndGet()
+    }
+
+    /** Under the lock: drops what was kept before the last [forget]. */
+    private fun freshen() {
+        val now = generation.get()
+        if (now == keptFor) return
         cache.clear()
         everyone = null
         byKey = emptyMap()
+        keptFor = now
     }
 
     fun allowed(): Boolean =
@@ -78,10 +93,13 @@ class Lookup private constructor(private val context: Context) {
     fun who(number: String): Who? {
         if (!allowed() || Numbers.digits(number).isEmpty()) return null
         watch()
+        freshen()
         if (cache.containsKey(number)) return cache[number]
+        val asked = keptFor
         // A lookup that failed is not kept: it says nothing about whether the number is anyone's.
         val found = runCatching { find(number, cached = true) }.getOrElse { return null }
-        cache[number] = found
+        // Nor one a contact changed under: the next call asks again.
+        if (generation.get() == asked) cache[number] = found
         return found
     }
 
@@ -111,7 +129,7 @@ class Lookup private constructor(private val context: Context) {
         val iso = country(context)
         val e164 = PhoneNumberUtils.formatNumberToE164(number, iso)
         if (e164 != null && e164 != number) phoneLookup(e164)?.let { return it }
-        val index = if (cached) synchronized(this) { if (everyone == null) load(); byKey } else index(read())
+        val index = if (cached) synchronized(this) { freshen(); if (everyone == null) load(); byKey } else index(read())
         return byDigits(number, index) ?: e164?.let { byDigits(it, index) }
     }
 
