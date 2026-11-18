@@ -91,7 +91,7 @@ import androidx.compose.ui.semantics.toggleableState
  * waiting, and Swap.
  */
 @Composable
-fun InCallScreen(onDone: () -> Unit) {
+fun InCallScreen(opened: Int, onDone: () -> Unit) {
     val context = LocalContext.current
     // Read so that every change to any call draws this again.
     @Suppress("UNUSED_VARIABLE")
@@ -119,7 +119,12 @@ fun InCallScreen(onDone: () -> Unit) {
     var lastSim by remember { mutableStateOf<String?>(null) }
 
     val callState = call.stateCompat()
-    val ended = call == null || callState == Call.STATE_DISCONNECTED
+    // The call the screen was brought up for. A call a rule silenced, left ringing once the call
+    // shown here ends, stays in the shade: the screen says "Call ended" and goes, as it would
+    // have with no other call. Brought up for that call itself (its notification), it shows it.
+    val openedFor = remember(opened) { call }
+    val leftQuiet = call != null && call != openedFor && CallManager.quietlyRinging(call)
+    val ended = call == null || callState == Call.STATE_DISCONNECTED || leftQuiet
     LaunchedEffect(ended) {
         if (ended) {
             delay(1800)

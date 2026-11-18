@@ -79,6 +79,23 @@ object CallManager {
     /** A call a rule silenced that has not been answered: a notification, never the call screen. */
     fun quietlyRinging(call: Call?): Boolean = call != null && call in silenced && call.stateCompat() in NEW_STATES
 
+    /**
+     * A call a rule silenced, still ringing, while another call is the one in front: it keeps a
+     * quiet notification of its own, with Answer and Decline, since the call screen leaves it out.
+     */
+    fun waitingSilenced(): Call? = calls.firstOrNull { it != call && quietlyRinging(it) }
+
+    /** Answers [waitingSilenced]; the phone holds the call in progress, as for any call waiting. */
+    fun answerWaiting() {
+        waitingSilenced()?.answer(VideoProfile.STATE_AUDIO_ONLY)
+    }
+
+    /** Declines [waitingSilenced], and leaves the call in progress alone. */
+    fun declineWaiting() {
+        val c = waitingSilenced() ?: return
+        if (c.stateCompat() == Call.STATE_RINGING) c.reject(false, null) else c.disconnect()
+    }
+
     /** Whether a call other than [call] is under way (talking, held or being placed). */
     fun otherCallGoing(call: Call): Boolean = calls.any {
         it != call && it.stateCompat() in listOf(Call.STATE_ACTIVE, Call.STATE_HOLDING, Call.STATE_DIALING, Call.STATE_CONNECTING)

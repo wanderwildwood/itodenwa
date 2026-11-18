@@ -39,7 +39,7 @@ class InCallActivity : ComponentActivity() {
         }
         setContent {
             ThemeMMD(colorScheme = monochrome, typography = houseTypography) { DarkSelection {
-                ArmedScope { InCallScreen(onDone = { finishAndRemoveTask() }) }
+                ArmedScope { InCallScreen(opened = opened.intValue, onDone = { finishAndRemoveTask() }) }
             } }
         }
     }
@@ -60,10 +60,17 @@ class InCallActivity : ComponentActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         handle(intent)
+        opened.intValue++
     }
 
+    /** Counts the times this screen is brought up again, so it shows the call it was brought up for. */
+    private val opened = androidx.compose.runtime.mutableIntStateOf(0)
+
     private fun handle(intent: Intent?) {
-        if (intent?.action == CallActions.ANSWER) CallManager.answer()
+        when (intent?.action) {
+            CallActions.ANSWER -> CallManager.answer()
+            CallActions.ANSWER_WAITING -> CallManager.answerWaiting()
+        }
     }
 
     companion object {

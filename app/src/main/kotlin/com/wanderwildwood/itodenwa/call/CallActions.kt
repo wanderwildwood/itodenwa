@@ -15,6 +15,7 @@ class CallActions : BroadcastReceiver() {
         when (intent.action) {
             ANSWER -> CallManager.answer()
             DECLINE, HANG_UP -> CallManager.hangUp()
+            DECLINE_WAITING -> CallManager.declineWaiting()
             // The missed-call notification swiped away: the calls have been seen, as AOSP's dialer
             // takes it, so the log stops counting them and every copy of the notice goes.
             MISSED_DISMISSED -> {
@@ -31,6 +32,10 @@ class CallActions : BroadcastReceiver() {
         const val ANSWER = "com.wanderwildwood.itodenwa.ANSWER"
         const val DECLINE = "com.wanderwildwood.itodenwa.DECLINE"
         const val HANG_UP = "com.wanderwildwood.itodenwa.HANG_UP"
+
+        /** Answer and Decline on a silenced call waiting behind the call in progress. */
+        const val ANSWER_WAITING = "com.wanderwildwood.itodenwa.ANSWER_WAITING"
+        const val DECLINE_WAITING = "com.wanderwildwood.itodenwa.DECLINE_WAITING"
         const val MISSED_DISMISSED = "com.wanderwildwood.itodenwa.MISSED_DISMISSED"
     }
 }

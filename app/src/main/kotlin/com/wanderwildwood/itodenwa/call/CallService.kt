@@ -42,8 +42,6 @@ class CallService : InCallService() {
     override fun onCallAdded(call: Call) {
         super.onCallAdded(call)
         CallManager.inCallService = this
-        CallManager.onCallAdded(call)
-        call.registerCallback(callback)
 
         val incoming = !call.isOutgoing()
         if (!incoming && call.number()?.let { Actions.isEmergency(this, it) } == true) {
@@ -53,6 +51,8 @@ class CallService : InCallService() {
             // Whether the phone asked the screener about this call: if not, another app screens.
             Prefs(this).lastCallScreened = System.currentTimeMillis() - Screener.lastAsked < 15_000L
         }
+        // The screener's word is read before the call is counted, so a call a rule silenced is
+        // never, even for a moment, the one in front of a call in progress.
         var throughQuiet = false
         var heardThroughQuiet = false
         if (incoming && call.stateCompat() == Call.STATE_RINGING) {
@@ -68,6 +68,8 @@ class CallService : InCallService() {
                 null -> Unit
             }
         }
+        CallManager.onCallAdded(call)
+        call.registerCallback(callback)
         if (call in CallManager.silenced) {
             // Silenced by a rule: it comes in quietly, a notification and nothing more.
             notifier.show()

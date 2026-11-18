@@ -28,19 +28,68 @@ class CallNotifier(private val context: Context) {
     private val manager = context.getSystemService(NotificationManager::class.java)
 
     fun show(fullScreen: Boolean = false) {
+        showWaiting()
         val call = CallManager.primary() ?: return
         val state = call.stateCompat()
         val number = call.number()
         thread(name = "call-notification") {
-            val who = number?.let { Lookup.get(context).who(it) }
-            val title = when {
-                call.isConference() -> context.getString(R.string.call_conference)
-                who != null -> who.name
-                Voicemail.isCallTo(context, call) -> context.getString(R.string.recents_voicemail)
-                number != null -> Lookup.display(context, number)
-                else -> context.getString(R.string.call_hidden_number)
-            }
+            val title = title(call, number)
             post(call, state, title, number, fullScreen && state == Call.STATE_RINGING && call !in CallManager.silenced)
+        }
+    }
+
+    /** Who a call is with, as its notification names them. Reads the contacts: not on the main thread. */
+    private fun title(call: Call, number: String?): String {
+        val who = number?.let { Lookup.get(context).who(it) }
+        return when {
+            call.isConference() -> context.getString(R.string.call_conference)
+            who != null -> who.name
+            Voicemail.isCallTo(context, call) -> context.getString(R.string.recents_voicemail)
+            number != null -> Lookup.display(context, number)
+            else -> context.getString(R.string.call_hidden_number)
+        }
+    }
+
+    /**
+     * A call a rule silenced, ringing behind a call in progress, which the call screen leaves out:
+     * a notification of its own on the quiet channel, no heads-up and no full screen, with Answer
+     * and Decline for that call alone. Gone once it is answered, declined or ends.
+     */
+    private fun showWaiting() {
+        val waiting = CallManager.waitingSilenced()
+        if (waiting == null) {
+            manager.cancel(WAITING_ID)
+            return
+        }
+        val number = waiting.number()
+        thread(name = "call-waiting-notification") {
+            val title = title(waiting, number)
+            main.post {
+                // The call may have been answered or ended while its name was being looked up.
+                if (CallManager.waitingSilenced() != waiting) return@post
+                channels()
+                val open = PendingIntent.getActivity(context, 0, InCallActivity.intent(context), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+                val answer = PendingIntent.getActivity(
+                    context,
+                    2,
+                    InCallActivity.intent(context).setAction(CallActions.ANSWER_WAITING),
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+                )
+                val n = Notification.Builder(context, ONGOING)
+                    .setSmallIcon(R.drawable.ic_notify)
+                    .setContentTitle(title)
+                    .setContentText(context.getString(R.string.call_incoming))
+                    .setContentIntent(open)
+                    .setCategory(Notification.CATEGORY_CALL)
+                    .setOngoing(true)
+                    .setOnlyAlertOnce(true)
+                    .setShowWhen(false)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
+                    .addAction(action(CallActions.DECLINE_WAITING, R.string.call_decline))
+                    .addAction(Notification.Action.Builder(null, context.getString(R.string.call_answer), answer).build())
+                    .build()
+                manager.notify(WAITING_ID, n)
+            }
         }
     }
 
@@ -166,11 +215,17 @@ class CallNotifier(private val context: Context) {
     fun cancel() {
         (CallManager.inCallService ?: context as? Service)?.stopForeground(Service.STOP_FOREGROUND_REMOVE)
         manager.cancel(ID)
+        manager.cancel(WAITING_ID)
     }
+
+    private val main = android.os.Handler(android.os.Looper.getMainLooper())
 
     companion object {
         private const val TAG = "CallNotifier"
         private const val ID = 42
+
+        // 43 and 44 are the missed-call and voicemail notifications' (MissedCalls).
+        private const val WAITING_ID = 45
         private const val RINGING = "calls_ringing"
         private const val ONGOING = "calls_ongoing"
     }
