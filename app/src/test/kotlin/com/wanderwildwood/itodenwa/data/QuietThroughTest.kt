@@ -14,4 +14,10 @@ class QuietThroughTest {
     @Test fun neverThroughTotalSilence() {
         assertFalse(Quiet.favouriteMayRingThrough(NotificationManager.INTERRUPTION_FILTER_NONE))
     }
+
+    @Test fun repeatCallersFollowTheSameRule() {
+        assertTrue(Quiet.mayRingThrough(NotificationManager.INTERRUPTION_FILTER_PRIORITY))
+        assertTrue(Quiet.mayRingThrough(NotificationManager.INTERRUPTION_FILTER_ALARMS))
+        assertFalse(Quiet.mayRingThrough(NotificationManager.INTERRUPTION_FILTER_NONE))
+    }
 }

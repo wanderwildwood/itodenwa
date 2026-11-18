@@ -177,7 +177,7 @@
     <string name="settings_quiet_favourites">Favorites ring</string>
     <string name="settings_favourites_note">Ring under Priority only and Alarms only, not Total silence</string>
     <string name="settings_quiet_repeat">Repeat callers ring</string>
-    <string name="settings_repeat_note">The same number twice within three minutes</string>
+    <string name="settings_repeat_note">The same number twice within three minutes, not under Total silence</string>
     <string name="settings_ringing">Ringing</string>
     <string name="settings_tone_unknown">Numbers not in Contacts</string>
     <string name="settings_tone_same">The same as other calls</string>

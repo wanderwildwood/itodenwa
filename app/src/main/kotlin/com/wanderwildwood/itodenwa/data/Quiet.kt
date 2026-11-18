@@ -39,10 +39,14 @@ object Quiet {
             ?: NotificationManager.INTERRUPTION_FILTER_UNKNOWN
 
     /**
-     * Whether a favorite may ring through Do Not Disturb set to [filter]: under Priority only and
-     * Alarms only, never under Total silence, as Settings and the README say.
+     * Whether a favorite or a repeat caller may ring through Do Not Disturb set to [filter]: under
+     * Priority only and Alarms only, never under Total silence, as Settings and the README say.
+     * Total silence mutes the alarm sound and the ring vibration the app would ring with.
      */
-    fun favouriteMayRingThrough(filter: Int): Boolean = filter != NotificationManager.INTERRUPTION_FILTER_NONE
+    fun mayRingThrough(filter: Int): Boolean = filter != NotificationManager.INTERRUPTION_FILTER_NONE
+
+    /** [mayRingThrough], for a favorite. */
+    fun favouriteMayRingThrough(filter: Int): Boolean = mayRingThrough(filter)
 
     /** The priority-only rule, apart from the phone so it can be tested. */
     fun allows(categories: Int, callSenders: Int, inContacts: Boolean, starred: Boolean, repeat: Boolean): Boolean {
