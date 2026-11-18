@@ -129,7 +129,8 @@ class Screener : CallScreeningService() {
         val starred = who?.starred == true
         val quiet = Quiet.isOn(context)
         if (quiet) {
-            val through = (prefs.favouritesThroughQuiet && starred) || (prefs.repeatThroughQuiet && repeat)
+            val favourite = prefs.favouritesThroughQuiet && starred && Quiet.favouriteMayRingThrough(Quiet.filter(context))
+            val through = favourite || (prefs.repeatThroughQuiet && repeat)
             if (through && !Quiet.phoneWouldRing(context, inContacts == true, starred, repeat)) {
                 val tone = who?.let { Ringer.contactTone(context, it.contactId) }
                 effects += { Decisions.put(number, Decision.RingThroughQuiet(tone)) }

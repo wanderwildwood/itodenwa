@@ -64,6 +64,20 @@ object Ringer {
         playing = ringtone
     }
 
+    /**
+     * A call the app would ring while another call is under way: one short vibration instead, so
+     * the person on the line is not rung over. Nothing in silent mode.
+     */
+    fun nudge(context: Context) {
+        val audio = context.getSystemService(AudioManager::class.java)
+        if (audio?.ringerMode == AudioManager.RINGER_MODE_SILENT) return
+        val v = context.getSystemService(Vibrator::class.java) ?: return
+        if (!v.hasVibrator()) return
+        runCatching { v.vibrate(VibrationEffect.createOneShot(NUDGE_MS, VibrationEffect.DEFAULT_AMPLITUDE)) }
+    }
+
+    private const val NUDGE_MS = 300L
+
     private fun vibrate(context: Context) {
         val v = context.getSystemService(Vibrator::class.java) ?: return
         if (!v.hasVibrator()) return

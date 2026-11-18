@@ -33,6 +33,17 @@ object Quiet {
         }
     }
 
+    /** The phone's Do Not Disturb filter right now. */
+    fun filter(context: Context): Int =
+        context.getSystemService(NotificationManager::class.java)?.currentInterruptionFilter
+            ?: NotificationManager.INTERRUPTION_FILTER_UNKNOWN
+
+    /**
+     * Whether a favorite may ring through Do Not Disturb set to [filter]: under Priority only and
+     * Alarms only, never under Total silence, as Settings and the README say.
+     */
+    fun favouriteMayRingThrough(filter: Int): Boolean = filter != NotificationManager.INTERRUPTION_FILTER_NONE
+
     /** The priority-only rule, apart from the phone so it can be tested. */
     fun allows(categories: Int, callSenders: Int, inContacts: Boolean, starred: Boolean, repeat: Boolean): Boolean {
         if (repeat && categories and Policy.PRIORITY_CATEGORY_REPEAT_CALLERS != 0) return true

@@ -33,7 +33,9 @@ are named where they are used.
   on this panel is a smear of half-drawn frames behind the thumb.
 - **During a call**: Mute, Speaker, Keypad and Hold, each black while it is on, and End call
   across the foot. With the keypad up, Mute and Speaker stay beside it. A second call shows who is
-  held or waiting, with Swap, and Merge where the network allows it. The panel stays on through
+  held or waiting, with Swap, and Merge where the network allows it; a second call the app would
+  ring itself gives one short buzz rather than a ring in the ear, and a call Silence let in stays
+  in the shade without taking the screen. The panel stays on through
   the call, and goes off at the ear. The volume keys set the call's volume over the phone's full
   range.
 - **Blocking, on the phone and nothing else.** In **Settings → Blocking**, numbers not in

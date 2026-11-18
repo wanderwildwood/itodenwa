@@ -60,8 +60,25 @@ object CallManager {
 
     fun onAudioStateChanged() = notifyChanged()
 
-    /** No call, one call, or two — the one in front and the one waiting or held. */
-    fun phoneState(): PhoneState = when (calls.size) {
+    /**
+     * No call, one call, or two — the one in front and the one waiting or held. A call a rule
+     * silenced, still ringing, is left out while there is another call: it comes in as a
+     * notification only and never takes the screen from a call in progress.
+     */
+    fun phoneState(): PhoneState {
+        val shown = calls.filter { !quietlyRinging(it) }.ifEmpty { calls }
+        return phoneState(shown)
+    }
+
+    /** A call a rule silenced that has not been answered: a notification, never the call screen. */
+    fun quietlyRinging(call: Call?): Boolean = call != null && call in silenced && call.stateCompat() in NEW_STATES
+
+    /** Whether a call other than [call] is under way (talking, held or being placed). */
+    fun otherCallGoing(call: Call): Boolean = calls.any {
+        it != call && it.stateCompat() in listOf(Call.STATE_ACTIVE, Call.STATE_HOLDING, Call.STATE_DIALING, Call.STATE_CONNECTING)
+    }
+
+    private fun phoneState(calls: List<Call>): PhoneState = when (calls.size) {
         0 -> NoCall
         1 -> SingleCall(calls.first())
         2 -> {

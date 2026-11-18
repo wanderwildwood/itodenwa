@@ -91,6 +91,11 @@ class CallService : InCallService() {
     }
 
     private fun ringOurselves(call: Call, tone: android.net.Uri?, throughQuiet: Boolean) {
+        // A second call during one in progress: one short buzz, never a full ring in the ear.
+        if (CallManager.otherCallGoing(call)) {
+            Ringer.nudge(this)
+            return
+        }
         CallManager.ringingOurselves = call
         Ringer.start(this, tone, throughQuiet)
     }
@@ -117,7 +122,10 @@ class CallService : InCallService() {
             notifier.cancel()
         } else {
             notifier.show()
-            if (wasFront) runCatching { startActivity(InCallActivity.intent(this)) }
+            // Not for a call a rule silenced, left ringing in the shade after the other one ended.
+            if (wasFront && !CallManager.quietlyRinging(CallManager.primary())) {
+                runCatching { startActivity(InCallActivity.intent(this)) }
+            }
         }
     }
 
