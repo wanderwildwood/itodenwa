@@ -20,7 +20,7 @@ import com.wanderwildwood.itodenwa.ui.HouseApps
 object Actions {
 
     /** Contacts — enishi — named when it is on the phone, so no "open with" question comes up beside the stock app. */
-    const val CONTACTS_APP = "com.wanderwildwood.enishi"
+    const val CONTACTS_APP = HouseApps.CONNECTIONS
 
     /** Notes — oboegaki — which takes a shared text with a subject as a new note of that title. */
     const val NOTES_APP = HouseApps.MEMO
@@ -124,11 +124,16 @@ object Actions {
         return toContacts(context, intent)
     }
 
-    /** Whether Connections is on the phone, so a row that opens it may say so by name. */
-    fun hasContactsApp(context: Context): Boolean = installed(context, CONTACTS_APP)
+    /**
+     * Whether Connections is on the phone, so a row that opens it may say so by name: the real
+     * one, signed with its release certificate ([HouseApps]); an app that only took its name is
+     * treated as not installed.
+     */
+    fun hasContactsApp(context: Context): Boolean = installed(context, CONTACTS_APP) && HouseApps.isReal(context, CONTACTS_APP)
 
     private fun toContacts(context: Context, intent: Intent): Boolean {
-        if (installed(context, CONTACTS_APP) && start(context, Intent(intent).setPackage(CONTACTS_APP))) return true
+        val aimed = HouseApps.aimed(context, intent, CONTACTS_APP)
+        if (aimed != null && start(context, aimed)) return true
         return start(context, intent)
     }
 
