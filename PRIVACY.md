@@ -26,8 +26,9 @@ policy that cannot be checked is just a promise.
 - **Keeping the screen awake** (`WAKE_LOCK`) — to turn the panel off at the ear during a call.
 - **Running during a call** (`FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_PHONE_CALL`) — so the
   call keeps running and its notification stays while a call lasts. Nothing is sent.
-- **Vibration** (`VIBRATE`) — only for the few calls the app rings itself: a caller not in
-  Contacts with a ringtone of their own, and a favorite ringing through Do Not Disturb.
+- **Vibration** (`VIBRATE`) — only for the few calls the app rings itself (a caller not in
+  Contacts with a ringtone of their own, a favorite or a repeat caller ringing through Do Not
+  Disturb), and one short buzz when such a call comes in during another call.
 
 As the phone app it is also handed every call by Android, and asked about each call coming in
 before it rings. Both happen on the phone. The calls themselves go through your mobile carrier,
