@@ -26,6 +26,25 @@ object Sims {
         format(slot, name, context.getString(R.string.call_sim))
     }.getOrNull()
 
+    /** The slot (1, 2) the call is on, or null when that is not known. */
+    @SuppressLint("MissingPermission")
+    fun slotOf(context: Context, call: Call): Int? = runCatching {
+        val handle = call.details.accountHandle ?: return null
+        val subId = context.getSystemService(TelephonyManager::class.java).getSubscriptionId(handle)
+        SubscriptionManager.getSlotIndex(subId).takeIf { it >= 0 }?.plus(1)
+    }.getOrNull()
+
+    /**
+     * The ringtone set for SIM 2 in the phone's own settings, where the phone keeps one (MuditaOS
+     * 2.0 and later), or null to ring with the phone's usual one.
+     */
+    fun secondSimTone(context: Context): android.net.Uri? = runCatching {
+        android.provider.Settings.System.getString(context.contentResolver, SIM_2_RINGTONE)
+            ?.takeIf { it.isNotBlank() }?.let(android.net.Uri::parse)
+    }.getOrNull()
+
+    private const val SIM_2_RINGTONE = "ringtone_2"
+
     /**
      * [slotWord] is "SIM %1$d". The SIM's own name is left out when it only repeats the slot
      * ("SIM 1"), and stands alone when the slot is unknown.

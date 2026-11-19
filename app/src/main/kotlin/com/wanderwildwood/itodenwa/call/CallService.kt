@@ -11,6 +11,7 @@ import com.wanderwildwood.itodenwa.InCallActivity
 import com.wanderwildwood.itodenwa.data.Actions
 import com.wanderwildwood.itodenwa.data.Prefs
 import com.wanderwildwood.itodenwa.data.Quiet
+import com.wanderwildwood.itodenwa.data.Sims
 import kotlin.concurrent.thread
 
 /**
@@ -119,7 +120,9 @@ class CallService : InCallService() {
         }
     }
 
-    private fun ringOurselves(call: Call, tone: android.net.Uri?, throughQuiet: Boolean) {
+    private fun ringOurselves(call: Call, chosen: android.net.Uri?, throughQuiet: Boolean) {
+        // No tone of its own: a call on SIM 2 rings with SIM 2's tone, as the phone would.
+        val tone = chosen ?: if (Sims.slotOf(this, call) == 2) Sims.secondSimTone(this) else null
         // A second call during one in progress: one short buzz, never a full ring in the ear.
         // It is rung in full if it is still ringing when that call ends.
         if (CallManager.otherCallGoing(call)) {
