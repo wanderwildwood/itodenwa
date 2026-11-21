@@ -23,7 +23,7 @@ object Sims {
         val name = telecom.getPhoneAccount(handle)?.label?.toString()
         val subId = context.getSystemService(TelephonyManager::class.java).getSubscriptionId(handle)
         val slot = SubscriptionManager.getSlotIndex(subId).takeIf { it >= 0 }?.plus(1)
-        format(slot, name, context.getString(R.string.call_sim))
+        format(slot, name, context.getString(R.string.call_sim), slot?.let { Prefs(context).simName(it) })
     }.getOrNull()
 
     /** The slot (1, 2) the call is on, or null when that is not known. */
@@ -55,8 +55,12 @@ object Sims {
         val name = context.getSystemService(TelecomManager::class.java).getPhoneAccount(handle)?.label?.toString()
         val subId = context.getSystemService(TelephonyManager::class.java).getSubscriptionId(handle)
         val slot = SubscriptionManager.getSlotIndex(subId).takeIf { it >= 0 }?.plus(1)
-        format(slot, name, context.getString(R.string.call_sim))
+        format(slot, name, context.getString(R.string.call_sim), slot?.let { Prefs(context).simName(it) })
     }.getOrNull() ?: handle.id
+
+    /** What a call on [slot] is called in Recents: the name given in Settings, else "SIM 2". */
+    fun word(context: Context, slot: Int): String =
+        Prefs(context).simName(slot) ?: context.getString(R.string.call_sim, slot)
 
     /**
      * The ringtone set for SIM 2 in the phone's own settings, where the phone keeps one (MuditaOS
@@ -70,14 +74,16 @@ object Sims {
     private const val SIM_2_RINGTONE = "ringtone_2"
 
     /**
-     * [slotWord] is "SIM %1$d". The SIM's own name is left out when it only repeats the slot
+     * [slotWord] is "SIM %1$d". A name the person gave the SIM in Settings ([given], "Work")
+     * stands in for "SIM 1". The SIM's own name is left out when it only repeats the slot
      * ("SIM 1"), and stands alone when the slot is unknown.
      */
-    fun format(slot: Int?, name: String?, slotWord: String): String? {
+    fun format(slot: Int?, name: String?, slotWord: String, given: String? = null): String? {
         val clean = name?.trim().orEmpty()
         if (slot == null) return clean.ifEmpty { null }
-        val slotText = String.format(slotWord, slot)
-        val same = clean.replace(" ", "").equals(slotText.replace(" ", ""), ignoreCase = true)
+        val slotText = given?.trim()?.takeIf { it.isNotEmpty() } ?: String.format(slotWord, slot)
+        val same = clean.replace(" ", "").equals(slotText.replace(" ", ""), ignoreCase = true) ||
+            clean.replace(" ", "").equals(String.format(slotWord, slot).replace(" ", ""), ignoreCase = true)
         return if (clean.isEmpty() || same) slotText else "$slotText · $clean"
     }
 }

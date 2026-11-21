@@ -116,10 +116,11 @@ class NumbersTest {
         )
         assertEquals(listOf(2, 1), rows.map { it.count })
         val slots = mapOf("a1" to 1, "b2" to 2)
-        assertEquals("SIM 1", Recents.simOf(rows[0].last, slots, "SIM %1\$d"))
-        assertEquals("SIM 2", Recents.simOf(rows[1].last, slots, "SIM %1\$d"))
+        val word: (Int) -> String = { if (it == 2) "Work" else "SIM $it" }
+        assertEquals("SIM 1", Recents.simOf(rows[0].last, slots, word))
+        assertEquals("Work", Recents.simOf(rows[1].last, slots, word))
         // One SIM (no slots), or an account the phone no longer has: nothing is said.
-        assertEquals(null, Recents.simOf(rows[0].last, emptyMap(), "SIM %1\$d"))
-        assertEquals(null, Recents.simOf(c(4, day, "gone"), slots, "SIM %1\$d"))
+        assertEquals(null, Recents.simOf(rows[0].last, emptyMap(), word))
+        assertEquals(null, Recents.simOf(c(4, day, "gone"), slots, word))
     }
 }

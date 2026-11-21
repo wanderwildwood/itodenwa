@@ -83,9 +83,12 @@ object Recents {
         return out
     }
 
-    /** "SIM 2" for a call, on a phone with two SIMs ([slots] from Sims.slots), else null. */
-    fun simOf(call: LoggedCall, slots: Map<String, Int>, slotWord: String): String? =
-        call.account?.let { slots[it] }?.let { String.format(slotWord, it) }
+    /**
+     * "SIM 2" (or the name given to it, "Work") for a call, on a phone with two SIMs ([slots]
+     * from Sims.slots), else null. [word] names a slot (Sims.word).
+     */
+    fun simOf(call: LoggedCall, slots: Map<String, Int>, word: (Int) -> String): String? =
+        call.account?.let { slots[it] }?.let(word)
 
     private fun kindOf(type: Int): LoggedCall.Kind = when (type) {
         Calls.OUTGOING_TYPE -> LoggedCall.Kind.OUT

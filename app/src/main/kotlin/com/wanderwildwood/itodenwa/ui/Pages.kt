@@ -182,7 +182,7 @@ private fun DetailPage(
         val today = stringResource(R.string.calls_today)
         val yesterday = stringResource(R.string.calls_yesterday)
         val slots = remember { com.wanderwildwood.itodenwa.data.Sims.slots(context) }
-        val simWord = stringResource(R.string.call_sim)
+        val simWord: (Int) -> String = { com.wanderwildwood.itodenwa.data.Sims.word(context, it) }
         PagedColumn(Modifier.padding(padding).fillMaxSize().background(MaterialTheme.colorScheme.surface), showCutRow = true) {
             item(key = "who") {
                 Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 18.dp), horizontalAlignment = Alignment.CenterHorizontally) {

@@ -11,5 +11,8 @@ class SimsTest {
     @Test fun nameRepeatsSlot() = assertEquals("SIM 1", Sims.format(1, "sim1", word))
     @Test fun noName() = assertEquals("SIM 1", Sims.format(1, "  ", word))
     @Test fun noSlot() = assertEquals("Northwind Mobile", Sims.format(null, " Northwind Mobile ", word))
+    @Test fun givenName() = assertEquals("Work · Northwind Mobile", Sims.format(1, "Northwind Mobile", word, "Work"))
+    @Test fun givenNameCarrierSaysSlot() = assertEquals("Work", Sims.format(1, "SIM 1", word, " Work "))
+    @Test fun blankGivenName() = assertEquals("SIM 1 · Northwind Mobile", Sims.format(1, "Northwind Mobile", word, " "))
     @Test fun nothing() = assertNull(Sims.format(null, null, word))
 }

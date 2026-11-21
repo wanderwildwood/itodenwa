@@ -55,6 +55,14 @@ class Prefs(context: Context) {
         set(v) = p.edit().putBoolean(VIBRATE, v).apply()
 
     /** The number on each of the keys 2 to 9, held down on the keypad to call it. */
+    /** The name given to the SIM in [slot] (1, 2), such as "Work", or null for none. */
+    fun simName(slot: Int): String? = p.getString("$SIM_NAME$slot", null)?.trim()?.takeIf { it.isNotEmpty() }
+
+    fun setSimName(slot: Int, name: String?) {
+        val clean = name?.trim().orEmpty()
+        p.edit().apply { if (clean.isEmpty()) remove("$SIM_NAME$slot") else putString("$SIM_NAME$slot", clean) }.apply()
+    }
+
     fun speedDial(key: Int): String? = p.getString("$SPEED$key", null)
 
     fun setSpeedDial(key: Int, number: String?) {
@@ -109,6 +117,7 @@ class Prefs(context: Context) {
         private const val UNKNOWN_TONE = "ringtone_unknown"
         private const val VIBRATE = "vibrate"
         private const val SPEED = "speed_"
+        private const val SIM_NAME = "sim_name_"
         private const val DURASPEED_ANSWERED = "duraspeed_answered"
 
         val SPEED_KEYS = 2..9

@@ -172,6 +172,11 @@
         <item quantity="other">%1$d keys</item>
     </plurals>
     <string name="settings_voicemail">Voicemail</string>
+    <string name="settings_sim_name">Name for SIM %1$d</string>
+    <string name="settings_sim_name_none">No name</string>
+    <string name="settings_sim_name_hint">Work, Personal</string>
+    <string name="settings_sim_name_note">Shown instead of “SIM %1$d” in Recents and when you call. Leave it empty for no name.</string>
+    <string name="save">Save</string>
     <string name="settings_voicemail_none">No number from the SIM</string>
     <string name="settings_quiet">Do Not Disturb</string>
     <string name="settings_quiet_favourites">Favorites ring</string>

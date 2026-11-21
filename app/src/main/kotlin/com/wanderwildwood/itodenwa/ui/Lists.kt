@@ -83,7 +83,7 @@ fun RecentsList(model: PhoneModel, onCannot: (String) -> Unit, onOpen: (String) 
     val hidden = stringResource(R.string.call_hidden_number)
     // On a phone with two SIMs, each row says which one the call was on.
     val slots = remember { com.wanderwildwood.itodenwa.data.Sims.slots(context) }
-    val simWord = stringResource(R.string.call_sim)
+    val simWord: (Int) -> String = { com.wanderwildwood.itodenwa.data.Sims.word(context, it) }
     val canText = remember { Actions.canMessage(context) }
     // A call to voicemail says so, rather than showing the carrier's number for it.
     val voicemail = remember { com.wanderwildwood.itodenwa.data.Voicemail.number(context) }

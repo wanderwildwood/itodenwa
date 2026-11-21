@@ -169,6 +169,11 @@
         <item quantity="other">%1$d Tasten</item>
     </plurals>
     <string name="settings_voicemail">Mailbox</string>
+    <string name="settings_sim_name">Name für SIM %1$d</string>
+    <string name="settings_sim_name_none">Kein Name</string>
+    <string name="settings_sim_name_hint">Arbeit, Privat</string>
+    <string name="settings_sim_name_note">Steht in „Letzte Anrufe“ und beim Anrufen statt „SIM %1$d“. Leer lassen für keinen Namen.</string>
+    <string name="save">Speichern</string>
     <string name="settings_voicemail_none">Keine Nummer von der SIM</string>
     <string name="settings_quiet">Nicht stören</string>
     <string name="settings_quiet_favourites">Favoriten klingeln</string>

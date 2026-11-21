@@ -238,8 +238,31 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
     val rules = remember(v) { prefs.rules }
     val blockingOn = remember(v, model.blocked) { Rules.anyOn(rules, model.blocked.filter { it.isPrefix }.map { it.text }) || model.blocked.isNotEmpty() }
     val speedSet = remember(v) { Prefs.SPEED_KEYS.count { prefs.speedDial(it) != null } }
+    // On a phone with two SIMs, each can be given a name ("Work") that Recents and "Call from" use.
+    val simSlots = remember { com.wanderwildwood.itodenwa.data.Sims.slots(context).values.sorted() }
+    var naming by remember { mutableStateOf<Int?>(null) }
 
     if (aboutOpen) AboutDialog(onDismiss = { aboutOpen = false })
+    naming?.let { slot ->
+        var typed by remember(slot) { mutableStateOf(prefs.simName(slot).orEmpty()) }
+        EInkDialog(onDismiss = { naming = null }) {
+            TextMMD(text = stringResource(R.string.settings_sim_name, slot), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(8.dp))
+            BareField(typed, { typed = it.take(20) }, Modifier.fillMaxWidth(), hint = stringResource(R.string.settings_sim_name_hint), focusNow = true)
+            Spacer(Modifier.height(6.dp))
+            TextMMD(text = stringResource(R.string.settings_sim_name_note, slot), style = MaterialTheme.typography.labelSmall)
+            Spacer(Modifier.height(12.dp))
+            Row(Modifier.fillMaxWidth()) {
+                FootButton(stringResource(R.string.cancel), Modifier.weight(1f)) { naming = null }
+                Spacer(Modifier.width(12.dp))
+                FootButton(stringResource(R.string.save), Modifier.weight(1f)) {
+                    prefs.setSimName(slot, typed)
+                    naming = null
+                    v++
+                }
+            }
+        }
+    }
     SettingsPage(
         title = stringResource(R.string.settings_title),
         onBack = onBack,
@@ -268,6 +291,15 @@ fun SettingsScreen(model: PhoneModel, onBack: () -> Unit, onOpen: (Page) -> Unit
                 summary = voicemail?.let { Lookup.display(context, it) } ?: stringResource(R.string.settings_voicemail_none),
                 onPress = { if (!Actions.start(context, Voicemail.settings())) notice = nothing },
             )
+        }
+        simSlots.forEach { slot ->
+            item(key = "sim$slot") {
+                SettingRow(
+                    stringResource(R.string.settings_sim_name, slot),
+                    summary = remember(v) { prefs.simName(slot) } ?: stringResource(R.string.settings_sim_name_none),
+                    onPress = { naming = slot },
+                )
+            }
         }
         item(key = "ringing") {
             SettingRow(stringResource(R.string.settings_ringing), onPress = { onOpen(Page.Ringing) })
