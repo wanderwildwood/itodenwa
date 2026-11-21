@@ -35,6 +35,30 @@ object Sims {
     }.getOrNull()
 
     /**
+     * The slot (1, 2) of each SIM that can call, by its account id as the call log keeps it
+     * (PHONE_ACCOUNT_ID); empty on a phone with only one, where Recents says nothing of SIMs.
+     */
+    @SuppressLint("MissingPermission")
+    fun slots(context: Context): Map<String, Int> = runCatching {
+        val telecom = context.getSystemService(TelecomManager::class.java)
+        val handles = telecom.callCapablePhoneAccounts
+        if (handles.size < 2) return emptyMap()
+        val tm = context.getSystemService(TelephonyManager::class.java)
+        handles.mapNotNull { h ->
+            SubscriptionManager.getSlotIndex(tm.getSubscriptionId(h)).takeIf { it >= 0 }?.let { h.id to it + 1 }
+        }.toMap()
+    }.getOrDefault(emptyMap())
+
+    /** "SIM 1 · Orange PL" for a row of "Call from", so two SIMs from one carrier are told apart. */
+    @SuppressLint("MissingPermission")
+    fun labelFor(context: Context, handle: android.telecom.PhoneAccountHandle): String = runCatching {
+        val name = context.getSystemService(TelecomManager::class.java).getPhoneAccount(handle)?.label?.toString()
+        val subId = context.getSystemService(TelephonyManager::class.java).getSubscriptionId(handle)
+        val slot = SubscriptionManager.getSlotIndex(subId).takeIf { it >= 0 }?.plus(1)
+        format(slot, name, context.getString(R.string.call_sim))
+    }.getOrNull() ?: handle.id
+
+    /**
      * The ringtone set for SIM 2 in the phone's own settings, where the phone keeps one (MuditaOS
      * 2.0 and later), or null to ring with the phone's usual one.
      */

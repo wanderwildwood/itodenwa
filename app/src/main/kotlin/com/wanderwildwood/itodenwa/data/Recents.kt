@@ -17,6 +17,8 @@ data class LoggedCall(
     val kind: Kind,
     val at: Long,
     val seconds: Long,
+    /** The SIM's account id as the log keeps it (PHONE_ACCOUNT_ID); see Sims.slots. */
+    val account: String? = null,
 ) {
     enum class Kind { IN, OUT, MISSED, DECLINED, BLOCKED }
 }
@@ -36,7 +38,7 @@ object Recents {
         val uri = Calls.CONTENT_URI.buildUpon().appendQueryParameter(Calls.LIMIT_PARAM_KEY, limit.toString()).build()
         resolver.query(
             uri,
-            arrayOf(Calls._ID, Calls.NUMBER, Calls.TYPE, Calls.DATE, Calls.DURATION, Calls.NUMBER_PRESENTATION),
+            arrayOf(Calls._ID, Calls.NUMBER, Calls.TYPE, Calls.DATE, Calls.DURATION, Calls.NUMBER_PRESENTATION, Calls.PHONE_ACCOUNT_ID),
             null,
             null,
             "${Calls.DATE} DESC",
@@ -45,7 +47,7 @@ object Recents {
                 val presentation = c.getInt(5)
                 val raw = c.getString(1)
                 val number = raw?.takeIf { presentation == Calls.PRESENTATION_ALLOWED && Numbers.digits(it).isNotEmpty() && it != "-1" }
-                out += LoggedCall(c.getLong(0), number, kindOf(c.getInt(2)), c.getLong(3), c.getLong(4))
+                out += LoggedCall(c.getLong(0), number, kindOf(c.getInt(2)), c.getLong(3), c.getLong(4), c.getString(6))
             }
         }
         return out
@@ -58,7 +60,8 @@ object Recents {
     /**
      * Calls one after another with the same number, on the same day, make one row, as the
      * phone's own Recents and Fossify's both do. Hidden numbers are never put together: two
-     * calls with no number may be two different people.
+     * calls with no number may be two different people. Nor are calls on two different SIMs,
+     * so a row's SIM is the SIM of every call in it.
      */
     fun group(calls: List<LoggedCall>, zone: ZoneId = ZoneId.systemDefault()): List<Recent> {
         val out = mutableListOf<Recent>()
@@ -67,7 +70,7 @@ object Recents {
         for (call in calls) {
             val prev = run.lastOrNull()
             val joins = prev != null && prev.number != null && call.number != null &&
-                Numbers.same(prev.number, call.number) && day(prev) == day(call) &&
+                Numbers.same(prev.number, call.number) && day(prev) == day(call) && prev.account == call.account &&
                 (prev.kind == LoggedCall.Kind.MISSED) == (call.kind == LoggedCall.Kind.MISSED)
             if (joins) {
                 run += call
@@ -79,6 +82,10 @@ object Recents {
         if (run.isNotEmpty()) out += Recent(run)
         return out
     }
+
+    /** "SIM 2" for a call, on a phone with two SIMs ([slots] from Sims.slots), else null. */
+    fun simOf(call: LoggedCall, slots: Map<String, Int>, slotWord: String): String? =
+        call.account?.let { slots[it] }?.let { String.format(slotWord, it) }
 
     private fun kindOf(type: Int): LoggedCall.Kind = when (type) {
         Calls.OUTGOING_TYPE -> LoggedCall.Kind.OUT

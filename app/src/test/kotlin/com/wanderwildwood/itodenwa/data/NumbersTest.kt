@@ -105,4 +105,21 @@ class NumbersTest {
         )
         assertEquals(listOf(2, 1, 1, 1, 1), rows.map { it.count })
     }
+
+    @Test
+    fun callsOnTwoSimsMakeTwoRowsAndSayWhichSim() {
+        val day = 1_700_000_000_000L
+        fun c(id: Long, at: Long, account: String?) = LoggedCall(id, "+15555550143", LoggedCall.Kind.IN, at, 0, account)
+        val rows = Recents.group(
+            listOf(c(1, day, "a1"), c(2, day - 60_000, "a1"), c(3, day - 120_000, "b2")),
+            ZoneOffset.UTC,
+        )
+        assertEquals(listOf(2, 1), rows.map { it.count })
+        val slots = mapOf("a1" to 1, "b2" to 2)
+        assertEquals("SIM 1", Recents.simOf(rows[0].last, slots, "SIM %1\$d"))
+        assertEquals("SIM 2", Recents.simOf(rows[1].last, slots, "SIM %1\$d"))
+        // One SIM (no slots), or an account the phone no longer has: nothing is said.
+        assertEquals(null, Recents.simOf(rows[0].last, emptyMap(), "SIM %1\$d"))
+        assertEquals(null, Recents.simOf(c(4, day, "gone"), slots, "SIM %1\$d"))
+    }
 }

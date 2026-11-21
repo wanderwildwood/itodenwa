@@ -441,7 +441,7 @@ private fun AccountDialog() {
     val telecom = context.getSystemService(TelecomManager::class.java)
     val accounts: List<Pair<PhoneAccountHandle, String>> = remember {
         runCatching {
-            telecom.callCapablePhoneAccounts.map { h -> h to (telecom.getPhoneAccount(h)?.label?.toString() ?: h.id) }
+            telecom.callCapablePhoneAccounts.map { h -> h to Sims.labelFor(context, h) }
         }.getOrDefault(emptyList())
     }
     EInkDialog(onDismiss = { CallManager.hangUp() }) {

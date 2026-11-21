@@ -181,6 +181,8 @@ private fun DetailPage(
         val hours24 = android.text.format.DateFormat.is24HourFormat(context)
         val today = stringResource(R.string.calls_today)
         val yesterday = stringResource(R.string.calls_yesterday)
+        val slots = remember { com.wanderwildwood.itodenwa.data.Sims.slots(context) }
+        val simWord = stringResource(R.string.call_sim)
         PagedColumn(Modifier.padding(padding).fillMaxSize().background(MaterialTheme.colorScheme.surface), showCutRow = true) {
             item(key = "who") {
                 Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 18.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -232,7 +234,7 @@ private fun DetailPage(
                                 LoggedCall.Kind.DECLINED, LoggedCall.Kind.BLOCKED -> R.string.calls_declined
                             },
                         )
-                        val note = listOfNotNull(Recents.howLong(c.seconds), kind, c.number?.takeIf { showNumberOnCalls }?.let { Lookup.display(context, it) })
+                        val note = listOfNotNull(Recents.howLong(c.seconds), kind, Recents.simOf(c, slots, simWord), c.number?.takeIf { showNumberOnCalls }?.let { Lookup.display(context, it) })
                         CallLine(c, Recents.whenSaid(c.at, now, today, yesterday, hours24), note.joinToString(" · "))
                     }
                 }

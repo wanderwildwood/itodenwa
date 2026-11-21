@@ -81,6 +81,9 @@ fun RecentsList(model: PhoneModel, onCannot: (String) -> Unit, onOpen: (String) 
     val today = stringResource(R.string.calls_today)
     val yesterday = stringResource(R.string.calls_yesterday)
     val hidden = stringResource(R.string.call_hidden_number)
+    // On a phone with two SIMs, each row says which one the call was on.
+    val slots = remember { com.wanderwildwood.itodenwa.data.Sims.slots(context) }
+    val simWord = stringResource(R.string.call_sim)
     val canText = remember { Actions.canMessage(context) }
     // A call to voicemail says so, rather than showing the carrier's number for it.
     val voicemail = remember { com.wanderwildwood.itodenwa.data.Voicemail.number(context) }
@@ -100,7 +103,7 @@ fun RecentsList(model: PhoneModel, onCannot: (String) -> Unit, onOpen: (String) 
             val title = who?.name
                 ?: number?.takeIf { voicemail != null && com.wanderwildwood.itodenwa.data.Numbers.same(it, voicemail) }?.let { voicemailWord }
                 ?: number?.let { Lookup.display(context, it) } ?: hidden
-            val note = listOfNotNull(who?.kind, Recents.whenSaid(r.last.at, now, today, yesterday, hours24)).joinToString(" · ")
+            val note = listOfNotNull(who?.kind, Recents.simOf(r.last, slots, simWord), Recents.whenSaid(r.last.at, now, today, yesterday, hours24)).joinToString(" · ")
             RecentRow(
                 r,
                 title,
