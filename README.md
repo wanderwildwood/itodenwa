@@ -12,8 +12,8 @@ are named where they are used.
 
 | | |
 |---|---|
-| ![Recents, with a name for every number](screenshots/1-recents.png) | ![Settings: Blocking, Speed dial, Voicemail](screenshots/2-settings.png) |
-| ![Blocking: rules for unknown and hidden numbers](screenshots/3-blocking.png) | ![About: what it is, Privacy, who we are](screenshots/4-about.png) |
+| ![Recents, with a name for every number](screenshots/1-recents.png) | ![A caller: call, message, contact, and their calls](screenshots/2-details.png) |
+| ![Contacts](screenshots/3-contacts.png) | ![The keypad](screenshots/4-keypad.png) |
 
 ## What it does
 
