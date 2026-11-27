@@ -57,6 +57,9 @@ are named where they are used.
 - **Missed calls** get a notification with **Call back** and **Message**; it opens Recents, and
   goes once Recents has been seen. On a locked phone, Call back (and a press on the voicemail
   notification) asks for the unlock before it dials.
+- **Two SIMs**: Recents and a person's calls say which SIM each call was on, and **Call from**
+  asks which one to use. In Settings each SIM can be given a name, such as Work or Personal,
+  shown in place of "SIM 1" and "SIM 2".
 - **Voicemail**: hold 1 on the keypad, or press Voicemail in Recents' ⋮. The call screen and
   Recents say "Voicemail", not the carrier's number for it. A voicemail notification, where the
   carrier sends one, calls it and goes once it is called.
